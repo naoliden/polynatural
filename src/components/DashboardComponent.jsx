@@ -129,7 +129,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-export default function Dashboard() {
+export default function Dashboard(props) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const handleDrawerOpen = () => {
@@ -140,8 +140,8 @@ export default function Dashboard() {
   };
 
   return (
-    <div className={classes.root}>
-      <CssBaseline />
+    <>
+      {/* <CssBaseline /> */}
       <AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)}>
         <Toolbar className={classes.toolbar}>
           <IconButton
@@ -160,7 +160,6 @@ export default function Dashboard() {
               </a>
             </Grid>
           </Grid>
-          {/* <Grid container justify="flex-end"> */}
           <Grid container justify="flex-start">
             <div className={classes.search}>
               <div className={classes.searchIcon}>
@@ -199,7 +198,10 @@ export default function Dashboard() {
         <List>{secondaryListItems}</List>
         </div>
       </Drawer>
-      {Home}
-    </div>
+    {/* <main className={classes.content}>
+      <div className={classes.appBarSpacer} />
+      <Home content={props.content} />
+    </main> */}
+    </>
   );
 }
