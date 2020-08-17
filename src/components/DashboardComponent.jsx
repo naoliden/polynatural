@@ -141,7 +141,7 @@ export default function Dashboard(props) {
 
   return (
     <>
-      {/* <CssBaseline /> */}
+      <CssBaseline />
       <AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)}>
         <Toolbar className={classes.toolbar}>
           <IconButton
@@ -198,10 +198,6 @@ export default function Dashboard(props) {
         <List>{secondaryListItems}</List>
         </div>
       </Drawer>
-    {/* <main className={classes.content}>
-      <div className={classes.appBarSpacer} />
-      <Home content={props.content} />
-    </main> */}
     </>
   );
 }

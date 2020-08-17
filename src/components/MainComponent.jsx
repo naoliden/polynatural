@@ -1,8 +1,7 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
+import { Switch, Route, Redirect } from 'react-router-dom';
 import clsx from 'clsx';
-import Login from './LoginComponent';
 import Dashboard from './DashboardComponent';
 import Home from './HomeComponent'
 
@@ -30,8 +29,7 @@ const Main = (props) => {
         <main className={classes.content}>
           <div className={classes.appBarSpacer} />
           <Switch>
-            <Route path="/" component={() => <Home content={"Chao"}/>} />
-            <Redirect to={{pathname: '/'}}/>
+            <Route path="/home" component={() => <Home content={"Chao"}/>} />
             {/* <Redirect to={{pathname: '/', state: {from: props.location}}}/> */}
           </Switch>
         </main>
