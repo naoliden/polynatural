@@ -1,5 +1,6 @@
 import React from 'react';
 import { makeStyles, fade } from '@material-ui/core/styles';
+import { Link } from 'react-router-dom';
 import IconButton from '@material-ui/core/IconButton';
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
@@ -7,10 +8,6 @@ import AccountCircle from "@material-ui/icons/AccountCircle";
 
 
 const useStyles = makeStyles((theme) => ({
-    root: {
-      display: 'flex',
-      zIndex: 0,
-    },
     grow: {
       flexGrow: 1
     },
@@ -18,14 +15,19 @@ const useStyles = makeStyles((theme) => ({
       display: "flex",
     },
     text:{
+      zIndex: 'tooltip',
       backgroundColor: fade(theme.palette.common.white, 0.15),
       "&:hover": {
         backgroundColor: fade(theme.palette.common.white, 0.25)
       },
     },
-    hide: {
-      display: 'none',
-    },
+    link: {
+      'text-decoration': 'none',
+      'text-decoration-line': 'none',
+      'text-decoration-style': 'none',
+      'text-decoration-color': 'none',
+      'text-decoration-thickness': 'none',
+    }
   })
 );
 
@@ -58,7 +60,9 @@ export default function ProfileButton() {
       className={classes.text}
     >
       <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-      <MenuItem onClick={handleMenuClose}>Log out</MenuItem>
+      <Link to="/" style={{ color: 'inherit', textDecoration: 'inherit'}} >
+        <MenuItem onClick={handleMenuClose}>Log out</MenuItem>
+      </Link>
     </Menu>
   );
 
