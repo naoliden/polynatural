@@ -13,6 +13,7 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import { mainListItems, secondaryListItems } from './SideListComponent';
 import Home from './HomeComponent';
 import logo from '../shared/logo.png';
+import Hidden from '@material-ui/core/Hidden';
 import Grid from '@material-ui/core/Grid';
 import SearchIcon from "@material-ui/icons/Search";
 import InputBase from "@material-ui/core/InputBase";
@@ -28,8 +29,13 @@ const useStyles = makeStyles((theme) => ({
     paddingRight: 24, // keep right padding when drawer closed
   },
   logo: {
+    margin: 0,
+    padding: 0,
     maxWidth: 160,
-    flexGrow: 1,
+    flexGrow: 1,    
+      [theme.breakpoints.down("sm")]: {
+      display: 'none',
+      }
   },
   toolbarIcon: {
     display: 'flex',
@@ -95,8 +101,8 @@ const useStyles = makeStyles((theme) => ({
     "&:hover": {
       backgroundColor: fade(theme.palette.common.white, 0.25)
     },
-    marginRight: theme.spacing(2),
-    marginLeft: 0,
+    marginRight: theme.spacing(3),
+    marginLeft: theme.spacing(1),
     width: "100%",
     [theme.breakpoints.up("sm")]: {
       marginLeft: theme.spacing(3),
@@ -122,8 +128,8 @@ const useStyles = makeStyles((theme) => ({
     transition: theme.transitions.create("width"),
     width: "100%",
     [theme.breakpoints.up("md")]: {
-      width: "20ch"
-      // width: "100%"
+      // width: "20ch"
+      width: "auto"
     }
   },
 }));
@@ -144,39 +150,43 @@ export default function Dashboard(props) {
       <CssBaseline />
       <AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)}>
         <Toolbar className={classes.toolbar}>
-          <IconButton
-            edge="start"
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            className={clsx(classes.menuButton, open && classes.menuButtonHidden)}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Grid container justify="space-between">
-            <Grid item>
-              <a href="/home">
-              <img className={classes.logo} src={logo} alt="logo" />
-              </a>
+          <Grid container xs={12} justify="flex-start" alignItems="center">
+            <Grid item xs={1}>
+              <IconButton
+                edge="start"
+                color="inherit"
+                aria-label="open drawer"
+                onClick={handleDrawerOpen}
+                className={clsx(classes.menuButton, open && classes.menuButtonHidden)}
+                >
+                <MenuIcon />
+              </IconButton>
+            </Grid>
+            <Grid item container xs={10} alignContent='flex-start' alignItems="center">
+              <Grid item xs={false} sm={"auto"}>
+                <a href="/home"><img className={classes.logo} src={logo} alt="logo" /></a>
+              </Grid>
+              <Grid item xs={"auto"}>
+                <div className={classes.search}>
+                  <div className={classes.searchIcon}>
+                    <SearchIcon />
+                  </div>
+                  <InputBase
+                    placeholder="Search…"
+                    classes={{
+                      root: classes.inputRoot,
+                      input: classes.inputInput
+                    }}
+                    inputProps={{ "aria-label": "search" }}
+                    fullWidth
+                    />
+                </div>
+              </Grid>
+            </Grid>
+            <Grid container item xs={1} alignContent="flex-end">
+              <ProfileButton />
             </Grid>
           </Grid>
-          <Grid container justify="flex-start">
-            <div className={classes.search}>
-              <div className={classes.searchIcon}>
-                <SearchIcon />
-              </div>
-              <InputBase
-                placeholder="Search…"
-                classes={{
-                  root: classes.inputRoot,
-                  input: classes.inputInput
-                }}
-                fullWidth
-                inputProps={{ "aria-label": "search" }}
-                />
-            </div>
-          </Grid>
-          <ProfileButton />
         </Toolbar>
       </AppBar>
       <Drawer

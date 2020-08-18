@@ -1,5 +1,5 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, fade } from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
@@ -9,12 +9,19 @@ import AccountCircle from "@material-ui/icons/AccountCircle";
 const useStyles = makeStyles((theme) => ({
     root: {
       display: 'flex',
+      zIndex: 0,
     },
     grow: {
       flexGrow: 1
     },
     sectionDesktop: {
       display: "flex",
+    },
+    text:{
+      backgroundColor: fade(theme.palette.common.white, 0.15),
+      "&:hover": {
+        backgroundColor: fade(theme.palette.common.white, 0.25)
+      },
     },
     hide: {
       display: 'none',
@@ -48,6 +55,7 @@ export default function ProfileButton() {
       transformOrigin={{ vertical: "top", horizontal: "right" }}
       open={isMenuOpen}
       onClose={handleMenuClose}
+      className={classes.text}
     >
       <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
       <MenuItem onClick={handleMenuClose}>Log out</MenuItem>
@@ -67,7 +75,7 @@ export default function ProfileButton() {
           onClick={handleProfileMenuOpen}
           color="inherit"
         >
-          <AccountCircle />
+        <AccountCircle />
         </IconButton>
       </div>
       {renderMenu}
