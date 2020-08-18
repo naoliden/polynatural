@@ -6,7 +6,7 @@ import List from '@material-ui/core/List';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import { mainListItems, secondaryListItems } from './SideListComponent';
+import { MainListItems, SecondaryListItems } from './SideListComponent';
 
 
 const drawerWidth = 240;
@@ -61,9 +61,9 @@ export const SideBar = (props) =>{
     </div>
     <div className={classes.content}>
     <Divider />
-    <List>{mainListItems}</List>
+    <List>{MainListItems}</List>
     <Divider />
-    <List>{secondaryListItems}</List>
+    <List>{SecondaryListItems}</List>
     </div>
   </Drawer>
   )

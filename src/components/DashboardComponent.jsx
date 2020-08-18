@@ -10,7 +10,7 @@ import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import { mainListItems, secondaryListItems } from './SideListComponent';
+import { MainListItems, SecondaryListItems } from './SideListComponent';
 import Home from './HomeComponent';
 import logo from '../shared/logo.png';
 import Grid from '@material-ui/core/Grid';
@@ -186,6 +186,7 @@ export default function Dashboard(props) {
           <ProfileButton />
         </Toolbar>
       </AppBar>
+      {/* TODO pasar drawer a un archivo aparte */}
       <Drawer
         variant="permanent"
         classes={{
@@ -199,10 +200,10 @@ export default function Dashboard(props) {
           </IconButton>
         </div>
         <div className={classes.content}>
-        <Divider />
-        <List>{mainListItems}</List>
-        <Divider />
-        <List>{secondaryListItems}</List>
+          <Divider />
+          <MainListItems/>
+          <Divider />
+          <SecondaryListItems/>
         </div>
       </Drawer>
     </>

@@ -7,6 +7,7 @@ import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import Dashboard from './DashboardComponent';
 import Home from './HomeComponent'
+import NewForm from './NewFormComponent'
 
 
 const useStyles = makeStyles((theme) => ({
@@ -54,8 +55,10 @@ const Main = (props) => {
               <Grid item xs={12}>              
                 <Paper className={clsx(classes.paper, classes.fixedHeight)}>
                   <Switch>
-                    <Route path="/home" component={() => <Home content={"Chao"}/>} />
-                    {/* <Redirect to={{pathname: '/', state: {from: props.location}}}/> */}
+                    <Route exact path="/home/dashboard" component={() => <Home content={"Acá van los gráficos, etc"}/>} />
+                    <Route exact path="/home/search" component={() => <Home content={"Acá quiero hacer una búsqueda avanzada"}/>} />
+                    <Route exact path="/home/newform" component={NewForm} />
+                    <Redirect to={{pathname: '/home/dashboard', state: {from: props.location}}}/>
                   </Switch>
                 </Paper>
               </Grid>
