@@ -13,7 +13,6 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import { mainListItems, secondaryListItems } from './SideListComponent';
 import Home from './HomeComponent';
 import logo from '../shared/logo.png';
-import Hidden from '@material-ui/core/Hidden';
 import Grid from '@material-ui/core/Grid';
 import SearchIcon from "@material-ui/icons/Search";
 import InputBase from "@material-ui/core/InputBase";
@@ -150,8 +149,8 @@ export default function Dashboard(props) {
       <CssBaseline />
       <AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)}>
         <Toolbar className={classes.toolbar}>
-          <Grid container xs={12} justify="flex-start" alignItems="center">
-            <Grid item xs={1}>
+          <Grid container xs={12} justify="flex-start" alignItems="center" >
+            <Grid item xs={1}  style={{ maxWidth: '3vw' }}>
               <IconButton
                 edge="start"
                 color="inherit"
@@ -162,11 +161,11 @@ export default function Dashboard(props) {
                 <MenuIcon />
               </IconButton>
             </Grid>
-            <Grid item container xs={10} alignContent='flex-start' alignItems="center">
+            <Grid item container xs={11} alignContent='flex-start' alignItems="center">
               <Grid item xs={false} sm={"auto"}>
                 <a href="/home"><img className={classes.logo} src={logo} alt="logo" /></a>
               </Grid>
-              <Grid item xs={"auto"}>
+              <Grid item xs={"auto"} >
                 <div className={classes.search}>
                   <div className={classes.searchIcon}>
                     <SearchIcon />
@@ -183,10 +182,8 @@ export default function Dashboard(props) {
                 </div>
               </Grid>
             </Grid>
-            <Grid container item xs={1} alignContent="flex-end">
-              <ProfileButton />
-            </Grid>
           </Grid>
+          <ProfileButton />
         </Toolbar>
       </AppBar>
       <Drawer
