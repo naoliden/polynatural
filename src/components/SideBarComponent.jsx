@@ -1,7 +1,7 @@
 import React from 'react';
 import Drawer from '@material-ui/core/Drawer';
 import clsx from 'clsx';
-import { makeStyles, fade } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
@@ -34,39 +34,40 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 
-export const SideBar = (props) =>{
+export const SideBar = ({open, toggleSideBar}) =>{
   const classes = useStyles();
-  const [open, setOpen] = React.useState(false);
-  
-  const handleDrawerOpen = () => {
-    setOpen(true);
-  };
 
-  const handleDrawerClose = () => {
-    setOpen(false);
-  };
+  // const [open, setOpen] = React.useState(false);
+
+  // const toggleSideBar = () => {
+  //   setOpen(!open);
+  // };
   
   return(
     <Drawer
-    variant="permanent"
-    classes={{
-      paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose),
-    }}
-    open={open}
-  >
-    <div className={classes.toolbarIcon}>
-      <IconButton onClick={handleDrawerClose}>
-        <ChevronLeftIcon />
-      </IconButton>
-    </div>
-    <div className={classes.content}>
-    <Divider />
-    <List>{MainListItems}</List>
-    <Divider />
-    <List>{SecondaryListItems}</List>
-    </div>
-  </Drawer>
+      variant="permanent"
+      classes={{
+        paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose)}}
+      open={open}
+      >
+      <div className={classes.toolbarIcon}>
+        <IconButton onClick={toggleSideBar}>
+          <ChevronLeftIcon />
+        </IconButton>
+      </div>
+      <div className={classes.content}>
+        <Divider />
+        <List>
+          <MainListItems/>
+        </List>
+        <Divider />
+        <List>
+          <SecondaryListItems/>
+        </List>
+      </div>
+    </Drawer>
   )
-
-
 }
+
+
+export default SideBar;

@@ -3,11 +3,14 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import clsx from 'clsx';
 import Paper from '@material-ui/core/Paper';
-import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
-import Dashboard from './DashboardComponent';
-import Home from './HomeComponent'
-import NewForm from './NewFormComponent'
+import Container from '@material-ui/core/Container';
+import HeaderComponent from './HeaderComponent';
+import Home from './HomeComponent';
+import NewForm from './NewFormComponent';
+import LineGraph from './charts/LineChartComponent';
+
+
 
 
 const useStyles = makeStyles((theme) => ({
@@ -45,7 +48,7 @@ const Main = (props) => {
 
   return (
       <div className={clsx(classes.root, classes.content)}>
-        <Dashboard/>
+        <HeaderComponent/>
         {/* FIX Acortar todo estos Grid - Container, etc hasta el proximo fix tag */}
         <main className={classes.content}>
           <div className={classes.appBarSpacer} />
@@ -55,7 +58,7 @@ const Main = (props) => {
               <Grid item xs={12}>              
                 <Paper className={clsx(classes.paper, classes.fixedHeight)}>
                   <Switch>
-                    <Route exact path="/home/dashboard" component={() => <Home content={"Acá van los gráficos, etc"}/>} />
+                    <Route exact path="/home/dashboard" component={() => <Home content={<LineGraph/>}/>} />
                     <Route exact path="/home/search" component={() => <Home content={"Acá quiero hacer una búsqueda avanzada"}/>} />
                     <Route exact path="/home/newform" component={NewForm} />
                     <Redirect to={{pathname: '/home/dashboard', state: {from: props.location}}}/>
