@@ -2,18 +2,14 @@ import React from 'react';
 import clsx from 'clsx';
 import { makeStyles, fade } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import Drawer from '@material-ui/core/Drawer';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import { MainListItems, SecondaryListItems } from './SideListComponent';
-import logo from '../shared/logo.png';
-import Grid from '@material-ui/core/Grid';
 import SearchIcon from "@material-ui/icons/Search";
 import InputBase from "@material-ui/core/InputBase";
+import Grid from '@material-ui/core/Grid';
+import logo from '../shared/logo.png';
 import ProfileButton from './ProfileButtonComponent';
 import SideBar from './SideBarComponent';
 
@@ -187,28 +183,7 @@ const HeaderComponent = (props) => {
           <ProfileButton />
         </Toolbar>
       </AppBar>
-      {/* TODO pasar drawer a un archivo aparte */}
-
       <SideBar open={open} toggleSideBar={toggleSideBar}/>
-      {/* <Drawer
-        variant="permanent"
-        classes={{
-          paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose),
-        }}
-        open={open}
-      >
-        <div className={classes.toolbarIcon}>
-          <IconButton onClick={toggleSideBar}>
-            <ChevronLeftIcon />
-          </IconButton>
-        </div>
-        <div className={classes.content}>
-          <Divider />
-          <MainListItems/>
-          <Divider />
-          <SecondaryListItems/>
-        </div>
-      </Drawer> */}
     </>
   );
 }

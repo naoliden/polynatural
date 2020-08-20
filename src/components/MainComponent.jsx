@@ -49,12 +49,10 @@ const Main = (props) => {
   return (
       <div className={clsx(classes.root, classes.content)}>
         <HeaderComponent/>
-        {/* FIX Acortar todo estos Grid - Container, etc hasta el proximo fix tag */}
         <main className={classes.content}>
           <div className={classes.appBarSpacer} />
           <Container className={classes.container}>
-            <Grid container spacing={0}>
-              {/* FIX */}
+        {/* FIX Pasar los Grid y Paper de abajo a cada componente individualmente, no que se rendereen sobre estos de aca */}
               <Grid item xs={12}>              
                 <Paper className={clsx(classes.paper, classes.fixedHeight)}>
                   <Switch>
@@ -65,7 +63,6 @@ const Main = (props) => {
                   </Switch>
                 </Paper>
               </Grid>
-            </Grid>
           </Container>
         </main>
       </div>
