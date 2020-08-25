@@ -10,6 +10,7 @@ import EmailIcon from '@material-ui/icons/Email';
 import InsertChartIcon from '@material-ui/icons/InsertChart';
 import PageviewIcon from '@material-ui/icons/Pageview';
 import SupervisedUserCircleIcon from '@material-ui/icons/SupervisedUserCircle';
+import AddBoxIcon from '@material-ui/icons/AddBox';
 
 // style={{ color: 'inherit', textDecoration: 'inherit'}}
 const link_style={ color: 'inherit', textDecoration: 'inherit'}
@@ -38,24 +39,31 @@ export const MainListItems = () => {
           <ListItemText primary="Buscar prueba" />
         </ListItem>
       </Link>
+      <Link to="/home/newtrial" style={link_style}>
+        <ListItem button>
+          <ListItemIcon><AddBoxIcon/></ListItemIcon>
+          <ListItemText primary="Crear nueva prueba" />
+        </ListItem>
+      </Link>
     </List>
   )
 };
 
 export const SecondaryListItems = () => {
-  const [selectedItem, setSelectedItem] = React.useState({one: false, two: false});
+  // TODO link with Redux store. Create var for selected menu item
+  const [selectedItem, setSelectedItem] = React.useState();
 
   return(
     <List>
       <ListSubheader inset>Otras opciones</ListSubheader>
       <Link to="/home/clients" style={link_style}>
-        <ListItem button selected={selectedItem.one}>
+        <ListItem button>
           <ListItemIcon><SupervisedUserCircleIcon /></ListItemIcon>
           <ListItemText primary="Clientes"/>
         </ListItem>
       </Link>
       <Link to="/home/contact" style={link_style}>
-        <ListItem button selected={selectedItem.two}>
+        <ListItem button>
           <ListItemIcon><EmailIcon/></ListItemIcon>
           <ListItemText primary="Contacto" />
         </ListItem>

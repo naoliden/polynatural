@@ -2,6 +2,7 @@ import React from "react";
 import { FormControl, InputLabel, Input, Button, TextField } from "@material-ui/core";
 
 
+// TODO ADD TABS
 class NewForm extends React.Component {
   render() {
     return (
@@ -9,11 +10,11 @@ class NewForm extends React.Component {
         style={{
           display: "flex",
           justifyContent: "center",
-          margin: 20,
-          padding: 20
+          paddingTop: 20,
+          // padding: 20
         }}
       >
-        <form style={{ width: "50%" }}>
+        <form style={{ width: "95%" }}>
           <h1>Nueva Prueba</h1>
 
           <FormControl margin="normal" fullWidth>
