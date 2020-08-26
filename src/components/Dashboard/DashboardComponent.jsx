@@ -33,24 +33,7 @@ const Dashboard = (props) => {
 
   return (
     <Grid item container spacing={3}>
-      <TabsComponent 
-        component_list={[
-          <Sustainability n={10}/>, 
-          <Sustainability n={3}/>, 
-          <Sustainability n={1}/>, 
-          ]}
-        tabInfo={{
-          tab_0: {
-            label: "Sustainability",
-          },
-          tab_1: {
-            label: "Commercial info",
-          },
-          tab_2: {
-            label: "Trial data"
-          }
-        }}
-        />
+      <TabsComponent {...props}/>
     </Grid>
   );
 }

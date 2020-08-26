@@ -23,9 +23,13 @@ const useStyles = makeStyles((theme) => ({
   container: {
     // paddingTop: theme.spacing(6),
     // paddingBottom: theme.spacing(10),
-    padding: 30,
-    // paddingTop: 40,
-    marginTop: '5px',
+    // paddingBottom: 30,
+    // paddingTop: 30,
+    // marginTop: '5px',
+    paddingLeft: 30,
+    paddingRight:30,
+    marginTop: 25,
+    marginBottom: 30,
     [theme.breakpoints.down("sm")]: {
       paddingTop: theme.spacing(1),
       paddingBottom: theme.spacing(3),
