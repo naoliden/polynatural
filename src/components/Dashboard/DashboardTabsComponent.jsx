@@ -13,6 +13,8 @@ import Sustainability from './SustainabilityComponent';
 // import Commercial from './CommercialComponent';
 // import Trials from './TrialsComponent';
 
+// TODO component rerenders when switching BACK from other tabs. Too many rerenders.
+
 const useStyles = makeStyles((theme) => ({
   root: {
     // backgroundColor: theme.palette.background.paper,
@@ -36,7 +38,6 @@ function TabPanel(props) {
     >
       {value === index && (
         <Grid item container spacing={3}>
-          {/* <Sustainability n={10}/> */}
           { children }
         </Grid>
       )}
@@ -86,7 +87,7 @@ const TabsComponent = (props) => {
         >
           <Tab label="Sustainability" {...tabProps(0)} />
           <Tab label="Commercial info" {...tabProps(1)} />
-          <Tab label="Trial data" {...tabProps(2)} />
+          <Tab label="Technical Statistics" {...tabProps(2)} />
         </Tabs>
       </AppBar>
       <SwipeableViews
@@ -102,7 +103,7 @@ const TabsComponent = (props) => {
           Commercial info
         </TabPanel>
         <TabPanel value={value} index={2} dir={theme.direction}>
-          Trial data
+          Technical Statistics
         </TabPanel>
       </SwipeableViews>
     </>

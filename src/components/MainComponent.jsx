@@ -1,13 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import clsx from 'clsx';
 import Grid from '@material-ui/core/Grid';
-import Container from '@material-ui/core/Container';
 import HeaderComponent from './HeaderComponent';
 import Home from './HomeComponent';
 import NewForm from './NewFormComponent';
-import LineGraph from './charts/LineChartComponent';
 import Dashboard from './Dashboard/DashboardComponent'
 
 const useStyles = makeStyles((theme) => ({
@@ -51,23 +49,23 @@ const useStyles = makeStyles((theme) => ({
 const Main = (props) => {
   const classes = useStyles();
 
+  // useEffect(() => {
+  //   effect
+  // }, [input])
+
   return (
       <div className={clsx(classes.root, classes.content)}>
         <HeaderComponent/>
         <main className={classes.content}>
           <div className={classes.appBarSpacer} />
           <Grid container id="container_principal" className={classes.container}>
-        {/* FIX Pasar los Grid y Paper de abajo a cada componente individualmente, no que se rendereen sobre estos de aca */}
-              {/* <Grid item xs={12}>               */}
-                {/* <Paper className={clsx(classes.paper, classes.fixedHeight)}> */}
-                  <Switch>
-                    <Route exact path="/home/dashboard" component={() => <Dashboard/>} />
-                    <Route exact path="/home/search" component={() => <Home content={"Acá quiero hacer una búsqueda avanzada"}/>} />
-                    <Route exact path="/home/newform" component={NewForm} />
-                    <Redirect to={{pathname: '/home/dashboard', state: {from: props.location}}}/>
-                  </Switch>
-                {/* </Paper> */}
-              {/* </Grid> */}
+            {/* TODO add loading span component while /home is rendered and what's on the <Switch>  is loading */}
+            <Switch>
+              <Route path="/home" component={() => <Dashboard/>} />
+              <Route exact path="/home/search" component={() => <Home content={"Acá quiero hacer una búsqueda avanzada"}/>} />
+              <Route exact path="/home/newform" component={NewForm} />
+              <Redirect to={{pathname: '/home/newform', state: {from: props.location}}}/>
+            </Switch>
           </Grid>
         </main>
       </div>

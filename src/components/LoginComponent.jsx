@@ -90,7 +90,7 @@ export default function Login() {
               control={<Checkbox value="remember" color="primary" />}
               label="Remember me"
             />
-            <Link to="/home">
+            <Link to="/default">
             <Button
               // type="submit"
               fullWidth

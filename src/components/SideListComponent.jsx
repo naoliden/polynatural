@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -51,7 +51,7 @@ export const MainListItems = () => {
 
 export const SecondaryListItems = () => {
   // TODO link with Redux store. Create var for selected menu item
-  const [selectedItem, setSelectedItem] = React.useState();
+  const [selectedItem, setSelectedItem] = useState();
 
   return(
     <List>

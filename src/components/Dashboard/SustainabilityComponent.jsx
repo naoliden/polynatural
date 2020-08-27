@@ -8,6 +8,8 @@ import { Line } from 'react-chartjs-2';
 import { lineChartOptions } from '../charts/options';
 import { data } from '../charts/falseData';
 
+// TODO guardar los datos del fetch en useMemo para que no se tengan que fetchear cada vez. Tabien
+// TODO pueden ser guardados en redux.
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -36,14 +38,18 @@ const Sustainability = (props) => {
   const load_chart_1 = (data) => {
     setChartData(data)
   }
-  
+
+  // console.log("sustain renders")
+
   useEffect(() => {
     load_chart_1(data)
-  }, [])
+    // FIXME maybe rerenders happen here?
+    // return( console.log("sustain unrenders") )
+  }, [chartData])
 
   for(var i = 0; i < props.n; i++){
     lines.push(
-      <Grid item xs={12} sm={6}>
+      <Grid item xs={12} sm={6} key={i}>
         <Typography>Sustentabilidad</Typography>
         <Paper className={classes.paper}>
           <Line data={chartData} options={lineChartOptions}/>
