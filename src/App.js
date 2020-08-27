@@ -7,7 +7,7 @@ import { ConfigureStore } from './redux/store';
 
 
 const store = ConfigureStore()
-const default_path = "/home/newform"
+const default_path = "/home"
 
 function App() {
   return (
@@ -16,7 +16,7 @@ function App() {
         <Switch>
           <Route exact path="/" component={Login}/>
           <Route path={default_path} component={() => <Main/>}/>
-          <Redirect to={default_path}/>
+          {/* <Redirect to={default_path}/> */}
         </Switch>
       </BrowserRouter>
     </Provider>

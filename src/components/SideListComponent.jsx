@@ -16,8 +16,8 @@ import AddBoxIcon from '@material-ui/icons/AddBox';
 const link_style={ color: 'inherit', textDecoration: 'inherit'}
 
 export const MainListItems = () => {
-  const [selected, setSelected] = React.useState(false);
-  
+  const [selected, setSelected] = useState(false);
+   
   return (
     <List>
       <ListSubheader inset>Dashboard</ListSubheader>
@@ -27,24 +27,26 @@ export const MainListItems = () => {
           <ListItemText primary="Dashboard"/>
         </ListItem>
       </Link>
-      <Link to="/home/newform" style={link_style}>
-        <ListItem button>
-          <ListItemIcon>
-            <InsertChartIcon/></ListItemIcon><ListItemText primary="Nueva prueba" />
-        </ListItem>
-      </Link>
       <Link to="/home/search" style={link_style}>
         <ListItem button>
           <ListItemIcon><PageviewIcon/></ListItemIcon>
-          <ListItemText primary="Buscar prueba" />
+          <ListItemText primary="Buscar demo" />
         </ListItem>
       </Link>
-      <Link to="/home/newtrial" style={link_style}>
+      <Link to="/home/newform" style={link_style}>
         <ListItem button>
           <ListItemIcon><AddBoxIcon/></ListItemIcon>
-          <ListItemText primary="Crear nueva prueba" />
+          <ListItemText primary="Crear nueva demo" />
         </ListItem>
       </Link>
+      {true?
+        <Link to="/home/demo" style={link_style}>
+          <ListItem button >
+            <ListItemIcon>
+              <InsertChartIcon/></ListItemIcon><ListItemText primary="Mi demo" />
+          </ListItem>
+        </Link>
+      :null}
     </List>
   )
 };
@@ -52,18 +54,19 @@ export const MainListItems = () => {
 export const SecondaryListItems = () => {
   // TODO link with Redux store. Create var for selected menu item
   const [selectedItem, setSelectedItem] = useState();
+  const [demo, setDemo] = useState(true);
 
   return(
     <List>
       <ListSubheader inset>Otras opciones</ListSubheader>
       <Link to="/home/clients" style={link_style}>
-        <ListItem button>
+        <ListItem button onClick={() => {setDemo(!demo)}}>
           <ListItemIcon><SupervisedUserCircleIcon /></ListItemIcon>
           <ListItemText primary="Clientes"/>
         </ListItem>
       </Link>
       <Link to="/home/contact" style={link_style}>
-        <ListItem button>
+        <ListItem button onClick={() => {setDemo(!demo)}}>
           <ListItemIcon><EmailIcon/></ListItemIcon>
           <ListItemText primary="Contacto" />
         </ListItem>

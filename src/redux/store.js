@@ -3,9 +3,10 @@ import { createTrialReducer, initialState } from './reducers/createTrialReducer'
 
 
 export const ConfigureStore = () => {
+  // TODO Add combine reducers
   const store = createStore(
     createTrialReducer, // reducer
-    initialState, // our initialState
+    initialState, // the initialState
   );
   return store;
 }

@@ -5,7 +5,7 @@ import clsx from 'clsx';
 import Grid from '@material-ui/core/Grid';
 import HeaderComponent from './HeaderComponent';
 import Home from './HomeComponent';
-import NewForm from './NewFormComponent';
+import NewForm from './CreateTrialComponent';
 import Dashboard from './Dashboard/DashboardComponent'
 
 const useStyles = makeStyles((theme) => ({
@@ -61,10 +61,10 @@ const Main = (props) => {
           <Grid container id="container_principal" className={classes.container}>
             {/* TODO add loading span component while /home is rendered and what's on the <Switch>  is loading */}
             <Switch>
-              <Route path="/home" component={() => <Dashboard/>} />
+              <Route exact path="/home/dashboard" component={() => <Dashboard/>} />
               <Route exact path="/home/search" component={() => <Home content={"Acá quiero hacer una búsqueda avanzada"}/>} />
-              <Route exact path="/home/newform" component={NewForm} />
-              <Redirect to={{pathname: '/home/newform', state: {from: props.location}}}/>
+              <Route exact path="/home" component={NewForm} />
+              <Redirect to={{pathname: '/home', state: {from: props.location}}}/>
             </Switch>
           </Grid>
         </main>
