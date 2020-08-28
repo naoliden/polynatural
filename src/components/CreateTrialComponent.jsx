@@ -1,8 +1,9 @@
-import React, { useMemo }from "react";
+import React, { useMemo, useState }from "react";
 import { makeStyles } from '@material-ui/core/styles';
-import { FormControl, InputLabel, Input, Button, TextField } from "@material-ui/core";
+import { FormControl, InputLabel, Input, Button, TextField, Typography } from "@material-ui/core";
+import MenuItem from '@material-ui/core/MenuItem';
 import { connect } from 'react-redux'
-import { useForm } from 'react-hook-form';
+import { useForm, register } from 'react-hook-form';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -25,56 +26,85 @@ const getToday = () =>{
   return yyyy + '-' + mm + '-' + dd;
 }
 
-function DatePickers() {
-  const classes = useStyles();
-  const today = getToday()
-
-  return (
-    <form className={classes.container} noValidate>
-      <TextField
-        id="date"
-        label="Fecha"
-        type="date"
-        defaultValue={today}
-        className={classes.textField}
-        InputLabelProps={{
-          shrink: true,
-        }}
-      />
-    </form>
-  );
-}
-
+const frutas = [
+  {
+    value: 'Manzana',
+    label: 'Manzana',
+  },
+  {
+    value: 'Limon',
+    label: 'Limón',
+  },
+  {
+    value: 'Palta',
+    label: 'Palta',
+  },
+  {
+    value: 'Ciruela',
+    label: 'Ciruela',
+  },
+  {
+    value: 'Arandano',
+    label: 'Arándano',
+  },
+];
 
 // TODO ADD TABS
 const NewForm = (props) => {
-    return (
-      <div style={{ display: "flex", justifyContent: "center", paddingTop: 20 }}>
-          
-        <form style={{ width: "95%" }}>
-          <h1>{getToday()}</h1>
+  const today = getToday()
+  const classes = useStyles();
+  const [ fruta, setFruta ] = useState({value: 'Selecciona una fruta', lable: 'Selecciona una fruta'})
 
-          <FormControl margin="normal" fullWidth>
-            <InputLabel htmlFor="name">Name</InputLabel>
-            <Input id="name" type="text" />
-          </FormControl>
+  const handleChangeFruta = (event) => {
+    setFruta(event.target.value);
+  };
 
-          <FormControl margin="normal" fullWidth>
-            <InputLabel htmlFor="email">Email</InputLabel>
-            <Input id="email" type="email" />
-          </FormControl>
 
-          <FormControl margin="normal" fullWidth>
-            <InputLabel htmlFor="email">Message</InputLabel>
-            <Input id="email" multiline rows={10} />
-          </FormControl>
+  return (
+    <>
+    <form className={classes.container}>
 
-          <Button variant="contained" color="primary" size="medium" >
-            Send
-          </Button>
-        </form>
-      </div>
-    );
+      <TextField id="date" label="Fecha" type="date" variant="outlined" defaultValue={today} className={classes.textField}
+       InputLabelProps={{
+          shrink: true,
+        }}
+      />
+      
+      <FormControl margin="normal" fullWidth>
+        <InputLabel htmlFor="name">Cajas</InputLabel>
+        <Input id="cajas" type="number" variant='outlined'/>
+      </FormControl>
+      
+      <FormControl margin="normal" fullWidth>
+        <InputLabel htmlFor="bandejas">Bandejas</InputLabel>
+        <Input id="bandejas" type="number" />
+      </FormControl>
+
+      <FormControl margin="normal" fullWidth>
+        <TextField
+          id="select-fruta"
+          select
+          label="Fruta"
+          value={fruta}
+          onChange={handleChangeFruta}
+          helperText="Selecciona fruta"
+          variant="outlined"
+        >
+          {frutas.map((option) => (
+            <MenuItem key={option.value} value={option.value}>
+              {option.label}
+            </MenuItem>
+          ))}
+        </TextField>
+      </FormControl>
+
+
+      <Button variant="contained" color="primary" size="medium" >
+        Send
+      </Button>
+    </form>
+    </>
+  );
 }
 
 function MapStateToProps(global_state){

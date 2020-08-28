@@ -2,11 +2,9 @@ import React from 'react';
 import Drawer from '@material-ui/core/Drawer';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
-import List from '@material-ui/core/List';
-import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import { MainListItems, SecondaryListItems } from './SideListComponent';
+import { MainListItems } from './SideListComponent';
 
 
 const drawerWidth = 240;
@@ -36,13 +34,6 @@ const useStyles = makeStyles((theme) => ({
 
 export const SideBar = ({open, toggleSideBar}) =>{
   const classes = useStyles();
-
-  // const [open, setOpen] = React.useState(false);
-
-  // const toggleSideBar = () => {
-  //   setOpen(!open);
-  // };
-  
   return(
     <Drawer
       variant="permanent"
@@ -56,14 +47,7 @@ export const SideBar = ({open, toggleSideBar}) =>{
         </IconButton>
       </div>
       <div className={classes.content}>
-        <Divider />
-        <List>
-          <MainListItems/>
-        </List>
-        <Divider />
-        <List>
-          <SecondaryListItems/>
-        </List>
+        <MainListItems/>
       </div>
     </Drawer>
   )

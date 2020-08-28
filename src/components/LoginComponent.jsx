@@ -14,6 +14,12 @@ import Copyright from './CopyrightComponent';
 import logo from '../shared/logo.png';
 
 
+const randomBackground = (previous) =>{
+  const arr = ['../shared/login/manzanas.jpg', '../shared/login/frutas.jpg', '../shared/login/limones.jpg']
+  return arr[Math.floor(Math.random() * arr.length)]
+}
+
+
 const useStyles = makeStyles((theme) => ({
   root: {
     height: '100vh',
@@ -97,7 +103,7 @@ export default function Login() {
               variant="contained"
               color="primary"
               className={classes.submit}
-              onClick={() => {window.location.href = "./home"}}
+              onClick={() => {window.location.href = "./home/dashboard"}}
               >
               Sign In
             </Button>

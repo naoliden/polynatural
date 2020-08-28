@@ -63,8 +63,9 @@ const Main = (props) => {
             <Switch>
               <Route exact path="/home/dashboard" component={() => <Dashboard/>} />
               <Route exact path="/home/search" component={() => <Home content={"Acá quiero hacer una búsqueda avanzada"}/>} />
-              <Route exact path="/home" component={NewForm} />
-              <Redirect to={{pathname: '/home', state: {from: props.location}}}/>
+              <Route exact path="/home/newform" component={NewForm} />
+              {/* TODO change redirect to dashboard */}
+              <Redirect to={{pathname: '/home/newform', state: {from: props.location}}}/>
             </Switch>
           </Grid>
         </main>
