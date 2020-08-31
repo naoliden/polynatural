@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import clsx from 'clsx';
 import Grid from '@material-ui/core/Grid';
-import Sustainability from './SustainabilityComponent';
 import TabsComponent from './DashboardTabsComponent';
 // TODO Fetch de los datos y guardarlos en REDUX
 // For using Tabs

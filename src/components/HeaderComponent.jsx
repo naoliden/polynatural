@@ -6,13 +6,11 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
-import SearchIcon from "@material-ui/icons/Search";
-import InputBase from "@material-ui/core/InputBase";
 import Grid from '@material-ui/core/Grid';
 import logo from '../shared/logo.png';
 import ProfileButton from './ProfileButtonComponent';
 import SideBar from './SideBarComponent';
-
+import SearchBar from './SearchBarComponent';
 
 
 const drawerWidth = 240;
@@ -130,7 +128,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-//TODO considerar convertir en class component extends React.PureComponent para arreglar rerenders al abrir la app.
+//REVIEW considerar convertir en class component extends React.PureComponent para arreglar rerenders al abrir la app.
 const HeaderComponent = (props) => {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
@@ -162,20 +160,8 @@ const HeaderComponent = (props) => {
                 <a href="/home/dashboard"><img className={classes.logo} src={logo} alt="logo" /></a>
               </Grid>
               <Grid item xs={"auto"} >
-                <div className={classes.search}>
-                  <div className={classes.searchIcon}>
-                    <SearchIcon />
-                  </div>
-                  <InputBase
-                    placeholder="Search…"
-                    classes={{
-                      root: classes.inputRoot,
-                      input: classes.inputInput
-                    }}
-                    inputProps={{ "aria-label": "search" }}
-                    fullWidth
-                    />
-                </div>
+                <SearchBar />
+
               </Grid>
             </Grid>
           </Grid>

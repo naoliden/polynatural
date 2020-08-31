@@ -8,7 +8,7 @@ import { Line } from 'react-chartjs-2';
 import { lineChartOptions } from '../charts/options';
 import { data } from '../charts/falseData';
 
-// TODO guardar los datos del fetch en useMemo para que no se tengan que fetchear cada vez. Tabien
+// TODO guardar los datos del fetch en useMemo para que no se tengan que fetchear cada vez. Tambien
 // TODO pueden ser guardados en redux.
 
 const useStyles = makeStyles((theme) => ({
