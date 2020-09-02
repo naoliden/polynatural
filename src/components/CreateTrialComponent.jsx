@@ -1,21 +1,51 @@
 import React, { useMemo, useState }from "react";
 import { makeStyles } from '@material-ui/core/styles';
-import { FormControl, InputLabel, Input, Button, TextField, Typography } from "@material-ui/core";
-import MenuItem from '@material-ui/core/MenuItem';
-import { connect } from 'react-redux'
-import { useForm, register } from 'react-hook-form';
-import { countries } from '../shared/countries'
+import clsx from 'clsx';
+import { FormControl, InputLabel, Input, Button, TextField, Typography, Grid } from "@material-ui/core";
+import Paper from '@material-ui/core/Paper';
+import { connect } from 'react-redux';
+import { useForm, register, Controller } from 'react-hook-form';
+import { Select as MUISelect } from '@material-ui/core';
+import Select from 'react-select';
+// TODO should be a fetch to the server according to the system language.
+import { countries } from '../shared/countries_es'
+
 
 const useStyles = makeStyles((theme) => ({
-  container: {
+  root: {
+    margin: theme.spacing(1),
     display: 'flex',
-    flexWrap: 'wrap',
+    alignContent:"space-around",
   },
-  textField: {
-    marginLeft: theme.spacing(1),
-    marginRight: theme.spacing(1),
+  container: {
+    justifyContent: 'center',
+    direction: 'row',
+  },
+  title: {
+    paddingTop: 10,
+    justifyContent: "center"
+  },
+  datePicker: {
+    minWidth: 20,
+  },
+  paper: {
+    [theme.breakpoints.up('md')]:{
+      paddingRight: theme.spacing(10),
+      paddingLeft: theme.spacing(10),
+      paddingTop: theme.spacing(5),
+      paddingBottom: theme.spacing(3),
+    },
+    width: '90vw'
+  },
+  button: {
+    marginTop: theme.spacing(3),
+    marginBottom: theme.spacing(1),
     width: 200,
   },
+  item: {
+    backgroundColor: "black",
+  }
+
 }));
 
 const getToday = () =>{
@@ -27,10 +57,6 @@ const getToday = () =>{
 }
 
 const frutas = [
-  {
-    value: 'Selecciona un fruto',
-    label: 'Selecciona un fruto',
-  },
   {
     value: 'Manzana',
     label: 'Manzana',
@@ -55,10 +81,6 @@ const frutas = [
 
 const tipos_medicion =[
   {
-    value: "Selecciona un tipo de medicion",
-    label: "Selecciona un tipo de medición",
-  },
-  {
     value: "Por bandejas",
     label: "Por bandejas",
   },
@@ -68,156 +90,118 @@ const tipos_medicion =[
   },
 ]
 
-// TODO ADD TABS
 const NewForm = (props) => {
-  const today = getToday()
+  const today = getToday();
   const classes = useStyles();
-  const [ fruta, setFruta ] = useState('Selecciona un fruto')
-  const [ measurement, setMeasurement ] = useState("Selecciona un tipo de medición")
-  const [ origen, setOrigen ] = useState("Chile")
-  const [ destino, setDestino ] = useState("Germany")
-
-  const handleChangeFruta = (event) => {
-    // handleChange for dropdown de fruta
-    setFruta(event.target.value);
-  };
-
-  const handleChangeMeasurement = (event) => {
-    // handleChange for dropdown de tipo de medición
-    setMeasurement(event.target.value);
-  };
-
-  const handleChangeOrigen = (event) => {
-    // handleChange for dropdown de tipo de medición
-    setOrigen(event.target.value);
-  };
-
-  const handleChangeDestino = (event) => {
-    // handleChange for dropdown de tipo de medición
-    setDestino(event.target.value);
-  };
-
+  const { control, handleSubmit } = useForm();
+  const md = 12;
 
   return (
     <>
-    <form className={classes.container}>
+    <Paper className={classes.paper}>
+      <Grid container className={classes.title} xs={12} >
+        <Grid item >
+          <Typography gutterBottom={false} align='center' color="textPrimary" variant="h4">
+            Crear nuevo ensayo
+          </Typography>
+        </Grid>
+      </Grid>
 
-      <FormControl margin="normal" fullWidth>
-        <TextField id="client" helperText="Cliente/ client" variant="outlined" />
-      </FormControl>
-
-      <TextField id="date" label="Fecha" type="date" variant="outlined" defaultValue={today} className={classes.textField}
-        InputLabelProps={{
-          shrink: true,
-        }}
-      />
-
-      {/* TODO falta cuantas veces se va a realizar una medición (inicial, 15 y 30 dias?) */}
-
-      <FormControl margin="normal" fullWidth>
-        <TextField
-          id="select-fruta"
-          select
-          label="Fruta"
-          value={fruta}
-          onChange={handleChangeFruta}
-          helperText="Selecciona fruta"
-          variant="outlined"
-        >
-          {frutas.map((option) => (
-            <MenuItem key={option.value} value={option.value}>
-              {option.label}
-            </MenuItem>
-          ))}
-        </TextField>
-      </FormControl>
-
-      <FormControl margin="normal" fullWidth>
-        <TextField
-          id="origen"
-          select
-          label="Origen"
-          value={origen}
-          onChange={handleChangeOrigen}
-          helperText="Selecciona país de origen"
-          variant="outlined"
-        >
-          {countries.map((option) => (
-            <MenuItem key={option.value} value={option.value}>
-              {option.value}
-            </MenuItem>
-          ))}
-        </TextField>
-      </FormControl>
-
-      <FormControl margin="normal" fullWidth>
-        <TextField
-          id="destino"
-          select
-          label="Destino"
-          value={destino}
-          onChange={handleChangeDestino}
-          helperText="Selecciona país de destino"
-          variant="outlined"
-        >
-          {countries.map((option) => (
-            <MenuItem key={option.value} value={option.value}>
-              {option.value}
-            </MenuItem>
-          ))}
-        </TextField>
-      </FormControl>
+      <form className={classes.root}>
+        <Grid container spacing={3} justify='space-between'>
+          <Grid item container direction="column" xs={12} lg={5}  alignItems='stretch'>
+            <Grid item >
+              <Typography gutterBottom={false} color="textPrimary" variant="caption">Fruta</Typography>
+              <Controller
+                  name="fruta"
+                  as={Select}
+                  options={frutas}
+                  control={control}
+                  rules={{ required: true }}
+                  placeholder={"Selecciona la fruta del ensayo"}
+                />
       
-      <FormControl margin="normal" fullWidth>
-        <TextField 
-          id="select-measurement"
-          select
-          helperText="Seleccionar el tipo de medición - Granel o por bandejas"
-          variant="outlined"
-          value={measurement}
-          onChange={handleChangeMeasurement}
-          label="Tipo de medición/ Measurement"
-         >
-          {tipos_medicion.map((option) => (
-            <MenuItem key={option.value} value={option.value}>
-              {option.label}
-            </MenuItem>
-          ))}
-        </TextField>
-      </FormControl>
-      
-      <FormControl margin="normal" fullWidth>
-        <TextField id="boxes" type="number" helperText="Cajas/ Boxes" variant="outlined" />
-      </FormControl>
+              <FormControl margin="normal" >
+                <TextField id="variety" helperText="Ingresa la variedad a la cual corresponde la fruta" 
+                  label="Variedad" variant="standard" inputRef={control} placeholder="ej: Pink lady"/>
+              </FormControl>
+            </Grid>
+          </Grid>
 
-      <FormControl margin="normal" fullWidth>
-        <TextField id="calibre" type="number" helperText="Calibre/ Box units" variant="outlined" />
-      </FormControl>
+          <Grid item container direction="column" xs={12} lg={5}>
+            <FormControl margin="normal">
+              <TextField id="client" helperText="Ingresa el nombre del cliente" variant="standard" 
+                label="Nombre del cliente" inputRef={control}/>
+            </FormControl>
 
-      <FormControl margin="normal" fullWidth>
-        <TextField id="trays" type="number" helperText="Bandejas/ Trays" variant="outlined" />
-      </FormControl>
-      
-      {/* <FormControl margin="normal" fullWidth>
-        <InputLabel htmlFor="name">Cajas</InputLabel>
-        <Input id="cajas" type="number" variant='outlined'/>
-      </FormControl>
+            <FormControl>
+              <TextField id="date" label="Fecha" helperText="Fecha de creación de los ensayos" type="date" 
+                variant="standard" defaultValue={today} className={classes.datePicker} inputRef={control}
+                InputLabelProps={{
+                  shrink: true,
+                }}/>
+            </FormControl>
 
-      <FormControl margin="normal" fullWidth>
-        <InputLabel htmlFor="calibre">Calibre</InputLabel>
-        <Input id="bandejas" type="number" />
-      </FormControl>
-      
-      <FormControl margin="normal" fullWidth>
-        <InputLabel htmlFor="bandejas">Bandejas</InputLabel>
-        <Input id="bandejas" type="number" />
-      </FormControl> */}
+            <Typography gutterBottom={false} color="textPrimary" variant="caption">País de Origen</Typography>
+            <Controller
+              name="origen"
+              as={Select}
+              options={countries}
+              control={control}
+              rules={{ required: true }}
+              placeholder={"Selecciona el país de origen"}
+            />
 
+            <Typography gutterBottom={false} color="textPrimary" variant="caption">País de Destino</Typography>
+            <Controller
+              name="destino"
+              as={Select}
+              options={countries}
+              control={control}
+              rules={{ required: true }}
+              placeholder={"Selecciona el país de destino"}
+            />
 
-      <Button variant="contained" color="primary" size="medium" fullWidth>
-        Listo
-      </Button>
-    </form>
+            <Typography gutterBottom={false} color="textPrimary" variant="caption">Tipo de medición</Typography>
+            <Controller
+                name="fruta"
+                as={Select}
+                options={tipos_medicion}
+                control={control}
+                rules={{ required: true }}
+                placeholder={"Selecciona el tipo de medición"}
+              />
+
+            <FormControl margin="normal" >
+              <TextField id="mediciones" type="number" helperText="Ingresa el número mediciones que se harán"
+                label="Número de mediciones" variant="standard" inputRef={control}/>
+            </FormControl>
+
+            <FormControl margin="normal" >
+              <TextField id="boxes" type="number" helperText="Ingresa el número de cajas a revisar en el ensayo"
+                label="Número de cajas" variant="standard" inputRef={control}/>
+            </FormControl>
+
+            <FormControl margin="normal" >
+              <TextField id="trays" type="number" helperText="Ingresa el número de bandejas por caja"
+              label="Número de bandejas" variant="standard" inputRef={control}/>
+
+            </FormControl>
+            <FormControl margin="normal" >
+              <TextField id="calibre" type="number" helperText="Ingresa el calibre de la fruta" 
+                label="Calibre" variant="standard" inputRef={control}/>
+            </FormControl>
+
+            </Grid>
+            <Grid container justify='flex-end'>
+              <Button variant="contained" color="primary" size="medium" type="submit" className={classes.button}  >
+                Crear ensayo
+              </Button>
+            </Grid>
+          </Grid>
+      </form>
+
+    </Paper>
     </>
   );
 }

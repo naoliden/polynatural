@@ -1,4 +1,4 @@
-const info = [
+export const countries = [
 {
   'name': 'Afghanistan',
   'translations': {
