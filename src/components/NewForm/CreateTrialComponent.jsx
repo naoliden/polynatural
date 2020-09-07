@@ -4,13 +4,12 @@ import clsx from 'clsx';
 import { FormControl, InputLabel, Input, Button, TextField, Typography, Grid } from "@material-ui/core";
 import Paper from '@material-ui/core/Paper';
 import { connect } from 'react-redux';
+import Select from 'react-select';
 import { useForm, register, Controller } from 'react-hook-form';
 import { Select as MUISelect } from '@material-ui/core';
-import Select from 'react-select';
-// TODO should be a fetch to the server according to the system language.
 import { countries } from './files/countries_es';
-import { frutas, ciruelas, arandanos, duraznos, mandarinas, peras, limones, naranjas, paltas, manzanas} from './files/frutas';
-
+import { frutas } from './files/frutas';
+import FruitVariety from './SelectVarietyComponent';
 
 const useStyles = makeStyles((theme) => ({
   form: {
@@ -30,9 +29,7 @@ const useStyles = makeStyles((theme) => ({
     minWidth: 20,
   },
   paper: {
-    // display: 'flex',
     width: '100%',
-    // marginTop: 60,
     [theme.breakpoints.up('md')]:{
       paddingRight: theme.spacing(10),
       paddingLeft: theme.spacing(10),
@@ -43,16 +40,21 @@ const useStyles = makeStyles((theme) => ({
   button: {
     marginTop: theme.spacing(3),
     marginBottom: theme.spacing(1),
-    width: 200,
-
-  },
-  item: {
-    backgroundColor: "black",
+    width: 300,
   },
   left: {
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'stretch',
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    [theme.breakpoints.down('sm')]:{
+      alignItems: 'stretch',
+    }
+  },
+  right: {
+    minHeight: 400,
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    justifyContent: 'space-between',
   }
 
 }));
@@ -79,7 +81,22 @@ const tipos_medicion =[
 const NewForm = (props) => {
   const today = getToday();
   const classes = useStyles();
-  const { control, handleSubmit } = useForm();
+  const [selectedFruit, setFruit] = useState({value: null, label: null}) 
+  const [variety, setVariety] = useState({value: null, label: null}) 
+  const { control, handleSubmit, register } = useForm();
+
+
+  const handleChangeFruit = (fruit) => {
+    setFruit(fruit)
+    // console.log(fruit.value);
+  }
+
+  const handleFormSubmit = (data) => {
+    // console.log(JSON.stringify(data))
+    // TODO dispatch redux action que junta los states y data
+    console.log(selectedFruit)
+    console.log(variety)
+  }
 
 
   return (
@@ -92,36 +109,37 @@ const NewForm = (props) => {
             </Typography>
           </Grid>
         </Grid>
-        <form className={classes.form}>
+        <form className={classes.form} onSubmit={handleSubmit((data) => handleFormSubmit(data))} >
           <Grid container spacing={5}>
-            <Grid container item xs={12} md={6} className={classes.left} spacing={2}>
+            {/* REVIEW Lado izquierdo */}
+            <Grid container item xs={12} md={6} className={classes.left} spacing={3}>
               <Grid item xs={12}>
-                <Typography gutterBottom={true} color="textPrimary" variant="caption">Fruta</Typography>
-              </Grid>
-              <Grid item xs={12}>
-                <Controller
-                    name="fruta"
-                    as={Select}
-                    options={frutas}
-                    control={control}
-                    rules={{ required: true }}
-                    placeholder={"Selecciona la fruta del ensayo"}
-                    defaultValue={'manzana'}
-                  />
-                </Grid>
-            </Grid>
-            <Grid container item xs={12} md={6}>
-              CHAO
-            </Grid>
-
-            <Grid item container alignItems="center" justify="flex-end">
+                <Typography color="textPrimary" variant="body1">Fruta</Typography>
+              <Grid/>
               <Grid item>
+                <Controller
+                  name="fruta"
+                  control={control}
+                  rules={{ required: true }}
+                  defaultValue={selectedFruit}
+                  render={() => 
+                    <Select onChange={handleChangeFruit} options={frutas} placeholder={"Selecciona la fruta del ensayo"}/>
+                  }
+                  />
+              </Grid>
+              <Grid item xs={12} style={{marginTop: 10}}>
+                {selectedFruit.value? <FruitVariety fruit={selectedFruit} control={control} onChange={setVariety}/> : <div></div>}
+              </Grid>
+            </Grid>
+            </Grid>
+            {/* REVIEW Lado derecho */}
+            <Grid container item xs={12} md={6} className={classes.right} spacing={3}>
+              <Grid item xs={12} >
                 <Button variant="contained" color="primary" type="submit" className={classes.button}>
                   Crear prueba
                 </Button>
               </Grid>
             </Grid>
-
 
           </Grid>
         </form>

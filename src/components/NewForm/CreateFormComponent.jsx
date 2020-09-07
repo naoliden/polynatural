@@ -178,6 +178,11 @@ const NewForm = (props) => {
                 label="Calibre" variant="standard" inputRef={control}/>
             </FormControl>
 
+            <FormControl margin="normal" >
+              <TextField id="testigos" type="number" helperText="Ingresa numero de testigos" 
+                label="Testigos" variant="standard" inputRef={control}/>
+            </FormControl>
+
             </Grid>
             <Grid container justify='flex-end'>
               <Button variant="contained" color="primary" size="medium" type="submit" className={classes.button}  >
