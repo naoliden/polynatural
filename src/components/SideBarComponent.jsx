@@ -29,9 +29,6 @@ const useStyles = makeStyles((theme) => ({
       width: theme.spacing(9),
     },
   },
-  fixedHeight: {
-    height: '100vh',
-  },
 }))
 
 
@@ -40,7 +37,6 @@ export const SideBar = ({open, toggleSideBar}) =>{
   return(
     <Drawer
       variant="permanent"
-      className={classes.fixedHeight}
       classes={{paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose)}}
       open={open}
       >

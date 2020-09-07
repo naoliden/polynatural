@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
   },
   paper: {
     width: '100%',
-    [theme.breakpoints.up('md')]:{
+    [theme.breakpoints.up('sm')]:{
       paddingRight: theme.spacing(10),
       paddingLeft: theme.spacing(10),
       paddingTop: theme.spacing(5),
@@ -41,6 +41,7 @@ const useStyles = makeStyles((theme) => ({
   button: {
     marginTop: theme.spacing(3),
     marginBottom: theme.spacing(1),
+    justifyContent: 'center',
     width: 300,
   },
   left: {
@@ -149,7 +150,7 @@ const NewForm = (props) => {
                   rules={{ required: true }}
                   defaultValue={selectedFruit}
                   render={() => 
-                    <Select onChange={handleChangeFruit} options={frutas} placeholder={"Selecciona la fruta del ensayo"} />
+                    <Select onChange={handleChangeFruit} options={frutas} placeholder={"Selecciona la fruta del ensayo"} inputRef={register}/>
                   }
                 />
               </Grid>
@@ -206,31 +207,32 @@ const NewForm = (props) => {
               </Grid>
               <Grid item xs={12} className={classes.item}>
                 <Controller
-                  name="fruta"
+                  name="tipo_medicion"
+                  // as={Select}
                   control={control}
                   rules={{ required: true }}
                   defaultValue={selectedFruit}
-                  render={() => 
+                  as={() => 
                     <Select onChange={handleChangeMedicion} options={tipos_medicion} placeholder={"Selecciona granel o bandejas"}/>
                   }
                 />
               </Grid>
               <Grid item xs={12} >
                 <FormControl margin="normal">
-                  <TextField id="mediciones" type="number" helperText="Ingresa el número mediciones que se harán"
+                  <TextField name="mediciones" type="number" helperText="Ingresa el número mediciones que se harán"
                     label="Número de mediciones" variant="standard" inputRef={register} className={classes.textInput}/>
                 </FormControl>
               </Grid>
               <Grid item xs={12}>
                 <FormControl margin="normal" >
-                  <TextField id="boxes" type="number" helperText="Ingresa el número de cajas a revisar en el ensayo"
+                  <TextField name="cajas" type="number" helperText="Ingresa el número de cajas a revisar en el ensayo"
                     label="Número de cajas" variant="standard" inputRef={register} className={classes.textInput}/>
                 </FormControl>
               </Grid>
               <Grid item xs={12} >
                 {(tipoMedicion.value === "bandejas")? 
                   <FormControl margin="normal" >
-                    <TextField id="trays" type="number" helperText="Ingresa el número de bandejas por caja"
+                    <TextField name="bandejas" type="number" helperText="Ingresa el número de bandejas por caja"
                       label="Número de bandejas" variant="standard" inputRef={register} className={classes.textInput}/>
                   </FormControl> 
                   :
@@ -239,21 +241,21 @@ const NewForm = (props) => {
               </Grid>
               <Grid item xs={12} >
                 <FormControl margin="normal" >
-                  <TextField id="calibre" type="number" helperText="Ingresa el calibre de la fruta" 
+                  <TextField name="calibre" type="number" helperText="Ingresa el calibre de la fruta" 
                     label="Calibre" variant="standard" inputRef={register} className={classes.textInput}/>
                 </FormControl>
               </Grid>
               <Grid item xs={12}>
                 <FormControl margin="normal" >
-                  <TextField id="testigos" type="number" helperText="Ingresa numero de testigos" 
+                  <TextField name="testigos" type="number" helperText="Ingresa numero de testigos" 
                     label="Testigos" variant="standard" inputRef={register} className={classes.textInput}/>
                 </FormControl>
               </Grid>
-              <Grid item xs={12} >
-                <Button variant="contained" color="primary" type="submit" className={classes.button}>
-                  Crear prueba
-                </Button>
-              </Grid>
+            </Grid>
+            <Grid item container xs={12} className={classes.button}>
+              <Button variant="contained" color="primary" type="submit" fullWidth>
+                Crear prueba
+              </Button>
             </Grid>
 
           </Grid>
