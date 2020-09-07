@@ -8,7 +8,8 @@ import { useForm, register, Controller } from 'react-hook-form';
 import { Select as MUISelect } from '@material-ui/core';
 import Select from 'react-select';
 // TODO should be a fetch to the server according to the system language.
-import { countries } from '../shared/countries_es'
+import { countries } from './files/countries_es';
+import { frutas, ciruelas, arandanos, duraznos, mandarinas, peras, limones, naranjas, paltas, manzanas} from './files/frutas';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -56,29 +57,6 @@ const getToday = () =>{
   return yyyy + '-' + mm + '-' + dd;
 }
 
-const frutas = [
-  {
-    value: 'Manzana',
-    label: 'Manzana',
-  },
-  {
-    value: 'Limon',
-    label: 'Limón',
-  },
-  {
-    value: 'Palta',
-    label: 'Palta',
-  },
-  {
-    value: 'Ciruela',
-    label: 'Ciruela',
-  },
-  {
-    value: 'Arandano',
-    label: 'Arándano',
-  },
-];
-
 const tipos_medicion =[
   {
     value: "Por bandejas",
@@ -96,18 +74,19 @@ const NewForm = (props) => {
   const { control, handleSubmit } = useForm();
   const md = 12;
 
+
   return (
     <>
     <Paper className={classes.paper}>
-      <Grid container className={classes.title} xs={12} >
-        <Grid item >
+      <Grid container xs={12} >
+        <Grid item className={classes.title} xs={12}>
           <Typography gutterBottom={false} align='center' color="textPrimary" variant="h4">
             Crear nuevo ensayo
           </Typography>
         </Grid>
       </Grid>
 
-      <form className={classes.root}>
+      <form className={classes.root} onSubmit={handleSubmit( (data) => console.log(JSON.stringify(data)) )}>
         <Grid container spacing={3} justify='space-between'>
           <Grid item container direction="column" xs={12} lg={5}  alignItems='stretch'>
             <Grid item >
@@ -119,6 +98,7 @@ const NewForm = (props) => {
                   control={control}
                   rules={{ required: true }}
                   placeholder={"Selecciona la fruta del ensayo"}
+                  defaultValue={'manzana'}
                 />
       
               <FormControl margin="normal" >
@@ -150,6 +130,8 @@ const NewForm = (props) => {
               control={control}
               rules={{ required: true }}
               placeholder={"Selecciona el país de origen"}
+              defaultValue={'manzana'}
+
             />
 
             <Typography gutterBottom={false} color="textPrimary" variant="caption">País de Destino</Typography>
@@ -160,6 +142,8 @@ const NewForm = (props) => {
               control={control}
               rules={{ required: true }}
               placeholder={"Selecciona el país de destino"}
+              defaultValue={'manzana'}
+
             />
 
             <Typography gutterBottom={false} color="textPrimary" variant="caption">Tipo de medición</Typography>
@@ -170,11 +154,13 @@ const NewForm = (props) => {
                 control={control}
                 rules={{ required: true }}
                 placeholder={"Selecciona el tipo de medición"}
+                defaultValue={'manzana'}
+
               />
 
-            <FormControl margin="normal" >
+            <FormControl margin="normal" inputRef={control} >
               <TextField id="mediciones" type="number" helperText="Ingresa el número mediciones que se harán"
-                label="Número de mediciones" variant="standard" inputRef={control}/>
+                label="Número de mediciones" variant="standard" />
             </FormControl>
 
             <FormControl margin="normal" >

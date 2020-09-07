@@ -5,40 +5,25 @@ import clsx from 'clsx';
 import Grid from '@material-ui/core/Grid';
 import HeaderComponent from './HeaderComponent';
 import Home from './HomeComponent';
-import NewForm from './CreateTrialComponent';
+import NewForm from './NewForm/CreateTrialComponent';
 import Dashboard from './Dashboard/DashboardComponent'
 
 const useStyles = makeStyles((theme) => ({
   appBarSpacer: theme.mixins.toolbar,
   root: {
     display: 'flex',
-  },
-  content: {
+    overflow: 'hidden',
     flexGrow: 1,
-    height: '100vh',
-    overflow: 'auto',
   },
   container: {
-    // paddingTop: theme.spacing(6),
-    // paddingBottom: theme.spacing(10),
-    // paddingBottom: 30,
-    // paddingTop: 30,
-    // marginTop: '5px',
     paddingLeft: 30,
     paddingRight:30,
-    marginTop: 25,
+    marginTop: 100,
     marginBottom: 30,
     [theme.breakpoints.down("sm")]: {
       paddingTop: theme.spacing(1),
       paddingBottom: theme.spacing(3),
-      
     }
-  },
-  paper: {
-    padding: theme.spacing(2),
-    display: 'flex',
-    overflow: 'auto',
-    flexDirection: 'column',
   },
   fixedHeight: {
     height: '95vh',
@@ -49,15 +34,9 @@ const useStyles = makeStyles((theme) => ({
 const Main = (props) => {
   const classes = useStyles();
 
-  // useEffect(() => {
-  //   effect
-  // }, [input])
-
   return (
-      <div className={clsx(classes.root, classes.content)}>
+      <div id="outer div" className={classes.root}>
         <HeaderComponent/>
-        <main className={classes.content}>
-          <div className={classes.appBarSpacer} />
           <Grid container id="container_principal" className={classes.container}>
             {/* TODO add loading span component while /home is rendered and what's on the <Switch>  is loading */}
             <Switch>
@@ -68,7 +47,6 @@ const Main = (props) => {
               <Redirect to={{pathname: '/home/newform', state: {from: props.location}}}/>
             </Switch>
           </Grid>
-        </main>
       </div>
   );
 }

@@ -42,15 +42,9 @@ REVISAR HOOKS USEREDUCER, etc
 ###REDUX FORM
 yarn add react-redux-form@1.16.8
 
-Another alternative to forms
-yarn add final-form react-final-form
-
 
 ###REACT HOOK FORM (THE BEST YET)
 npm install react-hook-form
-
-
-REVISAR SI FORMIK VALE LA PENA.
 
 
 ###REDUX THUNK AND LOGGER
