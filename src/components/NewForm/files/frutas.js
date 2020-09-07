@@ -106,8 +106,8 @@ export const limones = [
 
 export const peras = [
   {
-    value: '',
-    label: ''
+    value: 'asiatica',
+    label: 'asiática'
   },
 ]
 
@@ -120,8 +120,8 @@ export const mandarinas = [
 
 export const duraznos = [
   {
-    value: '',
-    label: ''
+    value: 'platano',
+    label: 'plátano'
   },
 ]
 

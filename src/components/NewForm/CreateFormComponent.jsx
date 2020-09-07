@@ -143,11 +143,10 @@ const NewForm = (props) => {
               rules={{ required: true }}
               placeholder={"Selecciona el país de destino"}
               defaultValue={'manzana'}
-
             />
 
             <Typography gutterBottom={false} color="textPrimary" variant="caption">Tipo de medición</Typography>
-            <Controller
+              <Controller
                 name="fruta"
                 as={Select}
                 options={tipos_medicion}
@@ -171,8 +170,8 @@ const NewForm = (props) => {
             <FormControl margin="normal" >
               <TextField id="trays" type="number" helperText="Ingresa el número de bandejas por caja"
               label="Número de bandejas" variant="standard" inputRef={control}/>
-
             </FormControl>
+            
             <FormControl margin="normal" >
               <TextField id="calibre" type="number" helperText="Ingresa el calibre de la fruta" 
                 label="Calibre" variant="standard" inputRef={control}/>
