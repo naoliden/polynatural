@@ -7,6 +7,10 @@ import Tooltip from '@material-ui/core/Tooltip';
 import AddIcon from '@material-ui/icons/Add';
 import RemoveIcon from '@material-ui/icons/Remove';
 import Fab from '@material-ui/core/Fab';
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import FormControl from '@material-ui/core/FormControl';
+import FormLabel from '@material-ui/core/FormLabel';
 import { connect } from 'react-redux';
 import Select from 'react-select';
 import { useForm, Controller } from 'react-hook-form';
@@ -88,6 +92,10 @@ const useStyles = makeStyles((theme) => ({
   },
   AddIcon: {
     margin: theme.spacing(2),
+  },
+  listItem: {
+    marginTop: 10,
+
   }
 }));
 
@@ -118,7 +126,7 @@ const NewForm = (props) => {
   const [selectedFruit, setFruit] = useState({value: null, label: null});
   const [variety, setVariety] = useState({value: null, label: null});
   const [bandejas, setBandejas] = useState({value: null, label: null});
-  const [mediciones, setMedicion] = useState(0);
+  const [mediciones, setMediciones] = useState([]);
   const [tratamientos, setTratamientos] = useState([]);
   const [lab, setLab] = useState(true);
   const { control, handleSubmit, register } = useForm();
@@ -132,11 +140,32 @@ const NewForm = (props) => {
     setFruit(fruit)
   }
 
+  const handleChangeLab = (event) => {
+      setLab(event.target.value === 'true');
+  }
+
+  const addMediciones = () => {
+    setMediciones([
+      ...mediciones,
+      <TextField name={`M${mediciones.length}`} label="Fecha" helperText={`Fecha de la medición ${mediciones.length}`} type="date" 
+      variant="standard" defaultValue={today} className={clsx(classes.textInput, classes.datePicker, classes.listItem)} inputRef={register}
+      InputLabelProps={{
+        shrink: true,
+      }}/>
+     ])
+  }
+
+  const removeMediciones = () => {
+    const temp_array = [...mediciones];
+    temp_array.pop();
+    setMediciones(temp_array)
+  }
+
   const addTratamiento = () => {
     setTratamientos([
       ...tratamientos,
       <TextField key={tratamientos.lenght} name={`T${tratamientos.length}`} helperText="Nombre tratamiento" label={`T${tratamientos.length}`}
-      variant="standard" inputRef={register} className={classes.textInput}/>
+      variant="standard" inputRef={register} className={clsx(classes.textInput, classes.listItem)}/>
      ])
   }
 
@@ -183,20 +212,16 @@ const NewForm = (props) => {
                   label="Nombre del cliente" inputRef={register} className={classes.textInput}/>
               </Grid>
               <Grid item xs={12} className={classes.item}>
-                <TextField name="date" label="Fecha" helperText="Fecha de creación de los ensayos" type="date" 
-                  variant="standard" defaultValue={today} className={clsx(classes.textInput, classes.datePicker)} inputRef={register}
-                  InputLabelProps={{
-                    shrink: true,
-                  }}/>
+                <FormControl component="fieldset">
+                  <FormLabel component="legend">¿Dónde se realizará el ensayo?</FormLabel>
+                  <RadioGroup aria-label="lab1" name="lab" value={lab.toString()} onChange={handleChangeLab}>
+                    <FormControlLabel value="true" control={<Radio />} label="Laboratorio" />
+                    <FormControlLabel value="false" control={<Radio />} label="Línea de packing" />
+                  </RadioGroup>
+                </FormControl>
               </Grid>
               <Grid item xs={12} className={classes.item}>
                 <Typography color="textPrimary" variant="body1">País de Origen</Typography>
-              </Grid>
-              <Grid item xs={12}>
-                <FormControlLabel
-                  control={<Checkbox checked={lab} onChange={() => {setLab(!lab)}} name="lab" />}
-                  label="El ensayo será realizado en laboratorio"
-                />
               </Grid>
               <Grid item xs={12} className={classes.item}>
                 <Controller
@@ -239,14 +264,29 @@ const NewForm = (props) => {
               <Grid item xs={12} className={classes.item}>
                   <Select onChange={handleChangeMedicion} options={tipos_medicion} placeholder={"Selecciona a granel o bandejas"}/>
               </Grid>
-              <Grid item xs={12} >
-    
-                  <TextField name="mediciones" type="number" helperText="Ingresa el número mediciones que se harán"
-                    label="Número de mediciones" variant="standard" inputRef={register} className={classes.textInput}/>
+              <Grid item xs={12}>
+                <Typography>Ingresa las mediciones que se harán</Typography>
+                <Tooltip title="Agregar fecha de medicion">
+                  <Fab color="primary" className={classes.AddIcon} size='small'>
+                    <AddIcon onClick={addMediciones}/>
+                  </Fab>
+                </Tooltip>
+                <Tooltip title="Eliminar medicion">
+                  <Fab color="secondary" className={classes.AddIcon} size='small'>
+                    <RemoveIcon onClick={removeMediciones}/>
+                  </Fab>
+                </Tooltip>
+                <Grid item xs={12}>
+                  {mediciones}
+                </Grid>
     
               </Grid>
+              <Grid item xs={12} >
+                <TextField name="unidades_tratamiento" type="number" helperText="Ingresa el número unidades por tratamiento, si es una caja ingresa 1."
+                  label="Número de unidades por tratamiento" variant="standard" inputRef={register} className={classes.textInput}/>  
+              </Grid>
               <Grid item xs={12}>
-                <Typography>Ingresa número de tratamientos a realizar</Typography>
+                <Typography>Ingresa los tratamientos a realizar</Typography>
                 <Tooltip title="Agregar tratamiento">
                   <Fab color="primary" className={classes.AddIcon} size='small'>
                     <AddIcon onClick={addTratamiento}/>
@@ -260,7 +300,6 @@ const NewForm = (props) => {
                 <Grid item xs={12}>
                   {tratamientos}
                 </Grid>
-    
               </Grid>
               <Grid item xs={12}>
     
