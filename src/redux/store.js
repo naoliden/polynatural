@@ -1,11 +1,11 @@
 import { createStore } from 'redux';
-import { createTrialReducer, initialState } from './reducers/createTrialReducer';
+import { createFormReducer, initialState } from './reducers/createFormReducer';
 
 
 export const ConfigureStore = () => {
   // TODO Add combine reducers
   const store = createStore(
-    createTrialReducer, // reducer
+    createFormReducer, // reducer
     initialState, // the initialState
   );
   return store;

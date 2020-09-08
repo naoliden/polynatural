@@ -1,12 +1,12 @@
-import React, { useMemo, useState }from "react";
+import React, { useState }from "react";
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
-import { FormControl, InputLabel, Input, Button, TextField, Typography, Grid } from "@material-ui/core";
+import { Button, TextField, Typography, Grid, Checkbox, FormControlLabel } from "@material-ui/core";
 import Paper from '@material-ui/core/Paper';
+import Tooltip from '@material-ui/core/Tooltip';
 import { connect } from 'react-redux';
 import Select from 'react-select';
-import { useForm, register, Controller } from 'react-hook-form';
-import { Select as MUISelect } from '@material-ui/core';
+import { useForm, Controller } from 'react-hook-form';
 import { countries } from './files/countries_es';
 import { frutas } from './files/frutas';
 import FruitVariety from './SelectVarietyComponent';
@@ -14,7 +14,6 @@ import FruitVariety from './SelectVarietyComponent';
 const useStyles = makeStyles((theme) => ({
   form: {
     margin: theme.spacing(1),
-    // display: 'flex',
     alignContent:"space-around",
   },
   container: {
@@ -42,9 +41,24 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(3),
     marginBottom: theme.spacing(1),
     justifyContent: 'center',
-    width: 300,
+    height: 45,
+    [theme.breakpoints.only('xl')]:{
+      width: 900,
+    },
+    [theme.breakpoints.only('lg')]:{
+      width: 700,
+    },
+    [theme.breakpoints.only('md')]:{
+      width: 500,
+    },
+    [theme.breakpoints.only('sm')]:{
+      width: 300,
+    },
+    [theme.breakpoints.only('xs')]:{
+      width: 220,
+    },
   },
-  left: {
+  leftSide: {
     flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'space-around',
@@ -52,7 +66,7 @@ const useStyles = makeStyles((theme) => ({
       alignItems: 'stretch',
     }
   },
-  right: {
+  rightSide: {
     minHeight: 400,
     flexDirection: 'row',
     alignItems: 'space-around',
@@ -63,15 +77,12 @@ const useStyles = makeStyles((theme) => ({
     paddingBottom: 10,
     alignSelf: 'flex-start',
     [theme.breakpoints.up('sm')]:{
-      // alignSelf: 'center',
       maxWidth: '90%',
     }
   },
   textInput: {
     minWidth: 300,
   }
-
-
 }));
 
 const getToday = () =>{
@@ -97,31 +108,35 @@ const NewForm = (props) => {
   // TODO pasar los datos de cada input con un onChange a redux, y que se cargen en los valores por default, asi al cambiar de pestaña no se borra lo ingresado.
   const today = getToday();
   const classes = useStyles();
-  const [selectedFruit, setFruit] = useState({value: null, label: null}) 
-  const [variety, setVariety] = useState({value: null, label: null}) 
-  const [tipoMedicion, setMedicion] = useState({value: "bandejas", label: "bandejas"}) 
+  // Los params que necesitaban rendereo condicional no los pude rescatar con react-hook-form asi que use useState.
+  const [selectedFruit, setFruit] = useState({value: null, label: null});
+  const [mediciones, setMedicion] = useState(0);
+  const [variety, setVariety] = useState({value: null, label: null});
+  const [bandejas, setBandejas] = useState({value: null, label: null});
+  const [lab, setLab] = useState(true);
   const { control, handleSubmit, register } = useForm();
 
 
   const handleChangeMedicion = (medicion) => {
-    setMedicion(medicion)
-    // if(medicion === "bandejas"){
-    //   continue;
-    // }
+    setBandejas(medicion)
   }
 
   const handleChangeFruit = (fruit) => {
     setFruit(fruit)
-    // console.log(fruit.value);
   }
 
+
   const handleFormSubmit = (data) => {
-    // console.log(JSON.stringify(data))
     // TODO dispatch redux action que junta los states y data
-    console.log(selectedFruit)
-    console.log(variety)
-    console.log(tipoMedicion)
     console.log(data)
+
+    props.dispatch( {
+      type: "CREATE_FORM",
+      payload: {
+        fruit: selectedFruit,
+        variety: variety,
+      }
+    })
   }
 
 
@@ -139,11 +154,11 @@ const NewForm = (props) => {
         <form className={classes.form} onSubmit={handleSubmit((data) => handleFormSubmit(data))} >
           <Grid container spacing={5}>
             {/* REVIEW Lado izquierdo */}
-            <Grid container item xs={12} md={6} className={classes.left} spacing={3}>
+            <Grid container item xs={12} md={6} className={classes.leftSide} spacing={3}>
               <Grid item xs={12} className={classes.item}>
                 <Typography color="textPrimary" variant="body1">Fruta</Typography>
               <Grid/>
-              <Grid item xs={12} className={classes.item} >
+              <Grid item xs={12} className={classes.item}>
                 <Controller
                   name="fruta"
                   control={control}
@@ -158,22 +173,26 @@ const NewForm = (props) => {
                 {selectedFruit.value? <FruitVariety fruit={selectedFruit} control={control} onChange={setVariety}/> : <div></div>}
               </Grid>
               <Grid item xs={12} className={classes.item}>
-                <FormControl margin="normal">
-                  <TextField id="client" helperText="Ingresa el nombre del cliente" variant="standard" 
-                    label="Nombre del cliente" inputRef={register} className={classes.textInput}/>
-                </FormControl>
+                <TextField name="client" helperText="Ingresa el nombre del cliente" variant="standard" 
+                  label="Nombre del cliente" inputRef={register} className={classes.textInput}/>
               </Grid>
               <Grid item xs={12} className={classes.item}>
-              <FormControl>
-                <TextField id="date" label="Fecha" helperText="Fecha de creación de los ensayos" type="date" 
+                <TextField name="date" label="Fecha" helperText="Fecha de creación de los ensayos" type="date" 
                   variant="standard" defaultValue={today} className={clsx(classes.textInput, classes.datePicker)} inputRef={register}
                   InputLabelProps={{
                     shrink: true,
                   }}/>
-                </FormControl>
               </Grid>
               <Grid item xs={12} className={classes.item}>
                 <Typography color="textPrimary" variant="body1">País de Origen</Typography>
+              </Grid>
+              <Grid item xs={12}>
+                <FormControlLabel
+                  control={<Checkbox checked={lab} onChange={() => {setLab(!lab)}} name="lab" />}
+                  label="El ensayo será realizado en laboratorio"
+                />
+              </Grid>
+              <Grid item xs={12} className={classes.item}>
                 <Controller
                   name="origen"
                   as={Select}
@@ -182,85 +201,89 @@ const NewForm = (props) => {
                   rules={{ required: true }}
                   placeholder={"Selecciona el país de origen"}
                   defaultValue={'Chile'}
-
                 />
               </Grid>
-              <Grid item xs={12} className={classes.item}>
-                <Typography color="textPrimary" variant="body1">País de Destino</Typography>
-                <Controller
-                  name="destino"
-                  as={Select}
-                  options={countries}
-                  control={control}
-                  rules={{ required: true }}
-                  placeholder={"Selecciona el país de destino"}
-                  defaultValue={'Alemania'}
-                />
+                {lab?
+                  null
+                  :
+                  <>
+                    <Grid item xs={12} className={classes.item}>
+                      <Typography color="textPrimary" variant="body1">País de Destino</Typography>
+                    </Grid>
+                    <Grid item xs={12} className={classes.item}>
+                    <Controller
+                      name="destino"
+                      as={Select}
+                      options={countries}
+                      control={control}
+                      rules={{ required: true }}
+                      placeholder={"Selecciona el país de destino"}
+                      defaultValue={'Alemania'}
+                    />
+                    </Grid>
+                  </>
+                }
               </Grid>
-            </Grid>
             </Grid>
             {/* REVIEW Lado derecho */}
-            <Grid container item xs={12} md={6} className={classes.right} spacing={3}>
-
+            <Grid container item xs={12} md={6} className={classes.rightSide} spacing={3}>
               <Grid item xs={12} >
                 <Typography color="textPrimary" variant="body1">Tipo de medición</Typography>
               </Grid>
               <Grid item xs={12} className={classes.item}>
                 <Controller
                   name="tipo_medicion"
-                  // as={Select}
                   control={control}
                   rules={{ required: true }}
                   defaultValue={selectedFruit}
                   as={() => 
-                    <Select onChange={handleChangeMedicion} options={tipos_medicion} placeholder={"Selecciona granel o bandejas"}/>
+                    <Select onChange={handleChangeMedicion} options={tipos_medicion} placeholder={"Selecciona a granel o bandejas"}/>
                   }
                 />
               </Grid>
               <Grid item xs={12} >
-                <FormControl margin="normal">
+    
                   <TextField name="mediciones" type="number" helperText="Ingresa el número mediciones que se harán"
                     label="Número de mediciones" variant="standard" inputRef={register} className={classes.textInput}/>
-                </FormControl>
+    
               </Grid>
               <Grid item xs={12}>
-                <FormControl margin="normal" >
+    
+                  <TextField name="ntratamientos" type="number" helperText="Ingresa número de tratamientos" 
+                    label="Número de tratamientos" variant="standard" inputRef={register} className={classes.textInput}/>
+    
+              </Grid>
+              <Grid item xs={12}>
+    
                   <TextField name="cajas" type="number" helperText="Ingresa el número de cajas a revisar en el ensayo"
-                    label="Número de cajas" variant="standard" inputRef={register} className={classes.textInput}/>
-                </FormControl>
+                    label="Número de cajas por tratamiento" variant="standard" inputRef={register} className={classes.textInput}/>
+    
               </Grid>
               <Grid item xs={12} >
-                {(tipoMedicion.value === "bandejas")? 
-                  <FormControl margin="normal" >
-                    <TextField name="bandejas" type="number" helperText="Ingresa el número de bandejas por caja"
-                      label="Número de bandejas" variant="standard" inputRef={register} className={classes.textInput}/>
-                  </FormControl> 
+                {(bandejas.value === "bandejas")? 
+                  <TextField name="bandejas" type="number" helperText="Ingresa el número de bandejas por caja"
+                    label="Número de bandejas" variant="standard" inputRef={register} className={classes.textInput}/>
                   :
                   null
                 }
               </Grid>
               <Grid item xs={12} >
-                <FormControl margin="normal" >
-                  <TextField name="calibre" type="number" helperText="Ingresa el calibre de la fruta" 
-                    label="Calibre" variant="standard" inputRef={register} className={classes.textInput}/>
-                </FormControl>
+                <TextField name="calibre" type="number" helperText="Ingresa el calibre de la fruta" 
+                  label="Calibre" variant="standard" inputRef={register} className={classes.textInput}/>
               </Grid>
               <Grid item xs={12}>
-                <FormControl margin="normal" >
-                  <TextField name="testigos" type="number" helperText="Ingresa numero de testigos" 
-                    label="Testigos" variant="standard" inputRef={register} className={classes.textInput}/>
-                </FormControl>
+                <TextField name="comments" multiline={true} helperText="Ingresa algún comentario o instrucción" 
+                  label="Comentarios o instrucciones" variant="standard" inputRef={register} className={classes.textInput}/>
               </Grid>
             </Grid>
-            <Grid item container xs={12} className={classes.button}>
-              <Button variant="contained" color="primary" type="submit" fullWidth>
+            <Grid item container xs={12} justify='center'>
+              <Button variant="contained" disableElevation type="submit" color="primary" className={classes.button}>
                 Crear prueba
               </Button>
             </Grid>
 
           </Grid>
         </form>
-
       </Paper>
     </>
   );

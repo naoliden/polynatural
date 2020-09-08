@@ -25,9 +25,6 @@ const useStyles = makeStyles((theme) => ({
       paddingBottom: theme.spacing(3),
     }
   },
-  fixedHeight: {
-    height: '95vh',
-  },
 }))
 
 

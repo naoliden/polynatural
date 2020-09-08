@@ -5,7 +5,9 @@ let yyyy = today.getFullYear();
 today = yyyy + '-' + mm + '-' + dd;
 
 export const initialState = {
-  today: today
+  login_time: new Date(),
+  username: null,
+  client: null,
 };
 
 export const dateReducer = (state = initialState, action) => {
