@@ -1,11 +1,12 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Switch, Route, Redirect } from 'react-router-dom';
-import clsx from 'clsx';
+// import clsx from 'clsx';
 import Grid from '@material-ui/core/Grid';
 import HeaderComponent from './HeaderComponent';
 import Home from './HomeComponent';
-import NewForm from './NewForm/CreateTrialComponent';
+// import NewForm from './NewForm/CreateTrialComponent';
+import NewForm from './NewForm/test';
 import Dashboard from './Dashboard/DashboardComponent'
 
 const useStyles = makeStyles((theme) => ({

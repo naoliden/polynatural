@@ -1,12 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import SwipeableViews from 'react-swipeable-views';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
+import { useTheme } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import Typography from '@material-ui/core/Typography';
-import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid'
 import Sustainability from './SustainabilityComponent';
 // import classes from '*.module.css';
@@ -15,17 +13,8 @@ import Sustainability from './SustainabilityComponent';
 
 // TODO component rerenders when switching BACK from other tabs. Too many rerenders.
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    // backgroundColor: theme.palette.background.paper,
-    // width: 500,
-    marginTop: 30,
-  },
-}));
-
 
 function TabPanel(props) {
-  const classes = useStyles();
   const { children, value, index, ...other } = props;
 
   return (

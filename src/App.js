@@ -17,7 +17,7 @@ function App() {
           <Route exact path="/" component={Login}/>
           <Route path={default_path} component={() => <Main/>}/>
           {/* TODO redirect to="/" with props of NOT logged in user, it should render form with errors */}
-          {/* <Redirect to=""/> */}
+          <Redirect to="/"/>
         </Switch>
       </BrowserRouter>
     </Provider>

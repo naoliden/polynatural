@@ -14,10 +14,10 @@ import Copyright from './CopyrightComponent';
 import logo from '../shared/logo.png';
 
 
-const randomBackground = (previous) =>{
-  const arr = ['../shared/login/manzanas.jpg', '../shared/login/frutas.jpg', '../shared/login/limones.jpg']
-  return arr[Math.floor(Math.random() * arr.length)]
-}
+// const randomBackground = (previous) =>{
+//   const arr = ['../shared/login/manzanas.jpg', '../shared/login/frutas.jpg', '../shared/login/limones.jpg']
+//   return arr[Math.floor(Math.random() * arr.length)]
+// }
 
 
 const useStyles = makeStyles((theme) => ({

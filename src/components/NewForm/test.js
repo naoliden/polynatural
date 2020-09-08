@@ -1,4 +1,4 @@
-import React, { useState, useEffect }from "react";
+import React, { useState }from "react";
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import { Button, TextField, Typography, Grid, Checkbox, FormControlLabel } from "@material-ui/core";
@@ -88,9 +88,7 @@ const useStyles = makeStyles((theme) => ({
   },
   AddIcon: {
     margin: theme.spacing(2),
-
   }
-
 }));
 
 const getToday = () =>{
@@ -118,32 +116,26 @@ const NewForm = (props) => {
   const classes = useStyles();
   // Los params que necesitaban rendereo condicional no los pude rescatar con react-hook-form asi que use useState.
   const [selectedFruit, setFruit] = useState({value: null, label: null});
-  const [mediciones, setMedicion] = useState([]);
-  const [tratamientos, setTratamientos] = useState([]);
   const [variety, setVariety] = useState({value: null, label: null});
   const [bandejas, setBandejas] = useState({value: null, label: null});
+  const [mediciones, setMedicion] = useState(0);
+  const [tratamientos, setTratamientos] = useState([]);
   const [lab, setLab] = useState(true);
   const { control, handleSubmit, register } = useForm();
 
 
-  const handleFormSubmit = (data) => {
-    // TODO dispatch redux action que junta los states y data
-    console.log(data);
-    console.log(selectedFruit);
-    console.log(variety);
-    // props.dispatch( {
-    //   type: "CREATE_FORM",
-    //   payload: {
-    //     fruit: selectedFruit,
-    //     variety: variety,
-    //   }
-    // })
+  const handleChangeMedicion = (medicion) => {
+    setBandejas(medicion)
+  }
+
+  const handleChangeFruit = (fruit) => {
+    setFruit(fruit)
   }
 
   const addTratamiento = () => {
     setTratamientos([
       ...tratamientos,
-      <TextField name={`T${tratamientos.lenght}`} helperText="Nombre tratamiento" label={`T${tratamientos.length}`}
+      <TextField key={tratamientos.lenght} name={`T${tratamientos.length}`} helperText="Nombre tratamiento" label={`T${tratamientos.length}`}
       variant="standard" inputRef={register} className={classes.textInput}/>
      ])
   }
@@ -153,13 +145,19 @@ const NewForm = (props) => {
     temp_array.pop();
     setTratamientos(temp_array)
   }
-  
+
+  const handleFormSubmit = (data) => {
+    // TODO dispatch redux action que junta los states y data
+    console.log(data);
+    console.log(selectedFruit);
+    console.log(variety);
+  }
 
 
   return (
     <>
       <Paper className={classes.paper}>
-        <Grid container xs={12} >
+        <Grid container >
           <Grid item className={classes.title} xs={12}>
             <Typography gutterBottom={false} align='center' color="textPrimary" variant="h4">
               Crear nuevo ensayo
@@ -167,8 +165,7 @@ const NewForm = (props) => {
           </Grid>
         </Grid>
 
-        {/* <form className={classes.form} onSubmit={handleSubmit((data) => handleFormSubmit(data))} > */}
-        <form className={classes.form} onSubmit={console.log("HOLA")} >
+        <form className={classes.form} onSubmit={handleSubmit((data) => handleFormSubmit(data))} >
           <Grid container spacing={5}>
             {/* REVIEW Lado izquierdo */}
             <Grid container item xs={12} md={6} className={classes.leftSide} spacing={3}>
@@ -176,16 +173,7 @@ const NewForm = (props) => {
                 <Typography color="textPrimary" variant="body1">Fruta</Typography>
               <Grid/>
               <Grid item xs={12} className={classes.item}>
-                {/* Este select es distinto porque tiene que cambiar una var de estado a seleccionar  */}
-                {/* <Controller
-                  name="fruta"
-                  control={control}
-                  rules={{ required: true }}
-                  defaultValue={selectedFruit}
-                  render={() =>  */}
-                    <Select onChange={(fruta) => {setFruit(fruta)}} options={frutas} placeholder={"Selecciona la fruta del ensayo"} />
-                  {/* }
-                /> */}
+                  <Select onChange={handleChangeFruit} options={frutas} placeholder={"Selecciona la fruta del ensayo"}/>
               </Grid>
               <Grid item xs={12} className={classes.item} >
                 {selectedFruit.value? <FruitVariety fruit={selectedFruit} control={control} onChange={setVariety}/> : <div></div>}
@@ -249,37 +237,30 @@ const NewForm = (props) => {
                 <Typography color="textPrimary" variant="body1">Tipo de medición</Typography>
               </Grid>
               <Grid item xs={12} className={classes.item}>
-                <Controller
-                  name="tipo_medicion"
-                  control={control}
-                  rules={{ required: true }}
-                  defaultValue={bandejas.label}
-                  as={() => 
-                    <Select onChange={(medicion) => {setBandejas(medicion)}} options={tipos_medicion} placeholder={"Selecciona a granel o bandejas"}/>
-                  }
-                />
+                  <Select onChange={handleChangeMedicion} options={tipos_medicion} placeholder={"Selecciona a granel o bandejas"}/>
               </Grid>
               <Grid item xs={12} >
-                {/* TODO mismo concepto de abajo pero con fechas en vez de textinputs */}
+    
                   <TextField name="mediciones" type="number" helperText="Ingresa el número mediciones que se harán"
                     label="Número de mediciones" variant="standard" inputRef={register} className={classes.textInput}/>
     
               </Grid>
               <Grid item xs={12}>
-                  <Typography>Ingresa número de tratamientos a realizar</Typography>
-                  <Tooltip title="Agregar tratamiento">
-                    <Fab color="primary" className={classes.AddIcon} disableElevation size='small'>
-                      <AddIcon onClick={addTratamiento}/>
-                    </Fab>
-                  </Tooltip>
-                  <Tooltip title="Eliminar tratamiento">
-                    <Fab color="secondary" className={classes.AddIcon} disableElevation size='small'>
-                      <RemoveIcon onClick={removeTratamiento}/>
-                    </Fab>
-                  </Tooltip>
-                  <Grid item xs={12}>
-                    {tratamientos}
-                  </Grid>
+                <Typography>Ingresa número de tratamientos a realizar</Typography>
+                <Tooltip title="Agregar tratamiento">
+                  <Fab color="primary" className={classes.AddIcon} size='small'>
+                    <AddIcon onClick={addTratamiento}/>
+                  </Fab>
+                </Tooltip>
+                <Tooltip title="Eliminar tratamiento">
+                  <Fab color="secondary" className={classes.AddIcon} size='small'>
+                    <RemoveIcon onClick={removeTratamiento}/>
+                  </Fab>
+                </Tooltip>
+                <Grid item xs={12}>
+                  {tratamientos}
+                </Grid>
+    
               </Grid>
               <Grid item xs={12}>
     
@@ -305,7 +286,7 @@ const NewForm = (props) => {
               </Grid>
             </Grid>
             <Grid item container xs={12} justify='center'>
-              <Button variant="contained" type="submit" color="primary" className={classes.button}>
+              <Button variant="contained" disableElevation type="submit" color="primary" className={classes.button}>
                 Crear prueba
               </Button>
             </Grid>
