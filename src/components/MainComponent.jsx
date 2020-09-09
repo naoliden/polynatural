@@ -6,7 +6,7 @@ import Grid from '@material-ui/core/Grid';
 import HeaderComponent from './HeaderComponent';
 import Home from './HomeComponent';
 // import NewForm from './NewForm/CreateTrialComponent';
-import NewForm from './NewForm/test';
+import NewForm from './NewForm/CreateFormComponent';
 import Dashboard from './Dashboard/DashboardComponent'
 
 const useStyles = makeStyles((theme) => ({

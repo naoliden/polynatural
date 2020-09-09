@@ -1,12 +1,18 @@
-import { createStore } from 'redux';
-import { createFormReducer, initialState } from './reducers/createFormReducer';
+import { createStore, combineReducers, applyMiddleware } from 'redux';
+import { createFormReducer } from './reducers/createFormReducer';
+import { testReducer } from './reducers/testReducer';
+import logger from 'redux-logger';
+
 
 
 export const ConfigureStore = () => {
-  // TODO Add combine reducers
   const store = createStore(
-    createFormReducer, // reducer
-    initialState, // the initialState
+      combineReducers({
+          forms: createFormReducer,
+          test: testReducer,
+      }), 
+      applyMiddleware(logger)
   );
+
   return store;
 }
