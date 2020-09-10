@@ -142,7 +142,6 @@ const estados_medicion = [
 ]
 
 
-
 const NewForm = (props) => {
   // TODO pasar los datos de cada input con un onChange a redux, y que se cargen en los valores 
   // TODO por default, asi al cambiar de pestaña no se borra lo ingresado.
@@ -156,6 +155,14 @@ const NewForm = (props) => {
   const [lab, setLab] = useState(true);
   const { control, handleSubmit, register } = useForm();
 
+  const mapDataToProps = (data) => {
+    props.dispatch(
+      {
+      type: "UPDATE_CLIENT",
+      payload: selectedFruit,
+      }
+    )
+  }
 
   const handleFormSubmit = (data) => {
     console.log(data);
@@ -406,7 +413,7 @@ const NewForm = (props) => {
 
 function MapStateToProps(global_state){
   return {
-    message: global_state.message 
+    client: global_state.test.client,
   }
 }
 

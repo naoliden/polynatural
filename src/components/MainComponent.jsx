@@ -1,13 +1,13 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Switch, Route, Redirect } from 'react-router-dom';
-// import clsx from 'clsx';
 import Grid from '@material-ui/core/Grid';
 import HeaderComponent from './HeaderComponent';
 import Home from './HomeComponent';
-// import NewForm from './NewForm/CreateTrialComponent';
 import NewForm from './NewForm/CreateFormComponent';
 import Dashboard from './Dashboard/DashboardComponent'
+
+
 
 const useStyles = makeStyles((theme) => ({
   appBarSpacer: theme.mixins.toolbar,
@@ -39,7 +39,7 @@ const Main = (props) => {
             {/* TODO add loading span component while /home is rendered and what's on the <Switch>  is loading */}
             <Switch>
               <Route exact path="/home/dashboard" component={() => <Dashboard/>} />
-              <Route exact path="/home/search" component={() => <Home content={"Acá quiero hacer una búsqueda avanzada"}/>} />
+              <Route exact path="/home/search" component={() => <Home content=""/>} />
               <Route exact path="/home/newform" component={NewForm} />
               {/* TODO change redirect to dashboard */}
               <Redirect to={{pathname: '/home/newform', state: {from: props.location}}}/>

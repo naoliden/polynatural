@@ -1,15 +1,19 @@
+// Si hay 0 bandejas, la medición fue hecha a granel.
+
 export const initialState = {
-  fruta: null,
-  variedad: null,
-  cliente: null,
-  origen: null,
-  destino: null,
-  medicion: {n_mediciones: 0, fechas: [],},
-  lab: null,
-  tratamientos: {n_tratamientos: 0, tratamientos: []},
-  cajas: null,
-  bandejas: null,
-  calibre: null
+  fruta: "",
+  variedad: "",
+  cliente: "",
+  origen: "",
+  destino: "",
+  lab: true,
+  mediciones: [],
+  unidades_por_tratemiento: 0,
+  tratamientos: [{nombre: "T0", etiqueta:""}],
+  cajas: 0,
+  bandejas: 0,
+  calibre: 0,
+  comentarios: "",
 };
 
 export const createFormReducer = (state = initialState, action) => {

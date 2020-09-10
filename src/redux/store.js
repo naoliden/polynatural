@@ -2,7 +2,7 @@ import { createStore, combineReducers, applyMiddleware } from 'redux';
 import { createFormReducer } from './reducers/createFormReducer';
 import { testReducer } from './reducers/testReducer';
 import logger from 'redux-logger';
-
+import thunk from 'redux-thunk';
 
 
 export const ConfigureStore = () => {
@@ -11,7 +11,7 @@ export const ConfigureStore = () => {
           forms: createFormReducer,
           test: testReducer,
       }), 
-      applyMiddleware(logger)
+      applyMiddleware(thunk, logger)
   );
 
   return store;
