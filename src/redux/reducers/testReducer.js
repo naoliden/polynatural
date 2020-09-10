@@ -8,7 +8,7 @@ const getToday = () =>{
 
 
 export const default_state = {
-  login_time: new Date(),
+  today: new Date(),
   test_function: getToday,
   username: "user test name",
   client: "client test name",

@@ -1,15 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 
 
 const Home = (props) => {
-  const [ state, setState ] = useState()
 
   return(
       <React.Fragment>  
-          
-          {props.client}
-          <br />
           {props.content}
       </React.Fragment>
   )
@@ -19,7 +15,11 @@ const Home = (props) => {
 function MapStateToProps(global_state){
   // Los datos que recibo como props
   return {
-    client: global_state.test.client 
+    // nombre que le quiero dar localmente como props.<name> : acceso desde el global_state
+    client: global_state.test.client,
+    funct: global_state.test.test_function,
+    fruta: global_state.forms.fruta,
+    today: global_state.test.today
   }
 }
 export default connect(MapStateToProps)(Home);
