@@ -1,6 +1,6 @@
 import React, { useState }from "react";
-import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
+import { makeStyles } from '@material-ui/core/styles';
 import { Button, TextField, Typography, Grid, FormControlLabel } from "@material-ui/core";
 import Paper from '@material-ui/core/Paper';
 import Tooltip from '@material-ui/core/Tooltip';
@@ -16,8 +16,8 @@ import { connect } from 'react-redux';
 import { useForm, Controller } from 'react-hook-form';
 import { countries } from './files/countries_es';
 import { frutas } from './files/frutas';
-import FruitVariety from './SelectVarietyComponent';
 import { UnidadExperimental } from './UnidadExperimentalComponent';
+import FruitVariety from './SelectVarietyComponent';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -190,7 +190,7 @@ const NewForm = (props) => {
           <Grid item xs={12}>
             <Typography color="textPrimary" variant="body1">Medicion inicial</Typography>
           </Grid>
-          <Grid item xs={12} >
+          <Grid item xs={12}>
             <TextField name={`medicion${mediciones.length}`} helperText={`Fecha de la medición inicial`} type="date" 
               variant="standard" defaultValue={today} className={clsx(classes.textInput)} inputRef={register}
               InputLabelProps={{
@@ -237,9 +237,10 @@ const NewForm = (props) => {
   }
 
   const addTratamiento = () => {
+    const index = tratamientos.length;
     setTratamientos([
       ...tratamientos,
-      <TextField key={`T${tratamientos.length}`} name={`T${tratamientos.length}`} helperText="Nombre del tratamiento" label={`T${tratamientos.length}`}
+      <TextField key={`T${index}`} name={`T${index}`} helperText="Nombre del tratamiento" label={`T${index}`}
       variant="standard" inputRef={register} className={clsx(classes.textInput, classes.listItem)}/>
      ])
   }
@@ -249,7 +250,6 @@ const NewForm = (props) => {
     temp_array.pop();
     setTratamientos(temp_array)
   }
-
 
 
   return (
@@ -381,21 +381,6 @@ const NewForm = (props) => {
     
               </Grid>
               <UnidadExperimental register={register} ue={unidad_experimental.value} style={classes.textInput} />
-              {/* {(bandejas.value === "bandejas")? 
-                <Grid item xs={12} >
-                  <TextField name="bandejas" type="number" helperText="Ingresa el número de bandejas por caja"
-                    label="Número de bandejas" variant="standard" inputRef={register} className={classes.textInput}/>
-                  </Grid>
-                  :
-                  {(bandejas.value === "malla")?
-                  <Grid item xs={12} >
-                    <TextField name="bandejas" type="number" helperText="Ingresa el número de bandejas por caja"
-                    label="Número de bandejas" variant="standard" inputRef={register} className={classes.textInput}/>
-                  </Grid>
-                  : <div></div>
-                  }
-                }
-              } */}
               <Grid item xs={12} >
                 <TextField name="calibre" type="number" helperText="Ingresa el calibre de la fruta" 
                   label="Calibre" variant="standard" inputRef={register} className={classes.textInput}/>
