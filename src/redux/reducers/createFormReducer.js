@@ -1,21 +1,26 @@
 // Si hay 0 bandejas, la medición fue hecha a granel.
-
 export const initialState = {
-  fruta: "",
-  variedad: "",
-  cliente: "",
-  origen: "",
-  destino: "",
+  fruit: null,
+  variety: null,
+  unidad_experimental: null,
+  cantidad_ue: 0,
   lab: true,
+  client: "",
+  origen: {},
+  destino: {},
+  tratamientos: [],
   mediciones: [],
-  unidades_por_tratemiento: 0,
-  tratamientos: [{nombre: "T0", etiqueta:""}],
-  cajas: 0,
-  bandejas: 0,
-  calibre: 0,
   comentarios: "",
+  calibre: 0,
+  cajas: 0,
+  unidades_por_tratamiento: 0,
 };
 
 export const createFormReducer = (state = initialState, action) => {
-  return state;
+  switch(action.type) {
+    case "UPDATE_FORM":
+      return { ...action.payload }
+    default:
+      return state
+  }
 };

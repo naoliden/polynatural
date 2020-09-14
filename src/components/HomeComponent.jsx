@@ -8,7 +8,7 @@ import { addClient } from '../redux/actions/ActionCreator';
 const MapStateToProps = (global_state) => {
   return {
     // nombre que le quiero dar localmente (dentro del componente entra como props.<name>) : acceso desde el global_state
-    clients: global_state.test.clients,
+    form_data: global_state.form_data,
   }
 }
 
@@ -22,7 +22,7 @@ const MapDispatchToProps = (dispatch) => {
 }
 
 
-const Home = ({content, clients, addClient}) => {
+const Home = ({content, form_data}) => {
   const [loading, setLoading] = useState(true);
 
   useEffect( ()=>{
@@ -34,8 +34,10 @@ const Home = ({content, clients, addClient}) => {
   } else {
     return(
       <>
-        {clients}
-        <Button onClick={() => addClient("HOME")}>
+        {console.log("DATA")}
+        {console.log(form_data)}
+        {/* <Button onClick={() => addClient("HOME")}> */}
+        <Button onClick={() => console.log(form_data)}>
           Boton pos bb
         </Button>
       </>

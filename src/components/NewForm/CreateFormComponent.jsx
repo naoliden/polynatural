@@ -18,6 +18,7 @@ import { countries } from './files/countries_es';
 import { frutas } from './files/frutas';
 import { UnidadExperimental } from './UnidadExperimentalComponent';
 import FruitVariety from './SelectVarietyComponent';
+import { addForm } from '../../redux/actions/ActionCreator'
 
 
 const useStyles = makeStyles((theme) => ({
@@ -113,7 +114,6 @@ const getToday = () =>{
 
 const today = getToday();
 
-
 // Valores para dropdown lists
 const tipos_medicion =[
   {
@@ -155,24 +155,60 @@ const NewForm = (props) => {
   const [lab, setLab] = useState(true);
   const { control, handleSubmit, register } = useForm();
 
-  const mapDataToProps = (data) => {
-    props.dispatch(
-      {
-      type: "UPDATE_CLIENT",
-      payload: selectedFruit,
-      }
-    )
-  }
 
   const handleFormSubmit = (data) => {
-    console.log(data);
-    console.log(selectedFruit);
-    console.log(variety);
-    console.log(selectedFruit)
-    console.log(unidad_experimental)
-    console.log(mediciones.length)
-    console.log(tratamientos.length)
-    console.log(lab)
+    if(data.destino === undefined){
+      data.destino = null
+    }
+
+    const data_tratamientos = []
+    for( var i = 0; i < tratamientos.length; i++){
+      if(data.hasOwnProperty(`T${i}`)){
+        data_tratamientos.push({label: `T${i}`, type: data[`T${i}`]})
+      }
+    }
+    
+    const data_mediciones = []
+    if(data.hasOwnProperty("medicion0")){
+      data_mediciones.push({date: data["medicion0"], type: "inicial"})
+    }
+    for( var j = 1; j < mediciones.length; j++){
+      if(data.hasOwnProperty(`medicion${j}`)){
+        data_mediciones.push({date: data[`medicion${j}`], type: data[`tipo_medicion${j}`]})
+      }
+    }
+
+    var cantidad_ue = 0;
+    switch (unidad_experimental.value) {
+      case "mallas":
+        cantidad_ue = data['mallas']
+        break
+      case "bandejas":
+        cantidad_ue = data['bandejas']
+        break
+      default:
+        cantidad_ue = null
+    }
+
+    const all_data = {
+      fruit: selectedFruit,
+      variety: variety,
+      unidad_experimental: unidad_experimental,
+      cantidad_ue: cantidad_ue,
+      lab: lab,
+      client: data.client,
+      origen: data.origen,
+      destino: data.destino,
+      tratamientos: data_tratamientos,
+      mediciones: data_mediciones,
+      comentarios: data.comments,
+      calibre: data.calibre,
+      cajas: data.cajas,
+      unidades_por_tratamiento: data.unidades_por_tratamiento,
+    }
+
+    props.addForm(all_data);
+
   }
 
   const handleChangeMedicion = (medicion) => {
@@ -189,7 +225,6 @@ const NewForm = (props) => {
 
   const addMediciones = () => {
     const index = mediciones.length
-    console.log(index)
     if(index === 0){
       setMediciones([
         ...mediciones,
@@ -362,7 +397,7 @@ const NewForm = (props) => {
                 </Grid>
               </Grid>
               <Grid item xs={12} >
-                <TextField name="unidades_tratamiento" type="number" helperText="Ingresa el número unidades por tratamiento, si es una caja ingresa 1."
+                <TextField name="unidades_por_tratamiento" type="number" helperText="Ingresa el número unidades por tratamiento, si es una caja ingresa 1."
                   label="Número de unidades por tratamiento" variant="standard" inputRef={register} className={classes.textInput}/>  
               </Grid>
               <Grid item xs={12} className={classes.listItem}>
@@ -411,10 +446,17 @@ const NewForm = (props) => {
 }
 
 
-function MapStateToProps(global_state){
+const MapStateToProps = (global_state) => {
   return {
-    client: global_state.test.client,
+    client: global_state.form_data,
   }
 }
 
-export default connect(MapStateToProps)(NewForm);
+const MapDispatchToProps = (dispatch) => {
+  return( {
+    addForm: (all_data) => dispatch(addForm(all_data)),
+  })
+}
+
+
+export default connect(MapStateToProps, MapDispatchToProps)(NewForm);
