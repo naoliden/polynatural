@@ -16,7 +16,6 @@ import { connect } from 'react-redux';
 import { useForm, Controller } from 'react-hook-form';
 import { countries } from './files/countries_es';
 import { frutas } from './files/frutas';
-import { UnidadExperimental } from './UnidadExperimentalComponent';
 import FruitVariety from './SelectVarietyComponent';
 import { addForm } from '../../redux/actions/ActionCreator'
 
@@ -72,15 +71,16 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'space-around',
+    alignContent: 'flex-start',
     [theme.breakpoints.down('sm')]:{
       alignItems: 'stretch',
     }
   },
   rightSide: {
-    minHeight: 400,
     flexDirection: 'row',
-    alignItems: 'space-around',
     justifyContent: 'flex-start',
+    alignItems: 'space-around',
+    minHeight: 400,
   },
   item: {
     paddingTop: 10,
@@ -121,8 +121,8 @@ const tipos_medicion =[
     label: "Por bandejas",
   },
   {
-    value: "granel",
-    label: "A granel",  
+    value: "individual",
+    label: "Fruto individual",  
   },
   {
     value: "mallas",
@@ -158,7 +158,7 @@ const NewForm = (props) => {
 
   const handleFormSubmit = (data) => {
     if(data.destino === undefined){
-      data.destino = null
+      data.destino = data.origen
     }
 
     const data_tratamientos = []
@@ -178,35 +178,41 @@ const NewForm = (props) => {
       }
     }
 
-    var cantidad_ue = 0;
-    switch (unidad_experimental.value) {
-      case "mallas":
-        cantidad_ue = data['mallas']
-        break
-      case "bandejas":
-        cantidad_ue = data['bandejas']
-        break
-      default:
-        cantidad_ue = null
-    }
+    // var cantidad_ue = 0;
+    // switch (unidad_experimental.value) {
+    //   case "mallas":
+    //     cantidad_ue = data['mallas']
+    //     break
+    //   case "bandejas":
+    //     cantidad_ue = data['bandejas']
+    //     break
+    //   default:
+    //     cantidad_ue = null
+    // }
 
     const all_data = {
       fruit: selectedFruit,
       variety: variety,
-      unidad_experimental: unidad_experimental,
-      cantidad_ue: cantidad_ue,
+      // Bool, ensayo hecho en lab o en linea de packing
       lab: lab,
-      client: data.client,
+      cliente: data.client,
       origen: data.origen,
       destino: data.destino,
-      tratamientos: data_tratamientos,
-      mediciones: data_mediciones,
       comentarios: data.comments,
       calibre: data.calibre,
-      cajas: data.cajas,
-      unidades_por_tratamiento: data.unidades_por_tratamiento,
+      // Fecha y tipo de cada medicion
+      mediciones: data_mediciones,
+      // Tipo de unidad experimental
+      unidad_experimental: unidad_experimental,
+      // Tipo de cada Tratamiento T_i
+      tratamientos: data_tratamientos,
+      // Tamaño de cada Tratamiento T_i
+      replicas: data.replicas,
+      // Número de unidades por cada unidad experimental
+      unidades_por_ue: data.unidades_por_ue,
     }
 
+    // Agrego todo el estado global de redux
     props.addForm(all_data);
 
   }
@@ -293,13 +299,13 @@ const NewForm = (props) => {
     setTratamientos(temp_array)
   }
 
-
+// DONE Comienza el componente
   return (
     <React.Fragment>
       <Paper className={classes.paper}>
         <Grid container >
           <Grid item className={classes.title} xs={12}>
-            <Typography gutterBottom={false} align='center' color="textPrimary" variant="h4">
+            <Typography align='center' color="textPrimary" variant="h4">
               Crear nuevo ensayo
             </Typography>
           </Grid>
@@ -307,19 +313,23 @@ const NewForm = (props) => {
 
         <form className={classes.form} onSubmit={handleSubmit((data) => handleFormSubmit(data))} >
           <Grid container spacing={5}>
-            {/* REVIEW Lado izquierdo */}
+            {/* DONE Lado izquierdo */}
             <Grid container item xs={12} md={6} className={classes.leftSide} spacing={3}>
               <Grid item xs={12} className={classes.item}>
-                <Typography color="textPrimary" variant="body1">Fruta</Typography>
-              <Grid/>
-              
+                <Typography color="textPrimary" variant="body1">Especie</Typography>
+              </Grid>
               <Grid item xs={12} className={classes.item}>
                   <Select onChange={handleChangeFruit} options={frutas} placeholder={"Selecciona la fruta del ensayo"}/>
               </Grid>
                 {selectedFruit.value? 
-                  <Grid item xs={12} className={classes.item} >
-                    <FruitVariety fruit={selectedFruit} control={control} onChange={setVariety}/> 
-                  </Grid>
+                  <React.Fragment>
+                    <Grid item xs={12} className={classes.item}>
+                      <Typography color="textPrimary" variant="body1">Especie</Typography>
+                    </Grid>
+                    <Grid item xs={12} className={classes.item} >
+                      <FruitVariety fruit={selectedFruit} control={control} onChange={setVariety}/> 
+                    </Grid>
+                  </React.Fragment>
                   : <div></div>
                 }
               <Grid item xs={12} className={classes.item}>
@@ -327,8 +337,9 @@ const NewForm = (props) => {
                   label="Nombre del cliente" inputRef={register} className={classes.textInput}/>
               </Grid>
               <Grid item xs={12} className={classes.item}>
-                <Typography className={clsx(classes.listItem, classes.mgBottom)} color="textPrimary" variant="body1">¿Dónde se realizará el ensayo?</Typography>
-                  {/* <FormLabel component="legend">¿Dónde se realizará el ensayo?</FormLabel> */}
+                <Typography className={clsx(classes.listItem, classes.mgBottom)} color="textPrimary" variant="body1">
+                  ¿Dónde se realizará el ensayo?
+                </Typography>
                 <FormControl component="fieldset">
                   <RadioGroup aria-label="lab1" name="lab" value={lab.toString()} onChange={handleChangeLab}>
                     <FormControlLabel value="true" control={<Radio />} label="Laboratorio" />
@@ -358,15 +369,15 @@ const NewForm = (props) => {
                       <Typography color="textPrimary" variant="body1">País de Destino</Typography>
                     </Grid>
                     <Grid item xs={12} className={classes.item}>
-                    <Controller
-                      name="destino"
-                      as={Select}
-                      options={countries}
-                      control={control}
-                      rules={{ required: true }}
-                      placeholder={"Selecciona el país de destino"}
-                      defaultValue={'Alemania'}
-                    />
+                      <Controller
+                        name="destino"
+                        as={Select}
+                        options={countries}
+                        control={control}
+                        rules={{ required: true }}
+                        placeholder={"Selecciona el país de destino"}
+                        defaultValue={'Alemania'}
+                      />
                     </Grid>
                   </React.Fragment>
                 }
@@ -376,9 +387,16 @@ const NewForm = (props) => {
               <Grid item xs={12} className={classes.item}>
                   <Select onChange={handleChangeMedicion} options={tipos_medicion} placeholder={"Selecciona unidad experimental"}/>
               </Grid>
+              <Grid item xs={12} >
+                <TextField name="unidades_por_ue" type="number" helperText="Ingresa tamaño de una unidad experimental, si es por fruta individual ingresa 1"
+                  label="Número de unidades por tratamiento" variant="standard" inputRef={register} className={classes.textInput}/>  
+              </Grid>
+              <Grid item xs={12} >
+                <TextField name="calibre" type="number" helperText="Ingresa el calibre de la fruta" 
+                  label="Calibre" variant="standard" inputRef={register} className={classes.textInput}/>
               </Grid>
             </Grid>
-            {/* REVIEW Lado derecho */}
+            {/* DONE Lado derecho */}
             <Grid container item xs={12} md={6} className={classes.rightSide} spacing={3}>
               <Grid item xs={12}>
                 <Typography>Ingresa las mediciones que se harán</Typography>
@@ -396,10 +414,9 @@ const NewForm = (props) => {
                   {mediciones}
                 </Grid>
               </Grid>
-              <Grid item xs={12} >
-                <TextField name="unidades_por_tratamiento" type="number" helperText="Ingresa el número unidades por tratamiento, si es una caja ingresa 1."
-                  label="Número de unidades por tratamiento" variant="standard" inputRef={register} className={classes.textInput}/>  
-              </Grid>
+              {/* REVIEW  */}
+
+
               <Grid item xs={12} className={classes.listItem}>
                 <Typography>Ingresa los tratamientos a realizar</Typography>
                 <Tooltip title="Agregar tratamiento">
@@ -417,15 +434,8 @@ const NewForm = (props) => {
                 </Grid>
               </Grid>
               <Grid item xs={12}>
-    
-                  <TextField name="cajas" type="number" helperText="Ingresa el número de cajas a revisar en el ensayo"
-                    label="Número de cajas por tratamiento" variant="standard" inputRef={register} className={classes.textInput}/>
-    
-              </Grid>
-              <UnidadExperimental register={register} ue={unidad_experimental.value} style={classes.textInput} />
-              <Grid item xs={12} >
-                <TextField name="calibre" type="number" helperText="Ingresa el calibre de la fruta" 
-                  label="Calibre" variant="standard" inputRef={register} className={classes.textInput}/>
+                  <TextField name="replicas" type="number" helperText="Ingresa el número de réplicas por tratamiento"
+                    label="Número de réplicas por tratamiento" variant="standard" inputRef={register} className={classes.textInput}/>
               </Grid>
               <Grid item xs={12}>
                 <TextField name="comments" multiline={true} helperText="Ingresa algún comentario o instrucción" 

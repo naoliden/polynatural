@@ -1,9 +1,9 @@
 import React from "react";
-import {ciruelas, arandanos, duraznos, mandarinas, peras, limones, naranjas, paltas, manzanas} from './files/frutas';
+import {ciruelas, arandanos, nectarin, mandarinas, peras, limones, naranjas, paltas, manzanas} from './files/frutas';
 import Select from 'react-select';
 
 
-const FruitVariety = ({fruit, control, onChange}) => {
+const FruitVariety = ({fruit, onChange}) => {
   switch (fruit.value) {
     case 'manzana':
       return (
@@ -33,9 +33,9 @@ const FruitVariety = ({fruit, control, onChange}) => {
       return (
         <Select onChange={onChange} options={arandanos} placeholder={`Selecciona la variedad de ${fruit.label}`}/>
       )
-    case 'durazno':
+    case 'nectarin':
       return (
-        <Select onChange={onChange} options={duraznos} placeholder={`Selecciona la variedad de ${fruit.label}`}/>
+        <Select onChange={onChange} options={nectarin} placeholder={`Selecciona la variedad de ${fruit.label}`}/>
       )
     case 'mandarina':
       return (

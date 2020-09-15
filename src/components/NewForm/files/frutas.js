@@ -6,8 +6,8 @@ export const frutas = [
     label: 'Manzana',
   },
   {
-    value: 'durazno',
-    label: 'Durazno',
+    value: 'nectarin',
+    label: 'Nectarín',
   },
   {
     value: 'limon',
@@ -118,10 +118,10 @@ export const mandarinas = [
   },
 ]
 
-export const duraznos = [
+export const nectarin = [
   {
-    value: 'platano',
-    label: 'plátano'
+    value: '',
+    label: ''
   },
 ]
 
