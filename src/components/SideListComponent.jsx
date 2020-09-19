@@ -34,26 +34,26 @@ export const MainListItems = (props) => {
       <Divider />
       <List>
         <ListSubheader inset>Dashboard</ListSubheader>
-        <Link disabled={selected === 'dashboard'} to="/home/dashboard" style={link_style}>
+        <Link disabled={selected === 'dashboard'} to="/dashboard" style={link_style}>
           <ListItem button selected={selected === 'dashboard'} onClick={handleChange('dashboard')}>
             <ListItemIcon><DashboardIcon/></ListItemIcon>
             <ListItemText primary="Dashboard"/>
           </ListItem>
         </Link>
-        <Link disabled={selected === 'search'} to="/home/search" style={link_style}>
+        <Link disabled={selected === 'search'} to="/search" style={link_style}>
           <ListItem button selected={selected === 'search'} onClick={handleChange('search')}>
             <ListItemIcon><PageviewIcon/></ListItemIcon>
             <ListItemText primary="Buscar demo" />
           </ListItem>
         </Link>
-        <Link disabled={selected === 'newform'} to="/home/newform" style={link_style}>
+        <Link disabled={selected === 'newform'} to="/newform" style={link_style}>
           <ListItem button selected={selected === 'newform'} onClick={handleChange('newform')}>
             <ListItemIcon><AddBoxIcon/></ListItemIcon>
             <ListItemText primary="Crear nueva demo" />
           </ListItem>
         </Link>
         {haveDemo?
-        <Link disabled={selected === 'demo'} to="/home/demo" style={link_style}>
+        <Link disabled={selected === 'demo'} to="/demo" style={link_style}>
           <ListItem button selected={selected === 'demo'} onClick={handleChange('demo')}>
             <ListItemIcon><InsertChartIcon/></ListItemIcon>
             <ListItemText primary="Mi demo" />
@@ -64,13 +64,13 @@ export const MainListItems = (props) => {
       <Divider />
       <List>
         <ListSubheader inset>Otras opciones</ListSubheader>
-        <Link disabled={selected === 'clients'} to="/home/clients" style={link_style}>
+        <Link disabled={selected === 'clients'} to="/clients" style={link_style}>
           <ListItem button selected={selected === 'clients'} onClick={handleChange('clients')}>
             <ListItemIcon><SupervisedUserCircleIcon /></ListItemIcon>
             <ListItemText primary="Clientes"/>
           </ListItem>
         </Link>
-        <Link disabled={selected === 'contact'} to="/home/contact" style={link_style}>
+        <Link disabled={selected === 'contact'} to="/contact" style={link_style}>
           <ListItem button selected={selected === 'contact'} onClick={handleChange('contact')}>
           < ListItemIcon><EmailIcon/></ListItemIcon>
             <ListItemText primary="Contacto" />

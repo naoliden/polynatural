@@ -90,7 +90,7 @@ const HeaderComponent = (props) => {
             </Grid>
             <Grid item container xs={11} alignContent='flex-start' alignItems="center">
               <Grid item xs={false} sm={"auto"}>
-                <a href="/home/dashboard"><img className={classes.logo} src={logo} alt="logo" /></a>
+                <a href="/"><img className={classes.logo} src={logo} alt="logo" /></a>
               </Grid>
               <Grid item xs={"auto"} >
                 <SearchBar />

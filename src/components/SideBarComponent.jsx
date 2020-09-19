@@ -29,6 +29,10 @@ const useStyles = makeStyles((theme) => ({
       width: theme.spacing(9),
     },
   },
+  content: {
+    height: "94vh",
+    // height: "100vh",
+  }
 }))
 
 

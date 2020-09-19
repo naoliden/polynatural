@@ -103,7 +103,7 @@ export default function Login() {
               variant="contained"
               color="primary"
               className={classes.submit}
-              onClick={() => {window.location.href = "./home/dashboard"}}
+              onClick={() => {window.location.href = "/dashboard"}}
               >
               Sign In
             </Button>
