@@ -78,8 +78,9 @@ const useStyles = makeStyles((theme) => ({
   },
   rightSide: {
     flexDirection: 'row',
-    justifyContent: 'flex-start',
-    alignItems: 'space-around',
+    justifyContent: 'center',
+    // alignItems: 'space-around',
+    alignContent: 'flex-start',
     minHeight: 400,
   },
   item: {
@@ -91,13 +92,20 @@ const useStyles = makeStyles((theme) => ({
     }
   },
   textInput: {
-    minWidth: 300,
+    [theme.breakpoints.up('xs')]:{
+      minWidth: 300,
+    },
+    [theme.breakpoints.up('lg')]:{
+      minWidth: 465,
+    },
+    // witdh: '100%'
   },
   AddIcon: {
     margin: theme.spacing(2),
   },
   listItem: {
     marginTop: 15,
+    // width: 350,
   },
   mgBottom: {
     marginBottom: 10,
@@ -178,17 +186,6 @@ const NewForm = (props) => {
       }
     }
 
-    // var cantidad_ue = 0;
-    // switch (unidad_experimental.value) {
-    //   case "mallas":
-    //     cantidad_ue = data['mallas']
-    //     break
-    //   case "bandejas":
-    //     cantidad_ue = data['bandejas']
-    //     break
-    //   default:
-    //     cantidad_ue = null
-    // }
 
     const all_data = {
       fruit: selectedFruit,
@@ -200,6 +197,7 @@ const NewForm = (props) => {
       destino: data.destino,
       comentarios: data.comments,
       calibre: data.calibre,
+      lugar_ensayo: data.lugar_ensayo,
       // Fecha y tipo de cada medicion
       mediciones: data_mediciones,
       // Tipo de unidad experimental
@@ -256,6 +254,7 @@ const NewForm = (props) => {
             <Typography color="textPrimary" variant="body1">{`Medicion ${mediciones.length}`}</Typography>
           </Grid>
           <Grid item xs={12} >
+            {/* TODO que le defaultValue sea el valor definido en la fecha anterior, no siempre que sea today */}
             <TextField name={`medicion${mediciones.length}`} helperText={`Fecha de la medición ${mediciones.length}`} type="date" 
             variant="standard" defaultValue={today} className={clsx(classes.textInput, classes.datePicker)} inputRef={register}
             InputLabelProps={{
@@ -346,6 +345,10 @@ const NewForm = (props) => {
                     <FormControlLabel value="false" control={<Radio />} label="Línea de packing" />
                   </RadioGroup>
                 </FormControl>
+              </Grid>
+              <Grid item xs={12} className={classes.item}>
+                <TextField name="lugar_ensayo" helperText="Nombre del lugar donde se realiza el ensayo" variant="standard" 
+                  label="Ubicación del lugar del ensayo" placeholder="Polynatural, Dole Puerto Montt, etc ..." inputRef={register} className={classes.textInput}/>
               </Grid>
               <Grid item xs={12} className={classes.item}>
                 <Typography color="textPrimary" variant="body1">País de Origen</Typography>
