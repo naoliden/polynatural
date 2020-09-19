@@ -197,6 +197,9 @@ const NewForm = (props) => {
       destino: data.destino,
       comentarios: data.comments,
       calibre: data.calibre,
+      // Lote identificador de la fruta utilizada
+      lote: data.lote,
+      // Lugar donde se realiza el ensayo, 
       lugar_ensayo: data.lugar_ensayo,
       // Fecha y tipo de cada medicion
       mediciones: data_mediciones,
@@ -384,6 +387,10 @@ const NewForm = (props) => {
                     </Grid>
                   </React.Fragment>
                 }
+              <Grid item xs={12} className={classes.item}>
+              <TextField name="lote" helperText="Lote identificador de la fruta" variant="standard" 
+                  label="Lote" inputRef={register} className={classes.textInput}/>
+              </Grid>
               <Grid item xs={12} >
                 <Typography color="textPrimary" variant="body1">Unidad experimental</Typography>
               </Grid>
