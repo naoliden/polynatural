@@ -8,7 +8,7 @@ import NewForm from './NewForm/CreateFormComponent';
 import Dashboard from './Dashboard/DashboardComponent'
 import ContactUs from './ContactComponent';
 import PageNotFoundComponent from './404';
-
+import AdminPanel from './AdminPanel/AdminPanelComponent';
 
 const useStyles = makeStyles((theme) => ({
   appBarSpacer: theme.mixins.toolbar,
@@ -44,6 +44,7 @@ const Main = (props) => {
             <Route exact path="/search" render={(props) => <Home {...props} content=""/>}/>
             <Route exaxt path="/demo" component={ (props) => <div><h2>DEMO SELECCIONADA</h2></div>} />
             <Route exact path="/newform" render={ (props) => <NewForm {...props}/> } />
+            <Route exact path="/admin" render={ (props) => <AdminPanel {...props}/> } />
             <Route exact path="/clients" component={ (props) => <div><h2>Agregar clientes y crear usuarios</h2></div> }/>
             <Route exact path="/contact" render={ (props) => <ContactUs {...props}/> }/>
             <Route exact path="/404" component={ (props) => <PageNotFoundComponent {...props}/> } />

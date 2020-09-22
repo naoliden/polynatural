@@ -46,7 +46,7 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 
-// TODO Pasar search bar a este archivo e importar fuzzy search.
+// TODO Usar instalar libreria Fuse e implementar acá
 const SearchBar = (props) => {
   const classes = useStyles()
 

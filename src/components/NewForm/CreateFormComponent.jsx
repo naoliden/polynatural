@@ -149,10 +149,8 @@ const estados_medicion = [
   },
 ]
 
-
+// DONE Component def
 const NewForm = (props) => {
-  // TODO pasar los datos de cada input con un onChange a redux, y que se cargen en los valores 
-  // TODO por default, asi al cambiar de pestaña no se borra lo ingresado.
   const classes = useStyles();
   // Los params que necesitaban rendereo condicional no los pude rescatar con react-hook-form por lo que usé useState.
   const [selectedFruit, setFruit] = useState({value: null, label: null});
@@ -412,13 +410,13 @@ const NewForm = (props) => {
               <Grid item xs={12}>
                 <Typography>Ingresa las mediciones que se harán</Typography>
                 <Tooltip title="Agregar fecha de medicion">
-                  <Fab color="primary" className={classes.AddIcon} size='small'>
-                    <AddIcon onClick={addMediciones}/>
+                  <Fab color="primary" className={classes.AddIcon} size='small' onClick={addMediciones}>
+                    <AddIcon />
                   </Fab>
                 </Tooltip>
                 <Tooltip title="Eliminar medicion">
-                  <Fab color="secondary" className={classes.AddIcon} size='small'>
-                    <RemoveIcon onClick={removeMediciones}/>
+                  <Fab color="secondary" className={classes.AddIcon} size='small' onClick={removeMediciones}>
+                    <RemoveIcon />
                   </Fab>
                 </Tooltip>
                 <Grid item xs={12}>
@@ -431,13 +429,13 @@ const NewForm = (props) => {
               <Grid item xs={12} className={classes.listItem}>
                 <Typography>Ingresa los tratamientos a realizar</Typography>
                 <Tooltip title="Agregar tratamiento">
-                  <Fab color="primary" className={classes.AddIcon} size='small'>
-                    <AddIcon onClick={addTratamiento}/>
+                  <Fab color="primary" className={classes.AddIcon} size='small' onClick={addTratamiento}>
+                    <AddIcon />
                   </Fab>
                 </Tooltip>
                 <Tooltip title="Eliminar tratamiento">
-                  <Fab color="secondary" className={classes.AddIcon} size='small'>
-                    <RemoveIcon onClick={removeTratamiento}/>
+                  <Fab color="secondary" className={classes.AddIcon} size='small' onClick={removeTratamiento}>
+                    <RemoveIcon />
                   </Fab>
                 </Tooltip>
                 <Grid item xs={12}>

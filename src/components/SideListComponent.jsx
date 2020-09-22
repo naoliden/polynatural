@@ -10,6 +10,7 @@ import DashboardIcon from '@material-ui/icons/Dashboard';
 import EmailIcon from '@material-ui/icons/Email';
 import InsertChartIcon from '@material-ui/icons/InsertChart';
 import PageviewIcon from '@material-ui/icons/Pageview';
+import SettingsIcon from '@material-ui/icons/Settings';
 import SupervisedUserCircleIcon from '@material-ui/icons/SupervisedUserCircle';
 import AddBoxIcon from '@material-ui/icons/AddBox';
 
@@ -64,6 +65,12 @@ export const MainListItems = (props) => {
       <Divider />
       <List>
         <ListSubheader inset>Otras opciones</ListSubheader>
+        <Link disabled={selected === 'admin'} to="/admin" style={link_style}>
+          <ListItem button selected={selected === 'admin'} onClick={handleChange('admin')}>
+            <ListItemIcon><SettingsIcon /></ListItemIcon>
+            <ListItemText primary="Panel Admin"/>
+          </ListItem>
+        </Link>
         <Link disabled={selected === 'clients'} to="/clients" style={link_style}>
           <ListItem button selected={selected === 'clients'} onClick={handleChange('clients')}>
             <ListItemIcon><SupervisedUserCircleIcon /></ListItemIcon>
