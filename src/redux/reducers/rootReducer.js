@@ -2,7 +2,6 @@
 
 const default_state = {
   today: new Date(),
-  server_URL: 'localhost:5000',
 };
 
 

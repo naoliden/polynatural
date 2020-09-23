@@ -13,24 +13,23 @@ export const initialState = {
 export const clientsReducer = (state = initialState, action) => {
   switch (action.type) {
     case FETCH_CLIENTS_BEGIN:
-      console.log("INSIDE REDUCER")
       return {
         ...state,
         loading: true,
         error: null,
       };
     case FETCH_CLIENTS_SUCCESS:
-      return {
+        return {
         ...state,
         loading: false,
-        clients: action.payload.clients,
+        clients: action.payload,
       };
     case FETCH_CLIENTS_FAILURE:
       return {
         ...state,
         loading: false,
         error: action.payload.error,
-        clients: [],
+        clients: initialState.clients,
       };
     default:
       return state;

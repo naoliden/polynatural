@@ -11,7 +11,7 @@ import AddModal from './AddModal';
 import { connect } from 'react-redux';
 import LoadingSpinner from "../LoadingComponent";
 import { fetchClients } from "../../redux/actions/ClientActions";
-
+import { baseURL } from "../../shared/constants";
 
 const useStyles = makeStyles((theme) => ({
   icon: {
@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const ClientList = ({clients}) => {
-  
+
   if(clients.loading){
     return <LoadingSpinner color='primary' text="Cargando clientes" />
   }
@@ -39,23 +39,23 @@ const ClientList = ({clients}) => {
   } else {
 
     const client_list = []
-    clients.map( client => {
+    clients.clients.map( client => {
       client_list.push(
-        <ClientListItem key={client.client_id} client={client.name} />
+        <ClientListItem key={client.client_id} client={client} />
       )
     })
     return client_list
   }
 }
 
-const Clients = ({fetchClients, base_url, clients}) => {
+const Clients = ({fetchClients, clients}) => {
   const classes = useStyles();
   const [addModal, setAddModal] = useState(false);
 
 
   useEffect(() => {
-    fetchClients(base_url);
-  }, [fetchClients, base_url])
+    fetchClients(baseURL);
+  }, [fetchClients])
 
 
   return (
@@ -66,7 +66,7 @@ const Clients = ({fetchClients, base_url, clients}) => {
           </Typography>
           <div className={classes.item}>
             <List dense={true}>
-             <ClientList clients={clients.clients}/>
+             <ClientList clients={clients}/>
             </List>
           </div>
         </Grid>
@@ -85,7 +85,6 @@ const Clients = ({fetchClients, base_url, clients}) => {
 const MapStateToProps = gs => {
   return {
     clients: gs.clients,
-    base_url: gs.root.server_URL,
   }
 }
 

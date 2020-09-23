@@ -2,7 +2,8 @@ import React, {useEffect, useState} from 'react';
 import LoadingComponent from './LoadingComponent';
 import Button from '@material-ui/core/Button';
 import { connect } from 'react-redux';
-
+import { baseURL } from '../shared/constants';
+// import fetch from 'cross-fetch';
 
 const MapStateToProps = (global_state) => {
   return {
@@ -24,8 +25,21 @@ const MapStateToProps = (global_state) => {
 const Home = ({content, form_data}) => {
   const [loading, setLoading] = useState(true);
 
-  useEffect( ()=>{
-    setTimeout( () => { setLoading(false) }, 2000)
+  // useEffect( ()=>{
+  //   setTimeout( () => { setLoading(false) }, 2000)
+  // }, [])
+
+  useEffect( () => {
+    const f = async () =>{
+      try {
+        const hola = await fetch(baseURL + 'clients');
+        const res = await hola.json();
+        console.log(res);
+      } catch (error) {
+        console.error(error)
+      }
+    }
+    f();
   }, [])
 
   if(loading){

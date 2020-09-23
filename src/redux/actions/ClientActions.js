@@ -26,16 +26,15 @@ export const fetchClients = (url) => {
     dispatch(fetchClientsBegin());
 
     try {
-      const response = await fetch(`${url}/clients`);
-      // returns a list of client objects
-      
-      if (response.status >= 400) {
+      let response = await fetch(url + "clients", {method: "GET"});
+      if(response.status === 200){
+        // returns a list of client objects
+      }
+      else if (response.status >= 400) {
         throw new Error("Error del servidor");
       }      
       
-      const clients = await response.json();
-      console.log("INSIDE FETCH");
-      console.log(clients);
+      let clients = await response.json();
       
       dispatch(fetchClientsSuccess(clients));
       
