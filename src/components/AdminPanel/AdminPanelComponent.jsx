@@ -7,7 +7,7 @@ import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import { makeStyles } from "@material-ui/core/styles";
 import { useForm } from "react-hook-form";
-import Clients from './AddClientComponent';
+import Clients from './ClientListComponent';
 
 
 const useStyles = makeStyles( theme => ({

@@ -1,7 +1,9 @@
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import { createFormReducer } from './reducers/createFormReducer';
-import { testReducer } from './reducers/testReducer';
+import { rootReducer } from './reducers/rootReducer';
+import { clientsReducer } from './reducers/clientsReducer';
 import logger from 'redux-logger';
+import thunk from 'redux-thunk';
 
 // redux-thunk allows ActionCreators to return a function that returns a function that returns an action. 
 // sounds bad but action creators are given to dispatch() to throw actions. In this case, I can run a function in between dispatch
@@ -14,9 +16,10 @@ export const ConfigureStore = () => {
   const store = createStore(
       combineReducers({
           form_data: createFormReducer,
-          test: testReducer,
+          clients: clientsReducer,
+          root: rootReducer,
       }), 
-      applyMiddleware(logger)
+      applyMiddleware(thunk, logger)
   );
 
   return store;

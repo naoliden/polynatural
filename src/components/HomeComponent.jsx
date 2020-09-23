@@ -2,7 +2,6 @@ import React, {useEffect, useState} from 'react';
 import LoadingComponent from './LoadingComponent';
 import Button from '@material-ui/core/Button';
 import { connect } from 'react-redux';
-import { addClient } from '../redux/actions/ActionCreator';
 
 
 const MapStateToProps = (global_state) => {
@@ -13,13 +12,13 @@ const MapStateToProps = (global_state) => {
 }
 
 
-const MapDispatchToProps = (dispatch) => {
-  // Misma logica. Dentro del componente accedo a la funcion como props.addClient y a esta funcion se le asigna la 
-  // funcion dispatch(addClient()) \ El lado izquierdo es un mapeo a lo del derecho (que importo desde fuera y ejecuto con dispatch)
-  return( {
-    addClient: (client_name) => dispatch(addClient(client_name)),
-  })
-}
+// const MapDispatchToProps = (dispatch) => {
+//   // Misma logica. Dentro del componente accedo a la funcion como props.addClient y a esta funcion se le asigna la 
+//   // funcion dispatch(addClient()) \ El lado izquierdo es un mapeo a lo del derecho (que importo desde fuera y ejecuto con dispatch)
+//   return( {
+//     addClient: (client_name) => dispatch(addClient(client_name)),
+//   })
+// }
 
 
 const Home = ({content, form_data}) => {
@@ -45,4 +44,4 @@ const Home = ({content, form_data}) => {
   }
 }
 
-export default connect(MapStateToProps, MapDispatchToProps)(Home);
+export default connect(MapStateToProps)(Home);

@@ -20,7 +20,7 @@ const LoadingSpinner = ({color, text}) => {
   // color: primary, secondary, 
   return (
     <div className={classes.root}>
-      <div class='col-12'>
+      <div className='col-12'>
         <CircularProgress color={color} />
       </div>
       <Typography color={color} variant="h6">{text}</Typography>

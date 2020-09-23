@@ -38,7 +38,7 @@ const ClientListItem = ({client}) => {
 
   return (
     <Fragment>
-      <ListItem key={client.id}>
+      <ListItem >
         <ListItemAvatar>
           <Avatar>
             <SupervisedUserCircleIcon />
@@ -46,11 +46,11 @@ const ClientListItem = ({client}) => {
         </ListItemAvatar>
         <ListItemText primary={`${client.name}`}/>
         <ListItemSecondaryAction>
-          <IconButton edge="start" aria-label="edit">
-            <EditIcon type="button" className={classes.icon} name={client.id} onClick={handleEdit}/>
+          <IconButton edge="start" aria-label="edit" onClick={handleEdit}>
+            <EditIcon type="button" className={classes.icon} name={client.id} />
           </IconButton>
-          <IconButton edge="end" aria-label="delete" >
-            <DeleteIcon type="button" className={classes.icon} name={client.id} onClick={handleDelete}/>
+          <IconButton edge="end" aria-label="delete" onClick={handleDelete}>
+            <DeleteIcon type="button" className={classes.icon} name={client.id} />
           </IconButton>
         </ListItemSecondaryAction>
       </ListItem>

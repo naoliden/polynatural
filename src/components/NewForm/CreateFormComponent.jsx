@@ -17,7 +17,7 @@ import { useForm, Controller } from 'react-hook-form';
 import { countries } from './files/countries_es';
 import { frutas } from './files/frutas';
 import FruitVariety from './SelectVarietyComponent';
-import { addForm } from '../../redux/actions/ActionCreator'
+
 
 
 const useStyles = makeStyles((theme) => ({
@@ -471,11 +471,6 @@ const MapStateToProps = (global_state) => {
   }
 }
 
-const MapDispatchToProps = (dispatch) => {
-  return( {
-    addForm: (all_data) => dispatch(addForm(all_data)),
-  })
-}
 
 
-export default connect(MapStateToProps, MapDispatchToProps)(NewForm);
+export default connect(MapStateToProps)(NewForm);
