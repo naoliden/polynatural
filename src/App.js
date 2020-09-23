@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
 import { Provider } from "react-redux";
-import Login from "./components/LoginComponent";
+import LoginComponent from "./components/LoginComponent";
 import Main from "./components/MainComponent";
 import { ConfigureStore } from "./redux/store";
 
 const store = ConfigureStore();
 
 function App() {
-  const [isAuthenticated, setAuthenticated] = useState(true);
+  const [isAuthenticated, setAuthenticated] = useState(false);
 
   return (
     <Provider store={store}>
@@ -18,7 +18,7 @@ function App() {
             exact
             path="/login"
             render={(props) =>
-              isAuthenticated ? <Redirect to="/" /> :  <Login {...props} />
+              isAuthenticated ? <Redirect to="/" /> :  <LoginComponent {...props} />
             }
           />
           <Route

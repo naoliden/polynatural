@@ -26,11 +26,13 @@ export const fetchClients = (url) => {
     dispatch(fetchClientsBegin());
 
     try {
-      let response = await fetch(url + "clients", {method: "GET"});
-      if(response.status === 200){
-        // returns a list of client objects
-      }
-      else if (response.status >= 400) {
+      let response = await fetch(url + "clients", { method: "GET" });
+
+      if (response.status >= 400 && response.status < 500) {
+        throw new Error("Error del cliente");
+      
+      } else if (response.status >= 500) 
+      {
         throw new Error("Error del servidor");
       }      
       
@@ -39,8 +41,9 @@ export const fetchClients = (url) => {
       dispatch(fetchClientsSuccess(clients));
       
     } catch (err) {
-      dispatch(fetchClientsFailure(err));
-      console.error(err);
+      dispatch(fetchClientsFailure(err.message));
+
+      console.error(err.message);
     }
   }
 }

@@ -9,9 +9,10 @@ import Fab from '@material-ui/core/Fab'
 import AddIcon from '@material-ui/icons/Add';
 import AddModal from './AddModal';
 import { connect } from 'react-redux';
-import LoadingSpinner from "../LoadingComponent";
-import { fetchClients } from "../../redux/actions/ClientActions";
-import { baseURL } from "../../shared/constants";
+import LoadingSpinner from "../../LoadingComponent";
+import { fetchClients } from "../../../redux/actions/ClientActions";
+import { baseURL } from "../../../shared/constants";
+
 
 const useStyles = makeStyles((theme) => ({
   icon: {
@@ -34,7 +35,7 @@ const ClientList = ({clients}) => {
     return <LoadingSpinner color='primary' text="Cargando clientes" />
   }
   else if(clients.error){
-    return <Typography variant="h5" color="error"> 500 | Error de conexión</Typography>
+    return <Typography variant="h5" color="error">  500 | {clients.error}</Typography>
 
   } else {
 
@@ -43,8 +44,10 @@ const ClientList = ({clients}) => {
       client_list.push(
         <ClientListItem key={client.client_id} client={client} />
       )
+      // retorna true porque la arrow function debe retornar ALGO. Pero no se usa para nada.
+      return true;
     })
-    return client_list
+    return client_list;
   }
 }
 

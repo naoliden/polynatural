@@ -14,9 +14,9 @@ import Select from 'react-select';
 import Divider from '@material-ui/core/Divider'
 import { connect } from 'react-redux';
 import { useForm, Controller } from 'react-hook-form';
+import FruitVariety from './SelectVarietyComponent';
 import { countries } from './files/countries_es';
 import { frutas } from './files/frutas';
-import FruitVariety from './SelectVarietyComponent';
 
 
 

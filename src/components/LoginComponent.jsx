@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+import logo from '../shared/logo.png';
 import { Link } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -11,8 +12,7 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Copyright from './CopyrightComponent';
-import logo from '../shared/logo.png';
-
+import { connect } from 'react-redux';
 
 // const randomBackground = (previous) =>{
 //   const arr = ['../shared/login/manzanas.jpg', '../shared/login/frutas.jpg', '../shared/login/limones.jpg']
@@ -56,8 +56,32 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Login() {
+const LoginComponent = (props) => {
   const classes = useStyles();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [checked, setChecked] = useState(false);
+
+  const handleSubmit = async e => {
+    e.preventDefault();
+    try {
+      console.log({email, password, checked})
+    } catch (err) {
+      
+    }
+  }
+
+  const handleChangeEmail = e => {
+    setEmail(e.target.value);
+  }
+
+  const handleChangePassword = e => {
+    setPassword(e.target.value);
+  }
+
+  const handleChangeChecked = e => {
+    setChecked(e.target.checked);
+  }
 
   return (
     <Grid container component="main" className={classes.root}>
@@ -69,7 +93,7 @@ export default function Login() {
           <Typography component="h1" variant="h5">
             Sign in
           </Typography>
-          <form className={classes.form} noValidate>
+          <form className={classes.form} onSubmit={handleSubmit}>
             <TextField
               variant="outlined"
               margin="normal"
@@ -79,6 +103,8 @@ export default function Login() {
               label="Email Address"
               name="email"
               autoComplete="email"
+              value={email}
+              onChange={handleChangeEmail}
               autoFocus
             />
             <TextField
@@ -90,24 +116,29 @@ export default function Login() {
               label="Password"
               type="password"
               id="password"
+              value={password}
+              onChange={handleChangePassword}
               autoComplete="current-password"
             />
             <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
+              control={
+                <Checkbox color="primary" 
+                onChange={handleChangeChecked}
+                checked={checked}/>
+              }
               label="Remember me"
             />
-            <Link to="/default">
+
             <Button
-              // type="submit"
+              type="submit"
               fullWidth
               variant="contained"
               color="primary"
               className={classes.submit}
-              onClick={() => {window.location.href = "/dashboard"}}
+              // onClick={() => {window.location.href = "/dashboard"}}
               >
               Sign In
             </Button>
-            </Link>
             <Box mt={5}>
               <Copyright />
             </Box>
@@ -117,3 +148,18 @@ export default function Login() {
     </Grid>
   );
 }
+
+const MapStateToProps = gstate => {
+  return {
+    user: gstate.login
+  }
+}
+
+// const MapDispatchToProps = dispatch => {
+//   return {
+//     Login: (email, password, checked) => dispatch(Login(email, password, checked))
+//   }
+// }
+
+// export default connect(MapStateToProps, MapDispatchToProps)(LoginComponent);
+export default connect(MapStateToProps)(LoginComponent);

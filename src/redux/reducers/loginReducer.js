@@ -1,35 +1,35 @@
 import {
-  FETCH_CLIENTS_BEGIN,
-  FETCH_CLIENTS_SUCCESS,
-  FETCH_CLIENTS_FAILURE,
-} from "../actions/ClientActions";
+  FETCH_LOGIN_BEGIN,
+  FETCH_LOGIN_SUCCESS,
+  FETCH_LOGIN_FAILURE,
+} from "../actions/LoginActions";
 
 export const initialState = {
   loading: false,
   error: null,
-  clients: [{ client_id: 0, name: "LOADING..." }],
+  user: { user_id: 0, firstname: "LOADING..." },
 };
 
-export const clientsReducer = (state = initialState, action) => {
+export const loginReducer = (state = initialState, action) => {
   switch (action.type) {
-    case FETCH_CLIENTS_BEGIN:
+    case FETCH_LOGIN_BEGIN:
       return {
         ...state,
         loading: true,
         error: null,
       };
-    case FETCH_CLIENTS_SUCCESS:
+    case FETCH_LOGIN_SUCCESS:
         return {
         ...state,
         loading: false,
-        clients: action.payload,
+        user: action.payload,
       };
-    case FETCH_CLIENTS_FAILURE:
+    case FETCH_LOGIN_FAILURE:
       return {
         ...state,
         loading: false,
         error: action.payload.error,
-        clients: [],
+        user: {},
       };
     default:
       return state;

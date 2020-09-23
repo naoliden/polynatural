@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, { useState } from "react";
 import Grid from "@material-ui/core/Grid";
 import Accordion from "@material-ui/core/Accordion";
 import AccordionDetails from "@material-ui/core/AccordionDetails";
@@ -7,7 +7,7 @@ import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import { makeStyles } from "@material-ui/core/styles";
 import { useForm } from "react-hook-form";
-import Clients from './ClientListComponent';
+import Clients from './Clients/ClientListComponent';
 
 
 const useStyles = makeStyles( theme => ({
@@ -71,7 +71,7 @@ const AdminPanel = (props) => {
           </AccordionDetails>
         </Accordion>
 
-        {/*  TODO seccion opciones nuevo cliente*/}
+        {/*  DONE seccion opciones nuevo cliente*/}
         <Accordion
           expanded={expanded === "panel2"}
           onChange={handleChange("panel2")}
