@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import logo from '../shared/logo.png';
-import { Link } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
@@ -13,6 +12,9 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Copyright from './CopyrightComponent';
 import { connect } from 'react-redux';
+import { Login } from '../redux/actions/LoginActions';
+import { baseURL } from '../shared/constants';
+
 
 // const randomBackground = (previous) =>{
 //   const arr = ['../shared/login/manzanas.jpg', '../shared/login/frutas.jpg', '../shared/login/limones.jpg']
@@ -60,15 +62,46 @@ const LoginComponent = (props) => {
   const classes = useStyles();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [formSent, setFormSent] = useState(false)
   const [checked, setChecked] = useState(false);
 
   const handleSubmit = async e => {
     e.preventDefault();
+
     try {
-      console.log({email, password, checked})
-    } catch (err) {
+      const response = await fetch( baseURL + '/auth/login', {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({email, password}),
+      });
+
+      if (response.status === 403)
+      {
+        throw new Error("Wrong password");
+      } 
+      else if(response.status === 400)
+      {
+        throw new Error("Wrong email");
+      }
+      else if(response.status > 400){
+        throw new Error("Server Error");
+      }
       
+      const user = await response.json();
+
+      props.login(user);
+      // login, guardo el usuario y token en redux
+      localStorage.setItem('token', user.token);
+
+      if(checked){
+        localStorage.setItem('email', email);
+      }
+
+    } catch (err) {
+      setFormSent(true);
     }
+
+
   }
 
   const handleChangeEmail = e => {
@@ -95,6 +128,8 @@ const LoginComponent = (props) => {
           </Typography>
           <form className={classes.form} onSubmit={handleSubmit}>
             <TextField
+              error={formSent}
+              helperText={ formSent && "Correo o contraseña incorrectos"}
               variant="outlined"
               margin="normal"
               required
@@ -108,6 +143,8 @@ const LoginComponent = (props) => {
               autoFocus
             />
             <TextField
+              error={formSent}
+              helperText={ formSent && "Correo o contraseña incorrectos"}
               variant="outlined"
               margin="normal"
               required
@@ -155,11 +192,10 @@ const MapStateToProps = gstate => {
   }
 }
 
-// const MapDispatchToProps = dispatch => {
-//   return {
-//     Login: (email, password, checked) => dispatch(Login(email, password, checked))
-//   }
-// }
+const MapDispatchToProps = dispatch => {
+  return {
+    login: (user) => dispatch(Login(user))
+  }
+}
 
-// export default connect(MapStateToProps, MapDispatchToProps)(LoginComponent);
-export default connect(MapStateToProps)(LoginComponent);
+export default connect(MapStateToProps, MapDispatchToProps)(LoginComponent);

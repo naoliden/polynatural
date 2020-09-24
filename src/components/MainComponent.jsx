@@ -40,7 +40,7 @@ const Main = (props) => {
           <Switch>
             {/* <Route render={}/> no ejecuta lifecycle methods, en cambio
                 component={} re-renderea el componente */}
-            <Route exact path="/dashboard" render={(props) => <Dashboard {...props} />} />
+            <Route exact path="/" render={(props) => <Dashboard {...props} />} />
             <Route exact path="/search" render={(props) => <Home {...props} content=""/>}/>
             <Route exaxt path="/demo" component={ (props) => <div><h2>DEMO SELECCIONADA</h2></div>} />
             <Route exact path="/newform" render={ (props) => <NewForm {...props}/> } />

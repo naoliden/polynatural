@@ -72,7 +72,7 @@ const HeaderComponent = (props) => {
 
 
   return (
-    <>
+    <React.Fragment>
       <CssBaseline />
       <AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)}>
         <Toolbar className={classes.toolbar}>
@@ -94,7 +94,6 @@ const HeaderComponent = (props) => {
               </Grid>
               <Grid item xs={"auto"} >
                 <SearchBar />
-
               </Grid>
             </Grid>
           </Grid>
@@ -102,7 +101,7 @@ const HeaderComponent = (props) => {
         </Toolbar>
       </AppBar>
       <SideBar open={open} toggleSideBar={toggleSideBar}/>
-    </>
+    </React.Fragment>
   );
 }
 

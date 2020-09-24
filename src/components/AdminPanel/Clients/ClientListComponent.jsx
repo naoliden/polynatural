@@ -11,7 +11,6 @@ import AddModal from './AddModal';
 import { connect } from 'react-redux';
 import LoadingSpinner from "../../LoadingComponent";
 import { fetchClients } from "../../../redux/actions/ClientActions";
-import { baseURL } from "../../../shared/constants";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -55,9 +54,9 @@ const Clients = ({fetchClients, clients}) => {
   const classes = useStyles();
   const [addModal, setAddModal] = useState(false);
 
-
+  // TODO use fetch without redux. Not really necessary. Use fetch and save values with useMemo and save in a state var.
   useEffect(() => {
-    fetchClients(baseURL);
+    fetchClients();
   }, [fetchClients])
 
 

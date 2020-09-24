@@ -1,10 +1,11 @@
 import React from 'react';
 import { makeStyles, fade } from '@material-ui/core/styles';
-import { Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import IconButton from '@material-ui/core/IconButton';
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
 import AccountCircle from "@material-ui/icons/AccountCircle";
+
 
 
 const useStyles = makeStyles((theme) => ({
@@ -31,11 +32,11 @@ const useStyles = makeStyles((theme) => ({
   })
 );
 
-export default function ProfileButton() {
+const ProfileButton = (props) => {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const isMenuOpen = Boolean(anchorEl);
-
+  let history = useHistory();
 
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -47,7 +48,14 @@ export default function ProfileButton() {
   };
 
 
-  const menuId = "primary-search-account-menu";
+  const handleLogout = () => {
+    setAnchorEl(null);
+    
+    history.push("/")
+  };
+
+
+  const menuId = "primary-account-menu";
   const renderMenu = (
     <Menu
       anchorEl={anchorEl}
@@ -59,10 +67,7 @@ export default function ProfileButton() {
       onClose={handleMenuClose}
       className={classes.text}
     >
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-      <Link to="/" style={{ color: 'inherit', textDecoration: 'inherit'}} >
-        <MenuItem onClick={handleMenuClose}>Log out</MenuItem>
-      </Link>
+      <MenuItem onClick={handleLogout}>Log out</MenuItem>
     </Menu>
   );
 
@@ -86,3 +91,5 @@ export default function ProfileButton() {
     </>
   );
 }
+
+export default ProfileButton;

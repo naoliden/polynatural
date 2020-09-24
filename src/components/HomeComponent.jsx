@@ -32,7 +32,7 @@ const Home = ({content, form_data}) => {
   useEffect( () => {
     const f = async () =>{
       try {
-        const hola = await fetch(baseURL + 'clients');
+        const hola = await fetch(baseURL + '/clients');
         const res = await hola.json();
         console.log(res);
       } catch (error) {

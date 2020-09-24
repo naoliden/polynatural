@@ -1,35 +1,23 @@
-import {
-  FETCH_LOGIN_BEGIN,
-  FETCH_LOGIN_SUCCESS,
-  FETCH_LOGIN_FAILURE,
-} from "../actions/LoginActions";
+import { LOGIN, LOGOUT } from "../actions/LoginActions";
+
 
 export const initialState = {
-  loading: false,
   error: null,
-  user: { user_id: 0, firstname: "LOADING..." },
+  user: null,
 };
+
 
 export const loginReducer = (state = initialState, action) => {
   switch (action.type) {
-    case FETCH_LOGIN_BEGIN:
+    case LOGIN:
       return {
         ...state,
-        loading: true,
-        error: null,
-      };
-    case FETCH_LOGIN_SUCCESS:
-        return {
-        ...state,
-        loading: false,
         user: action.payload,
       };
-    case FETCH_LOGIN_FAILURE:
+    case LOGOUT:
       return {
         ...state,
-        loading: false,
-        error: action.payload.error,
-        user: {},
+        user: null,
       };
     default:
       return state;

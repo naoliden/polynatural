@@ -1,36 +1,37 @@
-import React, { useState } from "react";
+import React from "react";
 import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
-import { Provider } from "react-redux";
 import LoginComponent from "./components/LoginComponent";
 import Main from "./components/MainComponent";
-import { ConfigureStore } from "./redux/store";
+import { connect } from 'react-redux';
 
-const store = ConfigureStore();
 
-function App() {
-  const [isAuthenticated, setAuthenticated] = useState(false);
-
+const App = ({ user }) => {
   return (
-    <Provider store={store}>
-      <BrowserRouter>
-        <Switch>
-          <Route
-            exact
-            path="/login"
-            render={(props) =>
-              isAuthenticated ? <Redirect to="/" /> :  <LoginComponent {...props} />
-            }
-          />
-          <Route
-            path="/"
-            render={(props) =>
-              isAuthenticated ? <Main {...props} /> : <Redirect to="/login" />
-            }
-          />
-        </Switch>
-      </BrowserRouter>
-    </Provider>
+    <BrowserRouter>
+      <Switch>
+        <Route
+          exact
+          path="/login"
+          render={(props) =>
+            user? <Redirect to="/" /> :  <LoginComponent {...props} />
+          }
+        />
+        <Route
+          path="/"
+          render={(props) =>
+            user? <Main {...props} /> : <Redirect to="/login" />
+          }
+        />
+      </Switch>
+    </BrowserRouter>
   );
 }
 
-export default App;
+const MapStateToProps = gstate => {
+  return {
+    user: gstate.login.user
+  }
+}
+
+
+export default connect(MapStateToProps)(App);

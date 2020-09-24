@@ -1,4 +1,5 @@
 import fetch from 'cross-fetch';
+import { baseURL } from '../../shared/constants'
 
 export const FETCH_CLIENTS_BEGIN   = 'FETCH_CLIENTS_BEGIN';
 export const FETCH_CLIENTS_SUCCESS = 'FETCH_CLIENTS_SUCCESS';
@@ -20,13 +21,13 @@ export const fetchClientsFailure = (error) => ({
 });
 
 // Accion que en vez de retornar un objeto, retorna una funcion (thunk)
-export const fetchClients = (url) => {
+export const fetchClients = () => {
   return async (dispatch) => {
 
     dispatch(fetchClientsBegin());
 
     try {
-      let response = await fetch(url + "clients", { method: "GET" });
+      let response = await fetch(baseURL + "/clients", { method: "GET" });
 
       if (response.status >= 400 && response.status < 500) {
         throw new Error("Error del cliente");
