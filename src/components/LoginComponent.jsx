@@ -1,5 +1,5 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import logo from '../shared/logo.png';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
@@ -11,7 +11,15 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Copyright from './CopyrightComponent';
-import logo from '../shared/logo.png';
+import { connect } from 'react-redux';
+import { Login } from '../redux/actions/LoginActions';
+import { baseURL } from '../shared/constants';
+
+
+// const randomBackground = (previous) =>{
+//   const arr = ['../shared/login/manzanas.jpg', '../shared/login/frutas.jpg', '../shared/login/limones.jpg']
+//   return arr[Math.floor(Math.random() * arr.length)]
+// }
 
 
 const useStyles = makeStyles((theme) => ({
@@ -50,8 +58,63 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Login() {
+const LoginComponent = (props) => {
   const classes = useStyles();
+  const [email, setEmail] = useState(localStorage.email);
+  const [password, setPassword] = useState("");
+  const [formSent, setFormSent] = useState(false)
+  const [checked, setChecked] = useState(false);
+
+  const handleSubmit = async e => {
+    e.preventDefault();
+
+    try {
+      const response = await fetch( baseURL + '/auth/login', {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({email, password}),
+      });
+
+      if (response.status === 403)
+      {
+        throw new Error("Wrong password");
+      } 
+      else if(response.status === 400)
+      {
+        throw new Error("Wrong email");
+      }
+      else if(response.status > 400){
+        throw new Error("Server Error");
+      }
+      
+      const user = await response.json();
+
+      props.login(user);
+      // login, guardo el usuario y token en redux
+      localStorage.setItem('token', user.token);
+
+      if(checked){
+        localStorage.setItem('email', email);
+      }
+
+    } catch (err) {
+      setFormSent(true);
+    }
+
+
+  }
+
+  const handleChangeEmail = e => {
+    setEmail(e.target.value);
+  }
+
+  const handleChangePassword = e => {
+    setPassword(e.target.value);
+  }
+
+  const handleChangeChecked = e => {
+    setChecked(e.target.checked);
+  }
 
   return (
     <Grid container component="main" className={classes.root}>
@@ -63,8 +126,10 @@ export default function Login() {
           <Typography component="h1" variant="h5">
             Sign in
           </Typography>
-          <form className={classes.form} noValidate>
+          <form className={classes.form} onSubmit={handleSubmit}>
             <TextField
+              error={formSent}
+              helperText={ formSent && "Correo o contraseña incorrectos"}
               variant="outlined"
               margin="normal"
               required
@@ -73,9 +138,13 @@ export default function Login() {
               label="Email Address"
               name="email"
               autoComplete="email"
+              value={email}
+              onChange={handleChangeEmail}
               autoFocus
             />
             <TextField
+              error={formSent}
+              helperText={ formSent && "Correo o contraseña incorrectos"}
               variant="outlined"
               margin="normal"
               required
@@ -84,24 +153,29 @@ export default function Login() {
               label="Password"
               type="password"
               id="password"
+              value={password}
+              onChange={handleChangePassword}
               autoComplete="current-password"
             />
             <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
+              control={
+                <Checkbox color="primary" 
+                onChange={handleChangeChecked}
+                checked={checked}/>
+              }
               label="Remember me"
             />
-            <Link to="/home">
+
             <Button
-              // type="submit"
+              type="submit"
               fullWidth
               variant="contained"
               color="primary"
               className={classes.submit}
-              onClick={() => {window.location.href = "./home"}}
+              // onClick={() => {window.location.href = "/dashboard"}}
               >
               Sign In
             </Button>
-            </Link>
             <Box mt={5}>
               <Copyright />
             </Box>
@@ -111,3 +185,17 @@ export default function Login() {
     </Grid>
   );
 }
+
+const MapStateToProps = gstate => {
+  return {
+    user: gstate.login
+  }
+}
+
+const MapDispatchToProps = dispatch => {
+  return {
+    login: (user) => dispatch(Login(user))
+  }
+}
+
+export default connect(MapStateToProps, MapDispatchToProps)(LoginComponent);

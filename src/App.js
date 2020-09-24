@@ -1,21 +1,37 @@
-import React from 'react';
-import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
-import Login from './components/LoginComponent';
-import Main from './components/MainComponent';
+import React from "react";
+import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
+import LoginComponent from "./components/LoginComponent";
+import Main from "./components/MainComponent";
+import { connect } from 'react-redux';
 
 
-function App() {
-
+const App = ({ user }) => {
   return (
-    // <div className="App">
     <BrowserRouter>
       <Switch>
-        <Route exact path="/" component={Login}/>
-        <Route exact path="/home" component={() => <Main/>}/>
+        <Route
+          exact
+          path="/login"
+          render={(props) =>
+            user? <Redirect to="/" /> :  <LoginComponent {...props} />
+          }
+        />
+        <Route
+          path="/"
+          render={(props) =>
+            user? <Main {...props} /> : <Redirect to="/login" />
+          }
+        />
       </Switch>
     </BrowserRouter>
-    // </div>
   );
 }
 
-export default App;
+const MapStateToProps = gstate => {
+  return {
+    user: gstate.login.user
+  }
+}
+
+
+export default connect(MapStateToProps)(App);
