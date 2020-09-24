@@ -60,7 +60,7 @@ const useStyles = makeStyles((theme) => ({
 
 const LoginComponent = (props) => {
   const classes = useStyles();
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState(localStorage.email);
   const [password, setPassword] = useState("");
   const [formSent, setFormSent] = useState(false)
   const [checked, setChecked] = useState(false);

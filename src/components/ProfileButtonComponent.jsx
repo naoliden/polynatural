@@ -5,7 +5,8 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
 import AccountCircle from "@material-ui/icons/AccountCircle";
-
+import { connect } from 'react-redux';
+import { Logout } from '../redux/actions/LoginActions'
 
 
 const useStyles = makeStyles((theme) => ({
@@ -50,8 +51,10 @@ const ProfileButton = (props) => {
 
   const handleLogout = () => {
     setAnchorEl(null);
-    
-    history.push("/")
+    localStorage.removeItem("token");
+    props.logout();
+    history.push("/");
+    // TODO solo remover el token debería hacerme logout. No es necesario history.push
   };
 
 
@@ -92,4 +95,18 @@ const ProfileButton = (props) => {
   );
 }
 
-export default ProfileButton;
+
+const MapStateToProps = gstate => {
+  return {
+    user: gstate.login.user
+  }
+}
+
+const MapDispatchToProps = dispatch => {
+  return {
+    logout: () => dispatch(Logout())
+  }
+}
+
+
+export default connect(MapStateToProps, MapDispatchToProps)(ProfileButton);
