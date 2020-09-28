@@ -81,7 +81,9 @@ const AdminPanel = (props) => {
             aria-controls="panel2bh-content"
             id="panel2bh-header"
           >
-            <Typography className={classes.heading}>Clientes</Typography>
+            <Typography className={classes.heading}>
+              Clientes
+              </Typography>
             <Typography className={classes.secondaryHeading}>
               Agregar, eliminar o editar clientes
             </Typography>

@@ -16,24 +16,20 @@ import { Login } from '../redux/actions/LoginActions';
 import { baseURL } from '../shared/constants';
 
 
-// const randomBackground = (previous) =>{
-//   const arr = ['../shared/login/manzanas.jpg', '../shared/login/frutas.jpg', '../shared/login/limones.jpg']
-//   return arr[Math.floor(Math.random() * arr.length)]
-// }
+const randomBackground = () =>{
+  const arr = ['manzanas.jpg', 'frutas.jpg', 'limones.jpg']
+  return arr[Math.floor(Math.random() * arr.length)]
+}
 
+const frutas = randomBackground()
 
 const useStyles = makeStyles((theme) => ({
   root: {
     height: '100vh',
   },
   image: {
-    // TODO En el servidor usar un URL como este que de me una imagen random. 
-    // Crear endpoint en el server-side.
-    // backgroundImage: 'url(https://url-privada?-servidor-polynatural/random)',
-    // backgroundImage: 'url(../public/assets/manzanas.jpg)',
-    backgroundImage: `url(${require('../shared/login/manzanas.jpg')})`,
-    // TODO luego descomentar esto.
-    // backgroundRepeat: 'no-repeat',
+    backgroundImage: `url(${require('../shared/login/' + frutas)})`,
+    backgroundRepeat: 'no-repeat',
     backgroundColor:
       theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[900],
     backgroundSize: 'cover',
@@ -56,18 +52,22 @@ const useStyles = makeStyles((theme) => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
+  textfield: {
+    marginTop: theme.spacing(1),
+    marginBottom: theme.spacing(1),
+  }
 }));
 
-const LoginComponent = (props) => {
+const LoginComponent = ({ login, setAuth }) => {
   const classes = useStyles();
-  const [email, setEmail] = useState(localStorage.email);
+  const [email, setEmail] = useState(localStorage.email? localStorage.email : "");
   const [password, setPassword] = useState("");
-  const [formSent, setFormSent] = useState(false)
+  const [buttonPressed, setButtonPressed] = useState(false)
   const [checked, setChecked] = useState(false);
 
   const handleSubmit = async e => {
     e.preventDefault();
-
+ 
     try {
       const response = await fetch( baseURL + '/auth/login', {
         method: "POST",
@@ -88,19 +88,20 @@ const LoginComponent = (props) => {
       }
       
       const user = await response.json();
-
-      props.login(user);
+      setAuth(true);
+      login(user);
+      
       // login, guardo el usuario y token en redux
-      localStorage.setItem('token', user.token);
+      // localStorage.setItem('token', user.token);
 
       if(checked){
         localStorage.setItem('email', email);
       }
 
     } catch (err) {
-      setFormSent(true);
+      console.error(err.message);
+      setButtonPressed(true);
     }
-
 
   }
 
@@ -117,10 +118,10 @@ const LoginComponent = (props) => {
   }
 
   return (
-    <Grid container component="main" className={classes.root}>
+    <Grid container component="main" className={classes.root} spacing={3}>
       <CssBaseline />
       <Grid item xs={false} sm={4} md={7} className={classes.image} />
-      <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+      <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square >
         <div className={classes.paper}>
           <img src={logo} alt="logo"></img>
           <Typography component="h1" variant="h5">
@@ -128,34 +129,33 @@ const LoginComponent = (props) => {
           </Typography>
           <form className={classes.form} onSubmit={handleSubmit}>
             <TextField
-              error={formSent}
-              helperText={ formSent && "Correo o contraseña incorrectos"}
+              error={buttonPressed}
+              helperText={ buttonPressed && "Correo o contraseña incorrectos"}
               variant="outlined"
-              margin="normal"
               required
               fullWidth
               id="email"
               label="Email Address"
               name="email"
-              autoComplete="email"
+              type="email"
               value={email}
               onChange={handleChangeEmail}
+              className={classes.textfield}
               autoFocus
             />
             <TextField
-              error={formSent}
-              helperText={ formSent && "Correo o contraseña incorrectos"}
+              error={buttonPressed}
+              helperText={ buttonPressed && "Correo o contraseña incorrectos"}
               variant="outlined"
-              margin="normal"
               required
               fullWidth
-              name="password"
-              label="Password"
-              type="password"
               id="password"
+              label="Password"
+              name="password"
+              type="password"
               value={password}
               onChange={handleChangePassword}
-              autoComplete="current-password"
+              className={classes.textfield}
             />
             <FormControlLabel
               control={
@@ -188,7 +188,7 @@ const LoginComponent = (props) => {
 
 const MapStateToProps = gstate => {
   return {
-    user: gstate.login
+    user: gstate.login.user,
   }
 }
 

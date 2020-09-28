@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import SwipeableViews from 'react-swipeable-views';
 import { useTheme } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
@@ -79,14 +78,9 @@ const TabsComponent = (props) => {
           <Tab label="Technical Statistics" {...tabProps(2)} />
         </Tabs>
       </AppBar>
-      <SwipeableViews
-        axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
-        index={value}
-        onChangeIndex={handleChangeIndex}
-      >
+{/* TODO add transition effects */}
         <TabPanel value={value} index={0} dir={theme.direction}>
-          <Sustainability n={10}/>
-          {/* Sustainability */}
+          <Sustainability n={3}/>
         </TabPanel>
         <TabPanel value={value} index={1} dir={theme.direction}>
           Commercial info
@@ -94,7 +88,6 @@ const TabsComponent = (props) => {
         <TabPanel value={value} index={2} dir={theme.direction}>
           Technical Statistics
         </TabPanel>
-      </SwipeableViews>
     </>
   );
 }

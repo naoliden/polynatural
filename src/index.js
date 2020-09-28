@@ -5,13 +5,26 @@ import App from './App';
 import { Provider } from "react-redux";
 import { ConfigureStore } from "./redux/store";
 import * as serviceWorker from './serviceWorker';
+import { saveState } from './shared/utils';
+import throttle from 'lodash/throttle'
+import { BrowserRouter } from 'react-router-dom';
 
 const store = ConfigureStore();
+
+// store.subscribe( throttle(() => {
+//   saveState({
+//     payload: store.getState().login.user,
+//     type: "user"
+//   });
+// }, 1000));
+
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <App />
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
     </Provider>
   </React.StrictMode>,
   document.getElementById('root')

@@ -1,6 +1,5 @@
 import React from 'react';
 import { makeStyles, fade } from '@material-ui/core/styles';
-import { useHistory } from 'react-router-dom';
 import IconButton from '@material-ui/core/IconButton';
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
@@ -37,7 +36,6 @@ const ProfileButton = (props) => {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const isMenuOpen = Boolean(anchorEl);
-  let history = useHistory();
 
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -50,11 +48,9 @@ const ProfileButton = (props) => {
 
 
   const handleLogout = () => {
+    // localStorage.removeItem("token");
     setAnchorEl(null);
-    localStorage.removeItem("token");
     props.logout();
-    history.push("/");
-    // TODO solo remover el token debería hacerme logout. No es necesario history.push
   };
 
 

@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
 const ClientList = ({clients}) => {
 
   if(clients.loading){
-    return <LoadingSpinner color='primary' text="Cargando clientes" />
+    return <LoadingSpinner color='primary' text="Cargando usuarios" />
   }
   else if(clients.error){
     return <Typography variant="h5" color="error">  500 | {clients.error}</Typography>
