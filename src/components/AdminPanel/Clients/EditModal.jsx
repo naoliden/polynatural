@@ -8,7 +8,9 @@ import TextField from "@material-ui/core/TextField";
 import { useForm } from 'react-hook-form';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
-
+import fetch from 'cross-fetch';
+import { baseURL } from '../../../shared/constants';
+import { loadState } from '../../../shared/utils';
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -24,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const EditClientModal = ({open, setOpen, client}) => {
+const EditClientModal = ({open, setOpen, client, refresh, setRefresh}) => {
   const classes = useStyles();
   const { register, handleSubmit } = useForm();
 
@@ -33,8 +35,33 @@ const EditClientModal = ({open, setOpen, client}) => {
     setOpen(false);
   };
 
-  const submitForm = data => {
+  const submitForm = async (data) => {
     console.log(data);
+    try{
+      const response = await fetch(baseURL + "/clients/update", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json", token: loadState("token") },
+        body: JSON.stringify({new_name: data.new_name, client_id: client.client_id}),
+      })
+      
+      if (response.status >= 400 && response.status < 500) {
+        throw new Error("Error del cliente");
+        
+      } else if (response.status >= 500) 
+      {
+        throw new Error("Error del servidor");
+      }
+      
+      let parsed_response = await response.json();
+      console.log(parsed_response);
+      setRefresh(!refresh);
+
+    } catch(err){
+      console.error(err);
+    
+    } finally {
+      handleClose();
+    }
   }
 
   return (
@@ -61,7 +88,7 @@ const EditClientModal = ({open, setOpen, client}) => {
                   </Typography>
                 </Grid>
                 <Grid item xs={10}>
-                  <TextField key={client.id} name={`name`} helperText="Nombre del cliente" label={client.name}
+                  <TextField key={client.id} name={`new_name`} helperText="Nombre del cliente" label={client.name}
                     variant="standard" inputRef={register}/>
                 </Grid>
                 <Button type="submit" color="primary" variant='contained'>Guardar Cambios</Button>

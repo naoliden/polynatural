@@ -8,7 +8,8 @@ import TextField from "@material-ui/core/TextField";
 import { useForm } from 'react-hook-form';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
-
+import { baseURL } from '../../../shared/constants';
+import fetch from 'cross-fetch';
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -24,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const AddClientModal = ({ open, setOpen }) => {
+const AddClientModal = ({ open, setOpen, setRefresh, refresh }) => {
   const classes = useStyles();
   const { register, handleSubmit } = useForm();
 
@@ -33,8 +34,32 @@ const AddClientModal = ({ open, setOpen }) => {
     setOpen(false);
   };
 
-  const submitForm = data => {
-    console.log(data);
+  const submitForm = async (data) => {
+    try {
+      const response = await fetch(baseURL + "/clients/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      })
+
+      if (response.status >= 400 && response.status < 500) {
+        throw new Error("Error del cliente");
+      
+      } else if (response.status >= 500) 
+      {
+        throw new Error("Error del servidor");
+      }      
+      
+      let clients = await response.json();
+      console.log(clients)
+      setRefresh(!refresh);
+
+    } catch (error) {
+      console.error(error.message)
+    } finally {
+      handleClose();
+    }
+
   }
 
   return (

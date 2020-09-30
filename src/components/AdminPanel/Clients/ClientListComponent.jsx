@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ClientList = ({clients}) => {
+const ClientList = ({clients, refresh, setRefresh}) => {
 
   if(clients.loading){
     return <LoadingSpinner color='primary' text="Cargando clientes" />
@@ -38,7 +38,7 @@ const ClientList = ({clients}) => {
     const client_list = []
     clients.clients.map( client => {
       client_list.push(
-        <ClientListItem key={client.client_id} client={client} />
+        <ClientListItem key={client.client_id} client={client} refresh={refresh} setRefresh={setRefresh}/>
       )
       // retorna true porque la arrow function debe retornar ALGO. Pero no se usa para nada.
       return true;
@@ -50,17 +50,18 @@ const ClientList = ({clients}) => {
 const Clients = ({fetchClients, clients}) => {
   const classes = useStyles();
   const [addModal, setAddModal] = useState(false);
+  const [refresh, setRefresh] = useState(false)
 
   useEffect(() => {
     fetchClients();
-  }, [fetchClients])
+  }, [fetchClients, refresh])
 
 
   return (
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <List dense={true}>
-            <ClientList clients={clients}/>
+            <ClientList clients={clients} setRefresh={setRefresh} refresh={refresh}/>
           </List>
         </Grid>
         <Grid item container xs={12} justify='flex-end'>
@@ -69,7 +70,7 @@ const Clients = ({fetchClients, clients}) => {
             <AddIcon />
           </Fab>
          </Tooltip>
-         <AddModal open={addModal} setOpen={setAddModal} />
+         <AddModal open={addModal} setOpen={setAddModal} setRefresh={setRefresh} refresh={refresh}/>
         </Grid>
       </Grid>
   );

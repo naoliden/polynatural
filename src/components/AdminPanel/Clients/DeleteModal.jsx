@@ -7,7 +7,9 @@ import Button from "@material-ui/core/Button";
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
-
+import fetch from 'cross-fetch';
+import { baseURL } from '../../../shared/constants';
+import { loadState } from '../../../shared/utils';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -27,15 +29,31 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const EditClientModal = ({open, setOpen, client}) => {
+const DeleteClientModal = ({open, setOpen, client, refresh, setRefresh}) => {
   const classes = useStyles();
 
   const handleClose = () => {
     setOpen(false);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     console.log(`DELETED: ${client.name}`);
+    try {
+      const response = await fetch(baseURL + "/clients/delete", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json", token: loadState('token') },
+        body: JSON.stringify(client),
+      })
+
+      let parsed_respose = await response.json();
+      console.log(parsed_respose)
+      setRefresh(!refresh)
+
+    } catch (error) {
+      console.log(error);
+    } finally {
+      handleClose()
+    }
   }
 
   return (
@@ -78,4 +96,4 @@ const EditClientModal = ({open, setOpen, client}) => {
 }
 
 
-export default EditClientModal;
+export default DeleteClientModal;

@@ -9,8 +9,9 @@ import IconButton from "@material-ui/core/IconButton";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
 import SupervisedUserCircleIcon from '@material-ui/icons/SupervisedUserCircle';
-import EditModal from './EditModal';
-import DeleteModal from './DeleteModal';
+import EditClientModal from './EditModal';
+import DeleteClientModal from './DeleteModal';
+
 
 
 const useStyles = makeStyles((theme) => ({
@@ -20,12 +21,12 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const ClientListItem = ({client}) => {
+const ClientListItem = ({client, setRefresh, refresh}) => {
   const classes = useStyles();
   const [ openEdit, setOpenEdit ] = useState(false);
   const [ openDelete, setOpenDelete ] = useState(false);
   
-  const handleDelete = () => {
+  const handleDelete = async () => {
     console.log(`DELETE client_id: ${client.client_id}`);
     setOpenDelete(!openDelete);
   }
@@ -54,8 +55,8 @@ const ClientListItem = ({client}) => {
           </IconButton>
         </ListItemSecondaryAction>
       </ListItem>
-      <EditModal open={openEdit} setOpen={setOpenEdit} client={client} />
-      <DeleteModal open={openDelete} setOpen={setOpenDelete} client={client} />
+      <EditClientModal open={openEdit} setOpen={setOpenEdit} client={client} setRefresh={setRefresh} refresh={refresh}/>
+      <DeleteClientModal open={openDelete} setOpen={setOpenDelete} client={client} setRefresh={setRefresh} refresh={refresh}/>
     </Fragment>
   )
 }
