@@ -51,7 +51,6 @@ const Clients = ({fetchClients, clients}) => {
   const classes = useStyles();
   const [addModal, setAddModal] = useState(false);
 
-  // TODO use fetch without redux. Not really necessary. Use fetch and save values with useMemo and save in a state var.
   useEffect(() => {
     fetchClients();
   }, [fetchClients])

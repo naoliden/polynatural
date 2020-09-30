@@ -12,7 +12,6 @@ export const initialState = {
 export const loginReducer = (state = initialState, action) => {
   switch (action.type) {
     case LOGIN:
-      console.log(`USER ${action.payload}`)
       saveState({
         type: 'user',
         payload: action.payload,
@@ -21,8 +20,6 @@ export const loginReducer = (state = initialState, action) => {
         type: 'token',
         payload: action.payload.token,
       })
-      // localStorage.setItem('user', action.payload);
-      // localStorage.setItem('token', action.payload.token);
       return {
         ...state,
         user: action.payload,
@@ -37,13 +34,10 @@ export const loginReducer = (state = initialState, action) => {
         isValid: false,
       };
     case VERIFY:
-      const res = {
+      return {
         ...state,
         isValid: action.payload
       };
-      console.log("INSIDE REDUCER LOGGIN VERIFIER")
-      console.log(res)
-      return res 
     default:
       return state;
   }

@@ -1,5 +1,6 @@
 import fetch from 'cross-fetch';
 import { baseURL } from '../../shared/constants'
+import { loadState } from '../../shared/utils'
 
 // Action types
 export const LOGIN = "LOGIN";
@@ -29,14 +30,13 @@ export const Verify = (setLoading) => {
     try {
       const response = await fetch(baseURL + "/auth/verify", {
         method: "GET",
-        headers: { token: localStorage.token },
+        headers: { token: loadState('token') },
       });
 
       const verified = await response.json();
-      console.log(`User verified: ${verified.isValid}`)
-
       dispatch(setVerification(verified.isValid));
-      
+      setLoading(false);
+
     } catch (err) {
       console.error(err.message);
       dispatch(setVerification(false));

@@ -1,4 +1,4 @@
-import React, { useState }from "react";
+import React, { useState, useEffect }from "react";
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import { Button, TextField, Typography, Grid, FormControlLabel } from "@material-ui/core";
@@ -12,13 +12,13 @@ import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControl from '@material-ui/core/FormControl';
 import Select from 'react-select';
 import Divider from '@material-ui/core/Divider'
-import { connect } from 'react-redux';
 import { useForm, Controller } from 'react-hook-form';
 import FruitVariety from './SelectVarietyComponent';
 import { countries } from './files/countries_es';
 import { frutas } from './files/frutas';
-
-
+import ClientSelect from "./SelectClientComponent";
+import { connect } from 'react-redux';
+import { SaveForm } from '../../redux/actions/FormActions'
 
 const useStyles = makeStyles((theme) => ({
   form: {
@@ -149,8 +149,9 @@ const estados_medicion = [
   },
 ]
 
+
 // DONE Component def
-const NewForm = (props) => {
+const NewForm = ({ SaveForm }) => {
   const classes = useStyles();
   // Los params que necesitaban rendereo condicional no los pude rescatar con react-hook-form por lo que usé useState.
   const [selectedFruit, setFruit] = useState({value: null, label: null});
@@ -158,6 +159,7 @@ const NewForm = (props) => {
   const [unidad_experimental, setUE] = useState({value: null, label: null});
   const [mediciones, setMediciones] = useState([]);
   const [tratamientos, setTratamientos] = useState([]);
+  const [client, setClient] = useState({value: null, label: null});
   const [lab, setLab] = useState(true);
   const { control, handleSubmit, register } = useForm();
 
@@ -183,14 +185,12 @@ const NewForm = (props) => {
         data_mediciones.push({date: data[`medicion${j}`], type: data[`tipo_medicion${j}`]})
       }
     }
-
-
     const all_data = {
       fruit: selectedFruit,
       variety: variety,
       // Bool, ensayo hecho en lab o en linea de packing
       lab: lab,
-      cliente: data.client,
+      cliente: client,
       origen: data.origen,
       destino: data.destino,
       comentarios: data.comments,
@@ -212,9 +212,14 @@ const NewForm = (props) => {
     }
 
     // Agrego todo el estado global de redux
-    props.addForm(all_data);
+    SaveForm(all_data);
 
   }
+
+  const handleChangeClient = (client) => {
+    setClient(client);
+  }
+
 
   const handleChangeMedicion = (medicion) => {
     setUE(medicion)
@@ -333,8 +338,13 @@ const NewForm = (props) => {
                   : <div></div>
                 }
               <Grid item xs={12} className={classes.item}>
-                <TextField name="client" helperText="Ingresa el nombre del cliente" variant="standard" 
-                  label="Nombre del cliente" inputRef={register} className={classes.textInput}/>
+                <Typography color="textPrimary" variant="body1">Cliente</Typography>
+              </Grid>
+              <Grid item xs={12} className={classes.item}>
+
+                <ClientSelect control={control} onChange={handleChangeClient} />
+{/* TODO */}
+ 
               </Grid>
               <Grid item xs={12} className={classes.item}>
                 <Typography className={clsx(classes.listItem, classes.mgBottom)} color="textPrimary" variant="body1">
@@ -465,12 +475,17 @@ const NewForm = (props) => {
 }
 
 
-const MapStateToProps = (global_state) => {
+const MapStateToProps = (gstate) =>{
   return {
-    client: global_state.form_data,
+    form: gstate.form
+  }
+}
+
+const MapDispatchToProps = (dispatch) => {
+  return {
+    SaveForm: (data) => dispatch(SaveForm(data)),
   }
 }
 
 
-
-export default connect(MapStateToProps)(NewForm);
+export default connect(MapStateToProps, MapDispatchToProps)(NewForm);

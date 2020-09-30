@@ -5,8 +5,8 @@ import Main from "./components/MainComponent";
 import { Verify } from "./redux/actions/LoginActions";
 import { connect } from "react-redux";
 import { baseURL } from './shared/constants';
+import { saveState, loadState } from './shared/utils';
 import LoadingSpinner from "./components/LoadingComponent";
-import { saveState } from './shared/utils';
 
 const LoadingComponent = () => {
   const position ={
@@ -26,10 +26,12 @@ const LoadingComponent = () => {
 const App = ({ user, verify, isValid }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(null);
   const [loading, setLoading] = useState(false);
-  // const history = useHistory();
+  const history = useHistory();
 
   // history.listen( ({ pathname }) => {
-  //   if (pathname !== "/" || pathname !== "/login"){
+  //   if (pathname !== '/' || pathname !== '/login' || pathname !== '/login'){
+  //     console.log("Listener")
+  //     console.log(pathname)
   //     saveState({
   //       type: "url",
   //       payload: pathname,
@@ -37,35 +39,13 @@ const App = ({ user, verify, isValid }) => {
   //   }
   // })
   
-  const checkAuthenticated = async () => {
-    try {
-      setLoading(true);
-      const res = await fetch(baseURL + "/auth/verify", {
-        method: "GET",
-        headers: { token: localStorage.token }
-      });
-      
-      const parseRes = await res.json();
-      parseRes.isValid === true ? setIsAuthenticated(true) : setIsAuthenticated(false);
-    
-      setLoading(false);
-
-      return parseRes.isValid
-
-
-    } catch (err) {
-      console.error(err.message);
-    }
-  };
-  
-
   
   useEffect( () => {
-    console.log("APP USEEFFECT");
-    checkAuthenticated();
-  }, [])
+    console.log("Verificando log in")
+    verify(setLoading)
+  }, [verify])
 
-  
+
   return (
 
       loading?  <LoadingComponent />
@@ -75,13 +55,13 @@ const App = ({ user, verify, isValid }) => {
           exact
           path="/login"
           render={(props) =>
-            isAuthenticated ? <Redirect to="/" /> : <LoginComponent {...props} setAuth={setIsAuthenticated}/>
+            isValid ? <Redirect to="/" /> : <LoginComponent {...props} setAuth={setIsAuthenticated}/>
           }
         />
         <Route
           path="/"
           component={ () =>
-            isAuthenticated ? <Main /> : <Redirect to="/login" />
+            isValid ? <Main /> : <Redirect to="/login" />
           }
         />
       </Switch>
@@ -99,7 +79,7 @@ const MapStateToProps = (gstate) => {
 
 const MapDispatchToProps = (dispatch) => {
   return {
-    verify: () => dispatch(Verify()),
+    verify: (func) => dispatch(Verify(func)),
   };
 };
 

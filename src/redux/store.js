@@ -2,6 +2,7 @@ import { createStore, combineReducers, applyMiddleware } from 'redux';
 import { createFormReducer } from './reducers/createFormReducer';
 import { clientsReducer } from './reducers/clientsReducer';
 import { loginReducer } from './reducers/loginReducer';
+import { formReducer } from './reducers/formReducer';
 import logger from 'redux-logger';
 import thunk from 'redux-thunk';
 
@@ -18,6 +19,7 @@ export const ConfigureStore = () => {
         form_data: createFormReducer,
         clients: clientsReducer,
         login: loginReducer,
+        form: formReducer,
       }), 
       // thunk needs to go first.
       applyMiddleware(thunk, logger)
