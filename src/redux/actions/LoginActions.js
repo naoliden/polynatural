@@ -23,8 +23,9 @@ export const setVerification = (verification) => ({
 });
 
 // thunk
-export const Verify = () => {
+export const Verify = (setLoading) => {
   return async (dispatch) => {
+    setLoading(true);
     try {
       const response = await fetch(baseURL + "/auth/verify", {
         method: "GET",

@@ -5,9 +5,9 @@ import App from './App';
 import { Provider } from "react-redux";
 import { ConfigureStore } from "./redux/store";
 import * as serviceWorker from './serviceWorker';
-import { saveState } from './shared/utils';
-import throttle from 'lodash/throttle'
 import { BrowserRouter } from 'react-router-dom';
+// import { saveState } from './shared/utils';
+// import throttle from 'lodash/throttle'
 
 const store = ConfigureStore();
 

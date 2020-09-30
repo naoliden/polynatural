@@ -1,6 +1,5 @@
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import { createFormReducer } from './reducers/createFormReducer';
-import { rootReducer } from './reducers/rootReducer';
 import { clientsReducer } from './reducers/clientsReducer';
 import { loginReducer } from './reducers/loginReducer';
 import logger from 'redux-logger';
@@ -16,7 +15,6 @@ import thunk from 'redux-thunk';
 export const ConfigureStore = () => {
   const store = createStore(
       combineReducers({
-        root: rootReducer,
         form_data: createFormReducer,
         clients: clientsReducer,
         login: loginReducer,

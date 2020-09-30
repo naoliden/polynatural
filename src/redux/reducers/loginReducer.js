@@ -1,5 +1,5 @@
 import { LOGIN, LOGOUT, VERIFY } from "../actions/LoginActions";
-import { loadState } from "../../shared/utils";
+import { loadState, saveState } from "../../shared/utils";
 
 
 const user = loadState("user");
@@ -12,8 +12,17 @@ export const initialState = {
 export const loginReducer = (state = initialState, action) => {
   switch (action.type) {
     case LOGIN:
-      localStorage.setItem('user', action.payload);
-      localStorage.setItem('token', action.payload.token);
+      console.log(`USER ${action.payload}`)
+      saveState({
+        type: 'user',
+        payload: action.payload,
+      })
+      saveState({
+        type: 'token',
+        payload: action.payload.token,
+      })
+      // localStorage.setItem('user', action.payload);
+      // localStorage.setItem('token', action.payload.token);
       return {
         ...state,
         user: action.payload,

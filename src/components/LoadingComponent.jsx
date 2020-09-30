@@ -28,4 +28,9 @@ const LoadingSpinner = ({color, text}) => {
   );
 }
 
+LoadingSpinner.defaultProps = {
+  color: "primary",
+  text: "",
+}
+
 export default LoadingSpinner;
