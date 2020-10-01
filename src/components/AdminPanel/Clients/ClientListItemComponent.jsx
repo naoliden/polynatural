@@ -45,13 +45,13 @@ const ClientListItem = ({client, setRefresh, refresh}) => {
             <SupervisedUserCircleIcon />
           </Avatar>
         </ListItemAvatar>
-        <ListItemText primary={`${client.name}`}/>
+        <ListItemText primary={`${client.client_name}`}/>
         <ListItemSecondaryAction>
           <IconButton edge="start" aria-label="edit" onClick={handleEdit}>
-            <EditIcon type="button" className={classes.icon} name={client.id} />
+            <EditIcon type="button" className={classes.icon} name={client.client_id} />
           </IconButton>
           <IconButton edge="end" aria-label="delete" onClick={handleDelete}>
-            <DeleteIcon type="button" className={classes.icon} name={client.id} />
+            <DeleteIcon type="button" className={classes.icon} name={client.client_id} />
           </IconButton>
         </ListItemSecondaryAction>
       </ListItem>

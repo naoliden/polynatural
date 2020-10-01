@@ -21,7 +21,7 @@ const ClientSelect = ({clients, onChange, fetchClients}) => {
     const client_list = [...clients.clients]
     for(let i = 0; i < client_list.length; i++){
       client_list[i]["value"] = client_list[i]['client_id'];
-      client_list[i]["label"] = client_list[i]['name'];
+      client_list[i]["label"] = client_list[i]['client_name'];
     }
     return <Select onChange={onChange} options={client_list} placeholder={"Selecciona un cliente para el ensayo"}/>
   } 

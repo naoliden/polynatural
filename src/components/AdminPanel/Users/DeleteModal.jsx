@@ -35,7 +35,7 @@ const EditClientModal = ({open, setOpen, client}) => {
   };
 
   const handleSubmit = () => {
-    console.log(`DELETED: ${client.name}`);
+    console.log(`DELETED: ${client.client_name}`);
   }
 
   return (
@@ -62,7 +62,7 @@ const EditClientModal = ({open, setOpen, client}) => {
               </Grid>
               <Grid item xs={12}>
                 <Typography variant="body1" id="transition-modal-title">
-                  {`Estas seguro que deseas eliminar a ${client.name}?`}
+                  {`Estas seguro que deseas eliminar a ${client.client_name}?`}
                 </Typography>
               </Grid>
               <ButtonGroup variant="contained" className={classes.item}>

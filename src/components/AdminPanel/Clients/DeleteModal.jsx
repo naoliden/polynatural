@@ -37,7 +37,7 @@ const DeleteClientModal = ({open, setOpen, client, refresh, setRefresh}) => {
   };
 
   const handleSubmit = async () => {
-    console.log(`DELETED: ${client.name}`);
+    console.log(`DELETED: ${client.client_name}`);
     try {
       const response = await fetch(baseURL + "/clients/delete", {
         method: "DELETE",
@@ -80,7 +80,7 @@ const DeleteClientModal = ({open, setOpen, client, refresh, setRefresh}) => {
               </Grid>
               <Grid item xs={12}>
                 <Typography variant="body1" id="transition-modal-title">
-                  {`Estas seguro que deseas eliminar a ${client.name}?`}
+                  {`Estas seguro que deseas eliminar a ${client.client_name}?`}
                 </Typography>
               </Grid>
               <ButtonGroup variant="contained" className={classes.item}>

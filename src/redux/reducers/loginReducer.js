@@ -36,7 +36,7 @@ export const loginReducer = (state = initialState, action) => {
     case VERIFY:
       return {
         ...state,
-        isValid: action.payload
+        isValid: action.payload || false,
       };
     default:
       return state;

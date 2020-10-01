@@ -51,10 +51,10 @@ const EditClientModal = ({open, setOpen, client, refresh, setRefresh}) => {
       {
         throw new Error("Error del servidor");
       }
-      
+      console.log(` resp ${response}`);
       let parsed_response = await response.json();
-      console.log(parsed_response);
       setRefresh(!refresh);
+      console.log(parsed_response);
 
     } catch(err){
       console.error(err);
@@ -88,7 +88,7 @@ const EditClientModal = ({open, setOpen, client, refresh, setRefresh}) => {
                   </Typography>
                 </Grid>
                 <Grid item xs={10}>
-                  <TextField key={client.id} name={`new_name`} helperText="Nombre del cliente" label={client.name}
+                  <TextField key={client.client_id} name={`new_name`} helperText="Nombre del cliente" label={client.client_name}
                     variant="standard" inputRef={register}/>
                 </Grid>
                 <Button type="submit" color="primary" variant='contained'>Guardar Cambios</Button>

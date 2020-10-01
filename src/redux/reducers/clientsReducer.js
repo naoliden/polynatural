@@ -7,7 +7,7 @@ import {
 export const initialState = {
   loading: false,
   error: null,
-  clients: [{ client_id: 0, name: "LOADING..." }],
+  clients: [{ client_id: 0, client_name: "LOADING..." }],
 };
 
 export const clientsReducer = (state = initialState, action) => {
