@@ -58,7 +58,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const LoginComponent = ({ login, setAuth }) => {
+const LoginComponent = ({ login }) => {
   const classes = useStyles();
   const [email, setEmail] = useState(localStorage.email? localStorage.email : "");
   const [password, setPassword] = useState("");
@@ -88,11 +88,8 @@ const LoginComponent = ({ login, setAuth }) => {
       }
       
       const user = await response.json();
-      setAuth(true);
+
       login(user);
-      
-      // login, guardo el usuario y token en redux
-      // localStorage.setItem('token', user.token);
 
       if(checked){
         localStorage.setItem('email', email);

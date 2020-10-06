@@ -8,6 +8,8 @@ import TextField from "@material-ui/core/TextField";
 import { useForm } from 'react-hook-form';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
+import fetch from 'cross-fetch';
+import { baseURL } from '../../../shared/constants';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -24,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const EditClientModal = ({open, setOpen, client}) => {
+const EditUserModal = ({open, setOpen, user, setRefresh}) => {
   const classes = useStyles();
   const { register, handleSubmit } = useForm();
 
@@ -35,10 +37,12 @@ const EditClientModal = ({open, setOpen, client}) => {
 
   const submitForm = data => {
     console.log(data);
+    
+    handleClose()
   }
 
   return (
-    <div>
+    <React.Fragment>
       <Modal
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"
@@ -57,11 +61,11 @@ const EditClientModal = ({open, setOpen, client}) => {
               <Grid container spacing={3}>
                 <Grid item xs={12}>
                   <Typography variant="h5" id="transition-modal-title">
-                    Editar cliente
+                    Editar usuario
                   </Typography>
                 </Grid>
                 <Grid item xs={10}>
-                  <TextField key={client.client_id} name={`name`} helperText="Nombre del cliente" label={client.client_name}
+                  <TextField key={user.user_id} name={`name`} helperText="Nombre del usuario" label={user.firstname}
                     variant="standard" inputRef={register}/>
                 </Grid>
                 <Button type="submit" color="primary" variant='contained'>Guardar Cambios</Button>
@@ -70,9 +74,9 @@ const EditClientModal = ({open, setOpen, client}) => {
           </div>
         </Fade>
       </Modal>
-    </div>
+    </React.Fragment>
   );
 }
 
 
-export default EditClientModal;
+export default EditUserModal;

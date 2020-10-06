@@ -20,20 +20,19 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const ClientListItem = ({client}) => {
+const UserListItem = ({ user, setRefresh }) => {
   const classes = useStyles();
   const [ openEdit, setOpenEdit ] = useState(false);
   const [ openDelete, setOpenDelete ] = useState(false);
   
   const handleDelete = () => {
-    console.log(`DELETE client_id: ${client.client_id}`);
+    console.log(`DELETE user_id: ${user.user_id}`);
     setOpenDelete(!openDelete);
   }
 
   const handleEdit = () => {
-    console.log(`EDIT client_id: ${client.client_id}`);
+    console.log(`EDIT user_id: ${user.user_id}`);
     setOpenEdit(!openEdit);
-
   }
 
   return (
@@ -44,20 +43,20 @@ const ClientListItem = ({client}) => {
             <SupervisedUserCircleIcon />
           </Avatar>
         </ListItemAvatar>
-        <ListItemText primary={`${client.client_name}`}/>
+        <ListItemText primary={`${user.firstname} ${user.lastname}`}/>
         <ListItemSecondaryAction>
           <IconButton edge="start" aria-label="edit" onClick={handleEdit}>
-            <EditIcon type="button" className={classes.icon} name={client.client_id} />
+            <EditIcon type="button" className={classes.icon} name={user.user_id}/>
           </IconButton>
           <IconButton edge="end" aria-label="delete" onClick={handleDelete}>
-            <DeleteIcon type="button" className={classes.icon} name={client.client_id} />
+            <DeleteIcon type="button" className={classes.icon} name={user.user_id}/>
           </IconButton>
         </ListItemSecondaryAction>
       </ListItem>
-      <EditModal open={openEdit} setOpen={setOpenEdit} client={client} />
-      <DeleteModal open={openDelete} setOpen={setOpenDelete} client={client} />
+      <EditModal open={openEdit} setOpen={setOpenEdit} user={user}  setRefresh={setRefresh}/>
+      <DeleteModal open={openDelete} setOpen={setOpenDelete} user={user}  setRefresh={setRefresh}/>
     </Fragment>
   )
 }
 
-export default ClientListItem;
+export default UserListItem;

@@ -8,6 +8,7 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import { makeStyles } from "@material-ui/core/styles";
 import { useForm } from "react-hook-form";
 import Clients from './Clients/ClientListComponent';
+import Users from './Users/UsersComponent';
 
 
 const useStyles = makeStyles( theme => ({
@@ -109,9 +110,8 @@ const AdminPanel = (props) => {
             </Typography>
           </AccordionSummary>
           <AccordionDetails>
-            <Typography>
-              Agregar, eliminar o editar usuarios y permisos
-            </Typography>
+            
+            <Users />
           </AccordionDetails>
         </Accordion>
       </Grid>

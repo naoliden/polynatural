@@ -10,6 +10,7 @@ import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import { baseURL } from '../../../shared/constants';
 import fetch from 'cross-fetch';
+import { loadState } from "../../../shared/utils";
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -35,10 +36,11 @@ const AddClientModal = ({ open, setOpen, setRefresh, refresh }) => {
   };
 
   const submitForm = async (data) => {
+    console.log(data);
     try {
       const response = await fetch(baseURL + "/clients/register", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json" , token: loadState("token")},
         body: JSON.stringify(data),
       })
 
@@ -86,7 +88,7 @@ const AddClientModal = ({ open, setOpen, setRefresh, refresh }) => {
                   </Typography>
                 </Grid>
                 <Grid item xs={10}>
-                  <TextField key={"name"} name={`name`} helperText="Ingresa el nombre del nuevo cliente" label="Nuevo cliente"
+                  <TextField key={"client_name"} name={`client_name`} helperText="Ingresa el nombre del nuevo cliente" label="Nuevo cliente"
                     variant="standard" inputRef={register}/>
                 </Grid>
                 <Button type="submit" color='primary' variant='contained'>Guardar Cambios</Button>

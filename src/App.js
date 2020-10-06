@@ -24,9 +24,7 @@ const LoadingComponent = () => {
 
 
 const App = ({ user, verify, isValid }) => {
-  const [isAuthenticated, setIsAuthenticated] = useState(null);
   const [loading, setLoading] = useState(false);
-  const history = useHistory();
 
   // history.listen( ({ pathname }) => {
   //   if (pathname !== '/' || pathname !== '/login' || pathname !== '/login'){
@@ -55,7 +53,7 @@ const App = ({ user, verify, isValid }) => {
           exact
           path="/login"
           render={(props) =>
-            isValid ? <Redirect to="/" /> : <LoginComponent {...props} setAuth={setIsAuthenticated}/>
+            isValid ? <Redirect to="/" /> : <LoginComponent {...props} />
           }
         />
         <Route

@@ -7,8 +7,9 @@ import Button from "@material-ui/core/Button";
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
-
-
+import fetch from 'cross-fetch';
+import { baseURL } from '../../../shared/constants';
+import { loadState } from '../../../shared/utils';
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -27,15 +28,30 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const EditClientModal = ({open, setOpen, client}) => {
+const DeleteUserModal = ({open, setOpen, user, setRefresh}) => {
   const classes = useStyles();
 
   const handleClose = () => {
     setOpen(false);
   };
 
-  const handleSubmit = () => {
-    console.log(`DELETED: ${client.client_name}`);
+  const handleSubmit = async () => {
+    console.log(`DELETED: ${user.firstname} ${user.lastname}`);
+    try {
+      const response = await fetch(baseURL + "/users/delete", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json", token: loadState('token') },
+        body: JSON.stringify({user_id: user.user_id}),
+      });
+      const parsed = await response.json();
+      setRefresh();
+      console.log(parsed);
+
+    } catch (error) {
+      console.error(error);
+    } finally {
+      handleClose()
+    }
   }
 
   return (
@@ -57,12 +73,12 @@ const EditClientModal = ({open, setOpen, client}) => {
             <Grid container spacing={3}>
               <Grid item xs={12}>
                 <Typography variant="h5" id="transition-modal-title">
-                  Borrar cliente
+                  Borrar usuario
                 </Typography>
               </Grid>
               <Grid item xs={12}>
                 <Typography variant="body1" id="transition-modal-title">
-                  {`Estas seguro que deseas eliminar a ${client.client_name}?`}
+                  {`Estas seguro que deseas eliminar a ${user.firstname} ${user.lastname}?`}
                 </Typography>
               </Grid>
               <ButtonGroup variant="contained" className={classes.item}>
@@ -78,4 +94,4 @@ const EditClientModal = ({open, setOpen, client}) => {
 }
 
 
-export default EditClientModal;
+export default DeleteUserModal;
