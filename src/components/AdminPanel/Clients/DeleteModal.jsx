@@ -37,16 +37,14 @@ const DeleteClientModal = ({open, setOpen, client, refresh, setRefresh}) => {
   };
 
   const handleSubmit = async () => {
-    console.log(`DELETED: ${client.client_name}`);
     try {
-      const response = await fetch(baseURL + "/users/delete", {
+      const response = await fetch(baseURL + "/clients/delete", {
         method: "DELETE",
         headers: { "Content-Type": "application/json", token: loadState('token') },
-        body: JSON.stringify(client),
+        body: JSON.stringify({client_id: client.client_id}),
       })
 
       let parsed_respose = await response.json();
-      console.log(parsed_respose)
       setRefresh(!refresh)
 
     } catch (error) {

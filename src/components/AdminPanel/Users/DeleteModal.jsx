@@ -36,7 +36,6 @@ const DeleteUserModal = ({open, setOpen, user, setRefresh}) => {
   };
 
   const handleSubmit = async () => {
-    console.log(`DELETED: ${user.firstname} ${user.lastname}`);
     try {
       const response = await fetch(baseURL + "/users/delete", {
         method: "DELETE",
@@ -45,7 +44,6 @@ const DeleteUserModal = ({open, setOpen, user, setRefresh}) => {
       });
       const parsed = await response.json();
       setRefresh();
-      console.log(parsed);
 
     } catch (error) {
       console.error(error);

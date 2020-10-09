@@ -33,12 +33,7 @@ const useStyles = makeStyles( theme => ({
 const AdminPanel = (props) => {
   const classes = useStyles();
   const [expanded, setExpanded] = useState(false);
-  const { handleSubmit, register } = useForm();
 
-  const handleSubmitForm = (data) => {
-    console.log(data);
-    // TODO agregar datos del current user a lo que se envía al servidor. El usuario actual vendrá por redux o useContext hook
-  };
 
   const handleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
@@ -94,7 +89,6 @@ const AdminPanel = (props) => {
           </AccordionDetails>
         </Accordion>
 
-        {/*  TODO seccion opciones nuevo usuario*/}
         <Accordion
           expanded={expanded === "panel3"}
           onChange={handleChange("panel3")}
@@ -110,7 +104,6 @@ const AdminPanel = (props) => {
             </Typography>
           </AccordionSummary>
           <AccordionDetails>
-            
             <Users />
           </AccordionDetails>
         </Accordion>

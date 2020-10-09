@@ -27,12 +27,10 @@ const ClientListItem = ({client, setRefresh, refresh}) => {
   const [ openDelete, setOpenDelete ] = useState(false);
   
   const handleDelete = async () => {
-    console.log(`DELETE client_id: ${client.client_id}`);
     setOpenDelete(!openDelete);
   }
 
   const handleEdit = () => {
-    console.log(`EDIT client.id: ${client.client_id}`);
     setOpenEdit(!openEdit);
 
   }

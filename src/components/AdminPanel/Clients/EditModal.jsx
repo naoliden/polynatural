@@ -36,7 +36,6 @@ const EditClientModal = ({open, setOpen, client, refresh, setRefresh}) => {
   };
 
   const submitForm = async (data) => {
-    console.log(data);
     try{
       const response = await fetch(baseURL + "/clients/update", {
         method: "PATCH",
@@ -51,10 +50,8 @@ const EditClientModal = ({open, setOpen, client, refresh, setRefresh}) => {
       {
         throw new Error("Error del servidor");
       }
-      console.log(` resp ${response}`);
       let parsed_response = await response.json();
       setRefresh(!refresh);
-      console.log(parsed_response);
 
     } catch(err){
       console.error(err);

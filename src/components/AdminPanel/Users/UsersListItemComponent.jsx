@@ -20,18 +20,16 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const UserListItem = ({ user, setRefresh }) => {
+const UserListItem = ({ user, clients, setRefresh }) => {
   const classes = useStyles();
   const [ openEdit, setOpenEdit ] = useState(false);
   const [ openDelete, setOpenDelete ] = useState(false);
   
   const handleDelete = () => {
-    console.log(`DELETE user_id: ${user.user_id}`);
     setOpenDelete(!openDelete);
   }
 
   const handleEdit = () => {
-    console.log(`EDIT user_id: ${user.user_id}`);
     setOpenEdit(!openEdit);
   }
 
@@ -53,8 +51,8 @@ const UserListItem = ({ user, setRefresh }) => {
           </IconButton>
         </ListItemSecondaryAction>
       </ListItem>
-      <EditModal open={openEdit} setOpen={setOpenEdit} user={user}  setRefresh={setRefresh}/>
-      <DeleteModal open={openDelete} setOpen={setOpenDelete} user={user}  setRefresh={setRefresh}/>
+      <EditModal open={openEdit} setOpen={setOpenEdit} user={user} setRefresh={setRefresh} clients={clients}/>
+      <DeleteModal open={openDelete} setOpen={setOpenDelete} user={user} setRefresh={setRefresh}/>
     </Fragment>
   )
 }

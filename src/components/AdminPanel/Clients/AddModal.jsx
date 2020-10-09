@@ -36,7 +36,6 @@ const AddClientModal = ({ open, setOpen, setRefresh, refresh }) => {
   };
 
   const submitForm = async (data) => {
-    console.log(data);
     try {
       const response = await fetch(baseURL + "/clients/register", {
         method: "POST",
@@ -53,7 +52,6 @@ const AddClientModal = ({ open, setOpen, setRefresh, refresh }) => {
       }      
       
       let clients = await response.json();
-      console.log(clients)
       setRefresh(!refresh);
 
     } catch (error) {

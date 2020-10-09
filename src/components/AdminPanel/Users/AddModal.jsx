@@ -62,7 +62,7 @@ const user_types = [
 ];
 
 
-const AddUserModal = ({ open, setOpen, clients }) => {
+const AddUserModal = ({ open, setOpen, clients, setRefresh }) => {
   const classes = useStyles();
   const { register, handleSubmit } = useForm();
   const [userType, setUserType] = useState("")
@@ -86,9 +86,11 @@ const AddUserModal = ({ open, setOpen, clients }) => {
         body: JSON.stringify(all_data),
       })
       const parsed_response = await response.json();
-      console.log(parsed_response);
+      setRefresh();
+
     } catch(err) {
       console.error(err);
+
     } finally {
       handleClose();
     }
@@ -165,9 +167,7 @@ const AddUserModal = ({ open, setOpen, clients }) => {
                           </MenuItem>
                         ))}
                     </TextField>
-                    
                   </Grid>
-
                 <Grid container className={classes.button}>
                   <Button type="submit" color='primary' variant='contained'>Guardar Cambios</Button>
                 </Grid>

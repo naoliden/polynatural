@@ -39,7 +39,6 @@ const App = ({ user, verify, isValid }) => {
   
   
   useEffect( () => {
-    console.log("Verificando log in")
     verify(setLoading)
   }, [verify])
 

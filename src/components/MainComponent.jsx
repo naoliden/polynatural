@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { Switch, Route, Redirect, useLocation } from 'react-router-dom';
+import { Switch, Route, Redirect } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
 import HeaderComponent from './HeaderComponent';
 import Home from './HomeComponent';
@@ -14,7 +14,8 @@ const useStyles = makeStyles((theme) => ({
   appBarSpacer: theme.mixins.toolbar,
   root: {
     display: 'flex',
-    overflow: 'hidden',
+    // overflow: 'hidden',
+    overflow:'scroll',
     flexGrow: 1,
   },
   container: {
@@ -32,10 +33,6 @@ const useStyles = makeStyles((theme) => ({
 
 const Main = (props) => {
   const classes = useStyles();
-
-  useEffect(() => {
-    console.log("MAIN MOUNTED")
-    }, [])
 
   return (
       <div id="outer div" className={classes.root}>
