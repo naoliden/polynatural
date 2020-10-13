@@ -3,7 +3,8 @@ import LoadingComponent from './LoadingComponent';
 import Button from '@material-ui/core/Button';
 import { connect } from 'react-redux';
 import { baseURL } from '../shared/constants';
-// import fetch from 'cross-fetch';
+import fetch from 'cross-fetch';
+import { identity } from 'lodash';
 
 const MapStateToProps = (global_state) => {
   return {
@@ -24,22 +25,28 @@ const MapStateToProps = (global_state) => {
 
 const Home = ({content, form_data}) => {
   const [loading, setLoading] = useState(true);
-
+  const [data, setData] = useState()
+  const ide = 1;
   // useEffect( ()=>{
   //   setTimeout( () => { setLoading(false) }, 2000)
   // }, [])
 
+  const fetchData = async () => {
+    const response = await fetch(baseURL + `/users/by_id?select=true&client_id=${ide}`)
+    
+    const parsed = await response.json()
+
+    setData(parsed)
+    setLoading(false)
+  }
+
   useEffect( () => {
-    const f = async () =>{
-      try {
-        const hola = await fetch(baseURL + '/clients');
-        const res = await hola.json();
-        console.log(res);
-      } catch (error) {
-        console.error(error)
-      }
-    }
-    f();
+    console.log("DATA: ")
+    console.log(data)
+  }, [data])
+  
+  useEffect( () => {
+    fetchData()
   }, [])
 
   if(loading){
@@ -47,10 +54,10 @@ const Home = ({content, form_data}) => {
   } else {
     return(
       <>
-        {console.log("DATA")}
-        {console.log(form_data)}
+        {<h4>{data}</h4>}
+        {console.log(data)}
         {/* <Button onClick={() => addClient("HOME")}> */}
-        <Button onClick={() => console.log(form_data)}>
+        <Button onClick={() => console.log(data)}>
           Boton pos bb
         </Button>
       </>

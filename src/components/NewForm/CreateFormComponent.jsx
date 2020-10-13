@@ -18,7 +18,11 @@ import { countries } from './files/countries_es';
 import { frutas } from './files/frutas';
 import ClientSelect from "./SelectClientComponent";
 import { connect } from 'react-redux';
-import { SaveForm } from '../../redux/actions/FormActions'
+import { SaveForm } from '../../redux/actions/FormActions';
+import { baseURL } from '../../shared/constants';
+import fetch from 'cross-fetch';
+import UsersSelect from './SelectUsersComponent';
+
 
 const useStyles = makeStyles((theme) => ({
   form: {
@@ -160,6 +164,9 @@ const NewForm = ({ SaveForm }) => {
   const [mediciones, setMediciones] = useState([]);
   const [tratamientos, setTratamientos] = useState([]);
   const [client, setClient] = useState({value: null, label: null});
+  
+  const [users, setUsers] = useState(null);
+
   const [lab, setLab] = useState(true);
   const { control, handleSubmit, register } = useForm();
 
@@ -209,6 +216,8 @@ const NewForm = ({ SaveForm }) => {
       replicas: data.replicas,
       // Número de unidades por cada unidad experimental
       unidades_por_ue: data.unidades_por_ue,
+      // Usuarios asignados al ensayo
+      users: data.users
     }
 
     // Agrego todo el estado global de redux
@@ -220,13 +229,16 @@ const NewForm = ({ SaveForm }) => {
     setClient(client);
   }
 
+  const handleChangeUsers = (users) => {
+    setUsers(users);
+  }
 
   const handleChangeMedicion = (medicion) => {
-    setUE(medicion)
+    setUE(medicion);
   }
 
   const handleChangeFruit = (fruit) => {
-    setFruit(fruit)
+    setFruit(fruit);
   }
 
   const handleChangeLab = (event) => {
@@ -286,7 +298,7 @@ const NewForm = ({ SaveForm }) => {
   const removeMediciones = () => {
     const temp_array = [...mediciones];
     temp_array.pop();
-    setMediciones(temp_array)
+    setMediciones(temp_array);
   }
 
   const addTratamiento = () => {
@@ -301,8 +313,36 @@ const NewForm = ({ SaveForm }) => {
   const removeTratamiento = () => {
     const temp_array = [...tratamientos];
     temp_array.pop();
-    setTratamientos(temp_array)
+    setTratamientos(temp_array);
   }
+
+
+  const getUsers = async (client_id) => {
+    try {
+      const response = await fetch(baseURL + `/users/by_id?select=true&client_id=${client_id}`)
+      const parsed_response = await response.json();
+
+      console.log("PARSED RESPONSE");
+      console.log(parsed_response);
+      setUsers(parsed_response);
+
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  const showUsers = () => {
+    if(client.client_id){
+      return <UsersSelect users={users} onChange={handleChangeUsers}/>
+    }
+  }
+
+  useEffect(() => {
+    console.log("Client selected")
+    console.log(client)
+    getUsers(client.client_id)
+  }, [client])
+
 
 // DONE Comienza el componente
   return (
@@ -341,11 +381,29 @@ const NewForm = ({ SaveForm }) => {
                 <Typography color="textPrimary" variant="body1">Cliente</Typography>
               </Grid>
               <Grid item xs={12} className={classes.item}>
-
-                <ClientSelect control={control} onChange={handleChangeClient} />
-{/* TODO */}
- 
+                <ClientSelect onChange={handleChangeClient} />
               </Grid>
+
+{/* TODO */}
+              {client.client_id? 
+                <React.Fragment>
+                  <Grid item xs={12} className={classes.item}>
+                    <Typography color="textPrimary" variant="body1">Usuarios asignados</Typography>
+                  </Grid>
+                  <Grid item xs={12} className={classes.item}>
+                    <Controller 
+                      as={Select}
+                      name="users"
+                      isMulti
+                      options={users}
+                      control={control}
+                      placeholder="Usuarios asignados al ensayo: "
+                    />
+                  </Grid>
+                </React.Fragment>
+                :
+                <div></div>}
+
               <Grid item xs={12} className={classes.item}>
                 <Typography className={clsx(classes.listItem, classes.mgBottom)} color="textPrimary" variant="body1">
                   ¿Dónde se realizará el ensayo?
