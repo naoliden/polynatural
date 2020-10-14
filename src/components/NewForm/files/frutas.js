@@ -2,39 +2,39 @@
 
 export const frutas = [
   {
-    value: 'manzana',
+    value: 1,
     label: 'Manzana',
   },
   {
-    value: 'nectarin',
+    value: 3,
     label: 'Nectarín',
   },
   {
-    value: 'limon',
+    value: 6,
     label: 'Limón',
   },
   {
-    value: 'pera',
+    value: 7,
     label: 'Pera',
   },
   {
-    value: 'naranja',
+    value: 5,
     label: 'Naranja',
   },
   {
-    value: 'mandarina',
-    label: 'Mandarina',
+    value: 8,
+    label: 'Guinda',
   },
   {
-    value: 'palta',
+    value: 2,
     label: 'Palta',
   },
   {
-    value: 'ciruela',
+    value: 4,
     label: 'Ciruela',
   },
   {
-    value: 'arandano',
+    value: 9,
     label: 'Arándano',
   },
 ];
@@ -42,99 +42,104 @@ export const frutas = [
 
 export const manzanas =[
   {
-    value: 'pink lady',
+    value: 1,
     label: 'Pink Lady'
   },
   {
-    value: 'fuji',
-    label: 'Fuji'
-  },
-  {
-    value: 'gala',
+    value: 3,
     label: 'Gala'
   },
   {
-    value: 'royal gala',
+    value: 2,
     label: 'Royal Gala'
   },
   {
-    value: 'fuji',
+    value: 4,
     label: 'Fuji'
   },
   {
-    value: 'golden',
+    value: 8,
     label: 'Golden'
   },
   {
-    value: 'granny smith',
+    value: 5,
     label: 'Granny Smith'
   },
   {
-    value: 'mcintosh',
+    value: 7,
     label: 'McIntosh'
   },
   {
-    value: 'red delicious',
+    value: 6,
     label: 'Red Delicious'
   },
 ]
 
 export const paltas = [
   {
-    value: 'hass',
+    value: 9,
     label: 'Hass'
   },
   {
-    value: 'california',
+    value: 10,
     label: 'California'
   },
 ]
 
 export const naranjas = [
   {
-    value: '',
-    label: ''
+    value: 18,
+    label: 'Navelina'
   },
 ]
 
 export const limones = [
   {
-    value: '',
-    label: ''
+    value: 19,
+    label: 'Meyer'
   },
+  {
+    value: 20,
+    label: 'Genova'
+  },
+
 ]
 
 export const peras = [
   {
-    value: 'asiatica',
-    label: 'asiática'
+    value: 11,
+    label: 'Asiática'
   },
 ]
 
-export const mandarinas = [
+export const guindas = [
   {
-    value: '',
-    label: ''
+    value: 8,
+    label: 'Guinda'
   },
 ]
 
 export const nectarin = [
   {
-    value: '',
-    label: ''
+    value: 16,
+    label: 'Armking'
+  },
+  {
+    value: 17,
+    label: 'Morton'
   },
 ]
 
 export const arandanos = [
   {
-    value: '',
-    label: ''
+    value: 15,
+    label: 'Rabbit Eye'
   },
 ]
 
 export const ciruelas = [
   {
-    value: '',
-    label: ''
+    value: 14,
+    label: 'Golden'
   },
 ]

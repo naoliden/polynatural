@@ -219,11 +219,10 @@ const EditUserModal = ({ open, setOpen, clients, setRefresh, user }) => {
                           key={"firstname"}
                           name={`firstname`}
                           helperText="Ingresa el nombre"
-                          label="Nombre"
                           variant="standard"
                           inputRef={register}
                           className={classes.input}
-                          value={user.firstname}
+                          label={user.firstname}
                         />
                       </Grid>
                       <Grid item xs={12}>
@@ -231,10 +230,9 @@ const EditUserModal = ({ open, setOpen, clients, setRefresh, user }) => {
                           key={"lastname"}
                           name={`lastname`}
                           helperText="Ingresa el apellido"
-                          label="Apellido"
                           variant="standard"
                           inputRef={register}
-                          value={user.lastname}
+                          label={user.lastname}
                           className={classes.input}
                         />
                       </Grid>
@@ -259,11 +257,10 @@ const EditUserModal = ({ open, setOpen, clients, setRefresh, user }) => {
                         key={"email"}
                         name={`email`}
                         helperText="Ingresa nuevo correo"
-                        label="Email"
                         variant="standard"
                         inputRef={register}
+                        label={user.email}
                         type="email"
-                        value={user.email}
                         className={classes.input}
                       />
                     </Grid>

@@ -4,7 +4,7 @@ import { withStyles } from "@material-ui/core/styles";
 import Tooltip from '@material-ui/core/Tooltip';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
-import Divider from '@material-ui/core/Divider';
+// import Divider from '@material-ui/core/Divider';
 import Grid from '@material-ui/core/Grid';
 import List from "@material-ui/core/List";
 
@@ -15,6 +15,7 @@ import LoadingSpinner from '../../LoadingComponent';
 import { baseURL } from '../../../shared/constants';
 import { Typography } from '@material-ui/core';
 
+import { connect } from 'react-redux';
 
 const styles = theme => ({
   icon: {
@@ -31,7 +32,7 @@ const UserList = ({ users, setRefresh, clients }) => {
   let clients_list = Object.keys(users).sort();
   for(var i = 0; i < clients_list.length; i++){
 
-    user_list.push(<Divider style={ {padding: 1, margin: 10} }/>)
+    // user_list.push(<Divider style={ {padding: 1, margin: 10} }/>)
     user_list.push(<Typography variant="h6" gutterBottom> {clients_list[i]} </Typography>)
 
     users[clients_list[i]].map( user => {
@@ -73,30 +74,27 @@ class Users extends React.Component {
       this.setState({ refresh: !this.state.refresh })
     }
 
-    this.fetchUsers = () => {
-      fetch(baseURL + "/clients")
-      .then( response => response.json() )
-      .then( clients => this.get_client_list(clients) )
-      .then( client_list => {
-        fetch(baseURL + "/users")
-          .then( response => response.json())
-          .then( data => {
-            this.setState({ users: data, clients: client_list, loading: false })
+    this.fetchUsers = async () => {
+      try {
+        const response = await fetch(baseURL + "/users")
+        const parsed = await response.json()
+        this.setState(
+          { users: parsed,
+            loading: false,
+            clients: this.get_client_list(this.props.clients),
           })
-          .catch(function(error) { 
-            console.log('Users request failed', error) 
-          })
-        }
-      )
-      .catch(function(error) { 
-        console.log('Clients request failed', error) 
-      })
+        
+      } catch (error) {
+        console.log('Users request failed', error) 
+      }
+
     }
 
   }
 
   
   componentDidMount() {
+    console.log("FETCHING USERS...")
     this.fetchUsers()
   }
 
@@ -109,15 +107,13 @@ class Users extends React.Component {
 
   
   render() {
-    
     const { classes } = this.props;
- 
-
+    
     return (
     <Grid container spacing={3}>
       <Grid item xs={12}>
 
-        { this.state.loading?
+        { (this.state.loading)?
           <LoadingSpinner/>
           :
           <List>
@@ -132,7 +128,7 @@ class Users extends React.Component {
             <AddIcon />
           </Fab>
         </Tooltip>
-        { this.state.clients?
+        { (this.state.clients )?
           <AddUserModal 
             open={this.state.addModal} 
             setOpen={this.setAddModal} 
@@ -144,9 +140,8 @@ class Users extends React.Component {
       </Grid>
     </Grid>
     )
+  }
 }
-}
-
 
 
 export default withStyles(styles, { withTheme: true })(Users);

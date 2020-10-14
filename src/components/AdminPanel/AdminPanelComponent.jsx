@@ -6,9 +6,10 @@ import AccordionSummary from "@material-ui/core/AccordionSummary";
 import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import { makeStyles } from "@material-ui/core/styles";
-import { useForm } from "react-hook-form";
+import { connect } from "react-redux";
 import Clients from './Clients/ClientListComponent';
 import Users from './Users/UsersComponent';
+import LoadingSpinner from '../LoadingComponent';
 
 
 const useStyles = makeStyles( theme => ({
@@ -30,7 +31,7 @@ const useStyles = makeStyles( theme => ({
   },
 }));
 
-const AdminPanel = (props) => {
+const AdminPanel = ({clients}) => {
   const classes = useStyles();
   const [expanded, setExpanded] = useState(false);
 
@@ -104,7 +105,10 @@ const AdminPanel = (props) => {
             </Typography>
           </AccordionSummary>
           <AccordionDetails>
-            <Users />
+          {clients.loading? 
+          <LoadingSpinner/>
+          : <Users clients={clients.clients}/>
+          }
           </AccordionDetails>
         </Accordion>
       </Grid>
@@ -112,4 +116,10 @@ const AdminPanel = (props) => {
   );
 };
 
-export default AdminPanel;
+const MapStateToProps = gstate => {
+  return {
+    clients: gstate.clients,
+  }
+}
+
+export default connect(MapStateToProps)(AdminPanel);

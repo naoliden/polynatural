@@ -21,7 +21,6 @@ import { connect } from 'react-redux';
 import { SaveForm } from '../../redux/actions/FormActions';
 import { baseURL } from '../../shared/constants';
 import fetch from 'cross-fetch';
-import UsersSelect from './SelectUsersComponent';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -157,7 +156,6 @@ const estados_medicion = [
 // DONE Component def
 const NewForm = ({ SaveForm }) => {
   const classes = useStyles();
-  // Los params que necesitaban rendereo condicional no los pude rescatar con react-hook-form por lo que usé useState.
   const [selectedFruit, setFruit] = useState({value: null, label: null});
   const [variety, setVariety] = useState({value: null, label: null});
   const [unidad_experimental, setUE] = useState({value: null, label: null});
@@ -171,7 +169,7 @@ const NewForm = ({ SaveForm }) => {
   const { control, handleSubmit, register } = useForm();
 
 
-  const handleFormSubmit = (data) => {
+  const handleFormSubmit = async (data) => {
     if(data.destino === undefined){
       data.destino = data.origen
     }
@@ -204,8 +202,8 @@ const NewForm = ({ SaveForm }) => {
       calibre: data.calibre,
       // Lote identificador de la fruta utilizada
       lote: data.lote,
-      // Lugar donde se realiza el ensayo, 
-      lugar_ensayo: data.lugar_ensayo,
+      // Lugar donde se realiza la aplicacion, 
+      lugar_aplicacion: data.lugar_aplicacion,
       // Fecha y tipo de cada medicion
       mediciones: data_mediciones,
       // Tipo de unidad experimental
@@ -223,14 +221,24 @@ const NewForm = ({ SaveForm }) => {
     // Agrego todo el estado global de redux
     SaveForm(all_data);
 
+    try {
+      const send_data = await fetch(baseURL + "newform",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...all_data })
+      });
+
+      const response = await send_data.json();
+      
+    } catch (error) {
+      console.error(error);
+    }
+
   }
 
   const handleChangeClient = (client) => {
     setClient(client);
-  }
-
-  const handleChangeUsers = (users) => {
-    setUsers(users);
   }
 
   const handleChangeMedicion = (medicion) => {
@@ -321,19 +329,10 @@ const NewForm = ({ SaveForm }) => {
     try {
       const response = await fetch(baseURL + `/users/by_id?select=true&client_id=${client_id}`)
       const parsed_response = await response.json();
-
-      console.log("PARSED RESPONSE");
-      console.log(parsed_response);
       setUsers(parsed_response);
 
     } catch (error) {
       console.error(error);
-    }
-  }
-
-  const showUsers = () => {
-    if(client.client_id){
-      return <UsersSelect users={users} onChange={handleChangeUsers}/>
     }
   }
 
@@ -416,8 +415,8 @@ const NewForm = ({ SaveForm }) => {
                 </FormControl>
               </Grid>
               <Grid item xs={12} className={classes.item}>
-                <TextField name="lugar_ensayo" helperText="Nombre del lugar donde se realiza el ensayo" variant="standard" 
-                  label="Ubicación del lugar del ensayo" placeholder="Polynatural, Dole Puerto Montt, etc ..." inputRef={register} className={classes.textInput}/>
+                <TextField name="lugar_aplicacion" helperText="Nombre del lugar donde se realiza la aplicación" variant="standard" 
+                  label="Lugar de aplicación" placeholder="Polynatural, Dole Puerto Montt, etc ..." inputRef={register} className={classes.textInput}/>
               </Grid>
               <Grid item xs={12} className={classes.item}>
               <TextField name="lote" helperText="Lote identificador de la fruta" variant="standard" 
@@ -466,7 +465,7 @@ const NewForm = ({ SaveForm }) => {
               </Grid>
               <Grid item xs={12} >
                 <TextField name="unidades_por_ue" type="number" helperText="Ingresa tamaño de una unidad experimental, si es por fruta individual ingresa 1"
-                  label="Número de unidades por tratamiento" variant="standard" inputRef={register} className={classes.textInput}/>  
+                  label="Número de unidades por unidad experimental" variant="standard" inputRef={register} className={classes.textInput}/>  
               </Grid>
               <Grid item xs={12} >
                 <TextField name="calibre" type="number" helperText="Ingresa el calibre de la fruta" 

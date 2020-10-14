@@ -68,7 +68,7 @@ export const MainListItems = (props) => {
         <Link disabled={selected === 'admin'} to="/admin" style={link_style}>
           <ListItem button selected={selected === 'admin'} onClick={handleChange('admin')}>
             <ListItemIcon><SettingsIcon /></ListItemIcon>
-            <ListItemText primary="Panel Admin"/>
+            <ListItemText primary="Administración"/>
           </ListItem>
         </Link>
         <Link disabled={selected === 'clients'} to="/clients" style={link_style}>
